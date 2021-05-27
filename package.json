@@ -22,7 +22,7 @@
   "homepage": "https://github.com/centreon/centreon-frontend#readme",
   "dependencies": {
     "@centreon/ui": "file:packages/centreon-ui",
-    "@centreon/ui-context": "file:packages/centreon-ui"
+    "@centreon/ui-context": "file:packages/ui-context"
   },
   "devDependencies": {
     "@centreon/frontend-config": "file:packages/frontend-config"
