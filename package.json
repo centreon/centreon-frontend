@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/centreon/centreon-frontend#readme",
   "dependencies": {
+    "@centreon/frontend-config": "file:packages/frontend-config",
     "@centreon/ui": "file:packages/centreon-ui",
     "@centreon/ui-context": "file:packages/ui-context",
     "@dnd-kit/core": "^3.0.3",
@@ -48,9 +49,6 @@
     "resize-observer-polyfill": "^1.5.1",
     "ts.data.json": "^2.0.0",
     "ulog": "^2.0.0-beta.18"
-  },
-  "devDependencies": {
-    "@centreon/frontend-config": "file:packages/frontend-config"
   },
   "peerDependencies": {
     "@babel/core": "^7.x",
