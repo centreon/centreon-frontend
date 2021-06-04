@@ -31,3 +31,25 @@ interface Acl {
 export interface Downtime {
   default_duration: number;
 }
+interface ModuleLicense {
+  status: boolean;
+}
+
+interface Module {
+  fix: string;
+  license: ModuleLicense | null;
+  major: string;
+  minor: string;
+  version: string;
+}
+
+interface Modules {
+  'centreon-autodiscovery-server'?: Module;
+  'centreon-bam-server'?: Module;
+  'centreon-license-manager'?: Module;
+  'centreon-pp-manager'?: Module;
+}
+export interface PlatformModules {
+  modules: Modules;
+  web: Module;
+}
