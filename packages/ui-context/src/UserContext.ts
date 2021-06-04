@@ -36,7 +36,7 @@ const defaultDowntime = {
 
 const defaultRefreshInterval = 15;
 
-const defaultPlatformModules = {
+export const defaultPlatformModules = {
   modules: {},
   web: {
     fix: '0',
