@@ -8,6 +8,7 @@ export interface User {
 export type UserContext = {
   acl: Acl;
   downtime: Downtime;
+  platformModules: PlatformModules;
   refreshInterval: number;
 } & User;
 
