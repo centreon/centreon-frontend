@@ -56,6 +56,28 @@ const defaultColumns = [
   },
 ];
 
+const columsWithShortName = [
+  {
+    getFormattedString: ({ name }): string => name,
+    id: 'name',
+    label: 'Name',
+    type: ColumnType.string,
+  },
+  {
+    getFormattedString: ({ description }): string => description,
+    id: 'description',
+    label: 'Description',
+    shortName: 'D',
+    type: ColumnType.string,
+  },
+  {
+    Component: ComponentColumn,
+    id: '#',
+    label: 'Custom',
+    type: ColumnType.component,
+  },
+];
+
 const tenElements = new Array(10).fill(0);
 
 interface Entity {
@@ -130,6 +152,10 @@ const actions = (
 export const withActions = (): JSX.Element => <Story actions={actions} />;
 
 export const withoutCheckboxes = (): JSX.Element => <Story checkable={false} />;
+
+export const withShortNameColumns = (): JSX.Element => (
+  <Story columns={columsWithShortName} />
+);
 
 const ListingWithSortableColumns = (): JSX.Element => {
   const defaultColumnIds = defaultColumns.map(prop('id'));

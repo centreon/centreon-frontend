@@ -19,6 +19,7 @@ export interface Column {
   isTruncated?: boolean;
   label: string;
   rowMemoProps?: Array<string>;
+  shortName?: string;
   sortField?: string;
   sortable?: boolean;
   type: ColumnType;
