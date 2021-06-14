@@ -56,7 +56,7 @@ const defaultColumns = [
   },
 ];
 
-const columsWithShortName = [
+const columsWithShortLabel = [
   {
     getFormattedString: ({ name }): string => name,
     id: 'name',
@@ -67,7 +67,7 @@ const columsWithShortName = [
     getFormattedString: ({ description }): string => description,
     id: 'description',
     label: 'Description',
-    shortName: 'D',
+    shortLabel: 'D',
     type: ColumnType.string,
   },
   {
@@ -154,7 +154,7 @@ export const withActions = (): JSX.Element => <Story actions={actions} />;
 export const withoutCheckboxes = (): JSX.Element => <Story checkable={false} />;
 
 export const withShortNameColumns = (): JSX.Element => (
-  <Story columns={columsWithShortName} />
+  <Story columns={columsWithShortLabel} />
 );
 
 const ListingWithSortableColumns = (): JSX.Element => {
