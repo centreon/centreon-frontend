@@ -46,7 +46,7 @@ const SortableHeaderCellContent = React.forwardRef(
   ): JSX.Element => {
     const classes = useStyles({ isDragging });
 
-    const columnLabel = column.shortName || column.label;
+    const columnLabel = column.shortLabel || column.label;
 
     const columnSortField = column.sortField || column.id;
 
