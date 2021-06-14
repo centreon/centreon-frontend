@@ -56,7 +56,7 @@ const defaultColumns = [
   },
 ];
 
-const columsWithShortLabel = [
+const columnsWithShortLabel = [
   {
     getFormattedString: ({ name }): string => name,
     id: 'name',
