@@ -153,11 +153,41 @@ export const withActions = (): JSX.Element => <Story actions={actions} />;
 
 export const withoutCheckboxes = (): JSX.Element => <Story checkable={false} />;
 
-export const withShortNameColumns = (): JSX.Element => (
+export const withShortLabelColumns = (): JSX.Element => (
   <Story columns={columsWithShortLabel} />
 );
 
 const ListingWithSortableColumns = (): JSX.Element => {
+
+const editableColumns = [
+  {
+    getFormattedString: ({ name }): string => name,
+    id: 'name',
+    label: 'Name',
+    type: ColumnType.string,
+  },
+  {
+    getFormattedString: ({ description }): string => description,
+    id: 'description',
+    label: 'Description',
+    type: ColumnType.string,
+  },
+  {
+    Component: ComponentColumn,
+    id: '#',
+    label: 'Custom',
+    type: ColumnType.component,
+  },
+  {
+    disabled: true,
+    getFormattedString: ({ name }): string => name,
+    id: 'disabled_name',
+    label: 'Disabled Name',
+    type: ColumnType.string,
+  },
+];
+
+const ListingWithEditableColumns = (): JSX.Element => {
   const defaultColumnIds = defaultColumns.map(prop('id'));
 
   const [selectedColumnIds, setSelectedColumnIds] =
@@ -173,7 +203,7 @@ const ListingWithSortableColumns = (): JSX.Element => {
         selectedColumnIds,
         sortable: true,
       }}
-      columns={defaultColumns}
+      columns={editableColumns}
       onResetColumns={resetColumns}
       onSelectColumns={setSelectedColumnIds}
     />
@@ -181,5 +211,5 @@ const ListingWithSortableColumns = (): JSX.Element => {
 };
 
 export const withEditableColumns = (): JSX.Element => (
-  <ListingWithSortableColumns />
+  <ListingWithEditableColumns />
 );
