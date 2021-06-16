@@ -14,7 +14,7 @@ import {
   labelResolve,
   labelSave,
   labelThereAreErrorsInTheForm,
-  labelYourJobHasUnsavedChanges,
+  labelYourFormHasUnsavedChanges,
 } from './translatedLabels';
 
 interface Props {
@@ -42,7 +42,7 @@ const UnsavedChangesDialog = ({
   const labelConfirm = isValidForm ? labelSave : labelResolve;
 
   const labelMessage = `${
-    isValidForm ? labelYourJobHasUnsavedChanges : labelThereAreErrorsInTheForm
+    isValidForm ? labelYourFormHasUnsavedChanges : labelThereAreErrorsInTheForm
   }. ${
     isValidForm
       ? labelDoYouWantToQuitWithoutSaving

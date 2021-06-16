@@ -1,6 +1,6 @@
 export const labelDiscard = 'Discard';
 export const labelResolve = 'Resolve';
-export const labelYourJobHasUnsavedChanges = 'Your job has unsaved changes';
+export const labelYourFormHasUnsavedChanges = 'Your form has unsaved changes';
 export const labelThereAreErrorsInTheForm = 'There are errors in the form';
 export const labelDoYouWantToQuitWithoutSaving =
   'Do you want to quit the form without saving the changes?';
