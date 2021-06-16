@@ -16,6 +16,7 @@ interface Props {
 
 interface UseUnsavedChanges {
   closeUnsavedDialog: () => void;
+  discardUnsavedDialog: () => void;
   openUnsavedDialog: (action: () => void) => void;
   panelSubmitForm: PanelSubmitForm | null;
   savePanelChanges: () => void;
@@ -35,11 +36,15 @@ const useUnsavedChanges = ({ isValidForm }: Props): UseUnsavedChanges => {
     setUnsavedDialogOpened({ action });
   };
 
-  const closeUnsavedDialog = (): void => {
+  const discardUnsavedDialog = (): void => {
     if (isNil(unsavedDialogOpened)) {
       return;
     }
     unsavedDialogOpened.action();
+    setUnsavedDialogOpened(null);
+  };
+
+  const closeUnsavedDialog = (): void => {
     setUnsavedDialogOpened(null);
   };
 
@@ -54,6 +59,7 @@ const useUnsavedChanges = ({ isValidForm }: Props): UseUnsavedChanges => {
 
   return {
     closeUnsavedDialog,
+    discardUnsavedDialog,
     openUnsavedDialog,
     panelSubmitForm,
     savePanelChanges,
