@@ -124,3 +124,4 @@ export { default as PopoverMenu } from './PopoverMenu';
 export { default as LicenseMessage } from './LicenseMessage';
 
 export { default as UnsavedChangesDialog } from './Dialog/UnsavedChanges';
+export { default as useUnsavedChanges } from './Dialog/UnsavedChanges/useUnsavedChanges';
