@@ -23,6 +23,9 @@ interface UseUnsavedChanges {
   setPanelSubmitForm: React.Dispatch<
     React.SetStateAction<PanelSubmitForm | null>
   >;
+  setUnsavedDialogOpened: React.Dispatch<
+    React.SetStateAction<UnsavedDialogOpened | null>
+  >;
   unsavedDialogOpened: UnsavedDialogOpened | null;
 }
 
@@ -54,8 +57,7 @@ const useUnsavedChanges = ({ isValidForm }: Props): UseUnsavedChanges => {
       return;
     }
     panelSubmitForm?.submitForm().then(() => {
-      setUnsavedDialogOpened(null);
-      setPanelSubmitForm(null);
+      unsavedDialogOpened?.action();
     });
   };
 
@@ -66,6 +68,7 @@ const useUnsavedChanges = ({ isValidForm }: Props): UseUnsavedChanges => {
     panelSubmitForm,
     savePanelChanges,
     setPanelSubmitForm,
+    setUnsavedDialogOpened,
     unsavedDialogOpened,
   };
 };
