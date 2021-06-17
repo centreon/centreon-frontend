@@ -1,6 +1,15 @@
-import React, { useState, useRef, RefObject } from 'react';
+import * as React from 'react';
 
-import { equals, isNil, prop, propEq } from 'ramda';
+import {
+  equals,
+  findIndex,
+  isEmpty,
+  isNil,
+  not,
+  prop,
+  propEq,
+  slice,
+} from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -14,6 +23,7 @@ import {
 } from '@material-ui/core';
 
 import useMemoComponent from '../utils/useMemoComponent';
+import useKeyObserver from '../utils/useKeyObserver';
 
 import ListingHeader, { headerHeight } from './Header/index';
 import ListingRow from './Row';
@@ -148,11 +158,13 @@ const Listing = <TRow extends { id: RowId }>({
   getId = ({ id }) => id,
 }: Props<TRow>): JSX.Element => {
   const { t } = useTranslation();
-  const [tableTopOffset, setTableTopOffset] = useState(0);
-  const [hoveredRowId, setHoveredRowId] = useState<RowId | null>(null);
+  const [tableTopOffset, setTableTopOffset] = React.useState(0);
+  const [hoveredRowId, setHoveredRowId] = React.useState<RowId | null>(null);
+  const [shiftKeyDownWithEmptySelection, setShiftKeyDownWithEmptySelection] =
+    React.useState<boolean>(false);
 
-  const containerRef = useRef<HTMLDivElement>();
-  const actionBarRef = useRef<HTMLDivElement>();
+  const containerRef = React.useRef<HTMLDivElement>();
+  const actionBarRef = React.useRef<HTMLDivElement>();
 
   const classes = useStyles();
 
@@ -164,6 +176,8 @@ const Listing = <TRow extends { id: RowId }>({
     },
     ref: containerRef,
   });
+
+  const { isShiftKeyDown } = useKeyObserver();
 
   const selectedRowsInclude = (row): boolean => {
     return !!selectedRows.find((includedRow) =>
@@ -183,9 +197,21 @@ const Listing = <TRow extends { id: RowId }>({
     onSelectRows([]);
   };
 
-  const selectRow = (event, row): void => {
+  const selectRow = (event: React.MouseEvent, row): void => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (isShiftKeyDown) {
+      if (shiftKeyDownWithEmptySelection) {
+        const selectedRowIndex = findIndex(
+          (listingRow) => equals(getId(row), getId(listingRow)),
+          rows,
+        );
+        onSelectRows(slice(0, selectedRowIndex + 1, rows));
+        return;
+      }
+      return;
+    }
 
     if (selectedRowsInclude(row)) {
       onSelectRows(
@@ -249,6 +275,14 @@ const Listing = <TRow extends { id: RowId }>({
     columns,
   });
 
+  React.useEffect(() => {
+    if (not(isShiftKeyDown)) {
+      setShiftKeyDownWithEmptySelection(false);
+      return;
+    }
+    setShiftKeyDownWithEmptySelection(isEmpty(selectedRows));
+  }, [isShiftKeyDown]);
+
   return (
     <>
       {loading && rows.length > 0 && (
@@ -259,11 +293,11 @@ const Listing = <TRow extends { id: RowId }>({
       )}
       <div
         className={classes.container}
-        ref={containerRef as RefObject<HTMLDivElement>}
+        ref={containerRef as React.RefObject<HTMLDivElement>}
       >
         <div
           className={classes.actionBar}
-          ref={actionBarRef as RefObject<HTMLDivElement>}
+          ref={actionBarRef as React.RefObject<HTMLDivElement>}
         >
           <ListingActionBar
             actions={actions}
@@ -326,9 +360,13 @@ const Listing = <TRow extends { id: RowId }>({
                     disableRowCondition={disableRowCondition}
                     isHovered={isRowHovered}
                     isSelected={isRowSelected}
+                    isShiftKeyDown={isShiftKeyDown}
                     key={getId(row)}
                     row={row}
                     rowColorConditions={rowColorConditions}
+                    shiftKeyDownWithEmptySelection={
+                      shiftKeyDownWithEmptySelection
+                    }
                     tabIndex={-1}
                     visibleColumns={visibleColumns}
                     onClick={(): void => {

@@ -36,8 +36,10 @@ type Props = {
   disableRowCondition: (row) => boolean;
   isHovered?: boolean;
   isSelected?: boolean;
+  isShiftKeyDown: boolean;
   row;
   rowColorConditions: Array<RowColorCondition>;
+  shiftKeyDownWithEmptySelection: boolean;
   visibleColumns: Array<Column>;
 } & TableRowProps;
 
@@ -73,12 +75,16 @@ const Row = React.memo<RowProps>(
       row: previousRow,
       rowColorConditions: previousRowColorConditions,
       visibleColumns: previousVisibleColumns,
+      isShiftKeyDown: prevIsShiftKeyDown,
+      shiftKeyDownWithEmptySelection: prevShiftKeyDownWithEmptySelection,
     } = prevProps;
     const {
       row: nextRow,
       rowColorConditions: nextRowColorConditions,
       isInViewport: nextIsInViewport,
       visibleColumns: nextVisibleColumns,
+      isShiftKeyDown: nextIsShiftKeyDown,
+      shiftKeyDownWithEmptySelection: nextShiftKeyDownWithEmptySelection,
     } = nextProps;
 
     if (
@@ -110,7 +116,12 @@ const Row = React.memo<RowProps>(
       equals(prevProps.className, nextProps.className) &&
       equals(previousRowColors, nextRowColors) &&
       equals(prevProps.columnIds, nextProps.columnIds) &&
-      equals(prevProps.columnConfiguration, nextProps.columnConfiguration)
+      equals(prevProps.columnConfiguration, nextProps.columnConfiguration) &&
+      equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
+      equals(
+        prevShiftKeyDownWithEmptySelection,
+        nextShiftKeyDownWithEmptySelection,
+      )
     );
   },
 );
