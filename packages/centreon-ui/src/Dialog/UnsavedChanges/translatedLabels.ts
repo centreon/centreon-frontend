@@ -13,7 +13,12 @@ export const labelSave = 'Save';
 
 export default {
   labelDiscard,
+  labelDoYouWantToQuitWithoutResolving,
+  labelDoYouWantToQuitWithoutSaving,
+  labelDoYouWantToResolveErrors,
+  labelDoYouWantToSaveChanges,
   labelResolve,
+  labelSave,
   labelThereAreErrorsInTheForm,
   labelYourFormHasUnsavedChanges,
 };
