@@ -1,44 +1,52 @@
-/* eslint-disable no-console */
-
 import * as React from 'react';
+
+import { useSnackbar } from '../..';
+import Severity from '../../Snackbar/Severity';
+import withSnackbar from '../../Snackbar/withSnackbar';
 
 import UnsavedChangesDialog from '.';
 
 export default { title: 'Dialog/Unsaved Changes Dialog' };
 
-const closeDialog = () => console.log('close');
-const discardChanges = () => console.log('discard');
-const saveChanges = () => console.log('save');
+interface Props {
+  isSubmitting: boolean;
+  isValidForm: boolean;
+}
+
+const Story = ({ isValidForm, isSubmitting }: Props): JSX.Element => {
+  const { showMessage } = useSnackbar();
+
+  const closeDialog = () =>
+    showMessage({ message: 'Close', severity: Severity.info });
+
+  const discardChanges = () =>
+    showMessage({ message: 'Discard', severity: Severity.info });
+
+  const saveChanges = () =>
+    showMessage({ message: 'Save', severity: Severity.info });
+
+  return (
+    <UnsavedChangesDialog
+      dialogOpened
+      closeDialog={closeDialog}
+      discardChanges={discardChanges}
+      isSubmitting={isSubmitting}
+      isValidForm={isValidForm}
+      saveChanges={saveChanges}
+    />
+  );
+};
+
+const StoryWithSnackbar = withSnackbar(Story);
 
 export const normal = (): JSX.Element => (
-  <UnsavedChangesDialog
-    dialogOpened
-    isValidForm
-    closeDialog={closeDialog}
-    discardChanges={discardChanges}
-    isSubmitting={false}
-    saveChanges={saveChanges}
-  />
+  <StoryWithSnackbar isValidForm isSubmitting={false} />
 );
 
 export const withNotValidForm = (): JSX.Element => (
-  <UnsavedChangesDialog
-    dialogOpened
-    closeDialog={closeDialog}
-    discardChanges={discardChanges}
-    isSubmitting={false}
-    isValidForm={false}
-    saveChanges={saveChanges}
-  />
+  <StoryWithSnackbar isSubmitting={false} isValidForm={false} />
 );
 
 export const submitting = (): JSX.Element => (
-  <UnsavedChangesDialog
-    dialogOpened
-    isSubmitting
-    isValidForm
-    closeDialog={closeDialog}
-    discardChanges={discardChanges}
-    saveChanges={saveChanges}
-  />
+  <StoryWithSnackbar isSubmitting isValidForm />
 );
