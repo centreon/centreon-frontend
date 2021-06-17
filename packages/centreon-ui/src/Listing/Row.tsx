@@ -37,9 +37,10 @@ type Props = {
   isHovered?: boolean;
   isSelected?: boolean;
   isShiftKeyDown: boolean;
+  lastSelectionIndex: number | null;
   row;
   rowColorConditions: Array<RowColorCondition>;
-  shiftKeyDownWithEmptySelection: boolean;
+  shiftKeyDownRowPivot: number | null;
   visibleColumns: Array<Column>;
 } & TableRowProps;
 
@@ -76,7 +77,8 @@ const Row = React.memo<RowProps>(
       rowColorConditions: previousRowColorConditions,
       visibleColumns: previousVisibleColumns,
       isShiftKeyDown: prevIsShiftKeyDown,
-      shiftKeyDownWithEmptySelection: prevShiftKeyDownWithEmptySelection,
+      shiftKeyDownRowPivot: prevShiftKeyDownRowPivot,
+      lastSelectionIndex: prevLastSelectionIndex,
     } = prevProps;
     const {
       row: nextRow,
@@ -84,7 +86,8 @@ const Row = React.memo<RowProps>(
       isInViewport: nextIsInViewport,
       visibleColumns: nextVisibleColumns,
       isShiftKeyDown: nextIsShiftKeyDown,
-      shiftKeyDownWithEmptySelection: nextShiftKeyDownWithEmptySelection,
+      shiftKeyDownRowPivot: nextShiftKeyDownRowPivot,
+      lastSelectionIndex: nextLastSelectionIndex,
     } = nextProps;
 
     if (
@@ -118,10 +121,8 @@ const Row = React.memo<RowProps>(
       equals(prevProps.columnIds, nextProps.columnIds) &&
       equals(prevProps.columnConfiguration, nextProps.columnConfiguration) &&
       equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
-      equals(
-        prevShiftKeyDownWithEmptySelection,
-        nextShiftKeyDownWithEmptySelection,
-      )
+      equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
+      equals(prevLastSelectionIndex, nextLastSelectionIndex)
     );
   },
 );

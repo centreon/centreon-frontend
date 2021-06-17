@@ -1,14 +1,26 @@
 import * as React from 'react';
 
 import {
+  and,
+  concat,
+  difference,
   equals,
   findIndex,
+  includes,
   isEmpty,
   isNil,
+  last,
+  length,
+  lt,
+  map,
   not,
+  or,
   prop,
   propEq,
   slice,
+  subtract,
+  uniq,
+  without,
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -160,8 +172,10 @@ const Listing = <TRow extends { id: RowId }>({
   const { t } = useTranslation();
   const [tableTopOffset, setTableTopOffset] = React.useState(0);
   const [hoveredRowId, setHoveredRowId] = React.useState<RowId | null>(null);
-  const [shiftKeyDownWithEmptySelection, setShiftKeyDownWithEmptySelection] =
-    React.useState<boolean>(false);
+  const [shiftKeyDownRowPivot, setShiftKeyDownRowPivot] =
+    React.useState<number | null>(null);
+  const [lastSelectionIndex, setLastSelectionIndex] =
+    React.useState<number | null>(null);
 
   const containerRef = React.useRef<HTMLDivElement>();
   const actionBarRef = React.useRef<HTMLDivElement>();
@@ -196,22 +210,77 @@ const Listing = <TRow extends { id: RowId }>({
 
     onSelectRows([]);
   };
+  const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
+    if (equals(shiftKeyDownRowPivot, 0)) {
+      onSelectRows(slice(0, selectedRowIndex + 1, rows));
+      return;
+    }
+
+    const selectedRowsIndex = map(
+      (row) =>
+        findIndex((listingRow) => equals(getId(row), getId(listingRow)), rows),
+      selectedRows,
+    ).sort(subtract);
+
+    if (selectedRowIndex < (lastSelectionIndex as number)) {
+      const newSelection = slice(
+        selectedRowIndex,
+        (lastSelectionIndex as number) + 1,
+        rows,
+      );
+
+      if (includes(selectedRowIndex, selectedRowsIndex)) {
+        onSelectRows(difference(selectedRows, newSelection));
+        return;
+      }
+      if (
+        (lastSelectionIndex as number) > (last(selectedRowsIndex) as number)
+      ) {
+        onSelectRows(uniq(concat(selectedRows, slice(0, -1, newSelection))));
+        return;
+      }
+      onSelectRows(uniq(concat(selectedRows, newSelection)));
+      return;
+    }
+
+    const newSelection = slice(
+      lastSelectionIndex as number,
+      selectedRowIndex + 1,
+      rows,
+    );
+    if (includes(selectedRowIndex, selectedRowsIndex)) {
+      onSelectRows(difference(selectedRows, newSelection));
+      return;
+    }
+    if ((lastSelectionIndex as number) < (last(selectedRowsIndex) as number)) {
+      onSelectRows(
+        uniq(
+          concat(selectedRows, slice(1, length(newSelection), newSelection)),
+        ),
+      );
+      return;
+    }
+    onSelectRows(uniq(concat(selectedRows, newSelection)));
+  };
 
   const selectRow = (event: React.MouseEvent, row): void => {
     event.preventDefault();
     event.stopPropagation();
+    // This prevents from unwanted text selection
+    document.getSelection()?.removeAllRanges();
 
-    if (isShiftKeyDown) {
-      if (shiftKeyDownWithEmptySelection) {
-        const selectedRowIndex = findIndex(
-          (listingRow) => equals(getId(row), getId(listingRow)),
-          rows,
-        );
-        onSelectRows(slice(0, selectedRowIndex + 1, rows));
-        return;
-      }
+    const selectedRowIndex = findIndex(
+      (listingRow) => equals(getId(row), getId(listingRow)),
+      rows,
+    );
+
+    if (and(isShiftKeyDown, not(isNil(shiftKeyDownRowPivot)))) {
+      selectRowsWithShiftKey(selectedRowIndex);
+      setLastSelectionIndex(selectedRowIndex);
       return;
     }
+
+    setLastSelectionIndex(selectedRowIndex);
 
     if (selectedRowsInclude(row)) {
       onSelectRows(
@@ -277,10 +346,10 @@ const Listing = <TRow extends { id: RowId }>({
 
   React.useEffect(() => {
     if (not(isShiftKeyDown)) {
-      setShiftKeyDownWithEmptySelection(false);
+      setShiftKeyDownRowPivot(null);
       return;
     }
-    setShiftKeyDownWithEmptySelection(isEmpty(selectedRows));
+    setShiftKeyDownRowPivot(isEmpty(selectedRows) ? 0 : lastSelectionIndex);
   }, [isShiftKeyDown]);
 
   return (
@@ -362,11 +431,10 @@ const Listing = <TRow extends { id: RowId }>({
                     isSelected={isRowSelected}
                     isShiftKeyDown={isShiftKeyDown}
                     key={getId(row)}
+                    lastSelectionIndex={lastSelectionIndex}
                     row={row}
                     rowColorConditions={rowColorConditions}
-                    shiftKeyDownWithEmptySelection={
-                      shiftKeyDownWithEmptySelection
-                    }
+                    shiftKeyDownRowPivot={shiftKeyDownRowPivot}
                     tabIndex={-1}
                     visibleColumns={visibleColumns}
                     onClick={(): void => {
