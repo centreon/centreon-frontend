@@ -10,3 +10,10 @@ export const labelDoYouWantToSaveChanges = 'Do you want to save the changes?';
 export const labelDoYouWantToResolveErrors =
   'Do you want to resolve the errors?';
 export const labelSave = 'Save';
+
+export default {
+  labelDiscard,
+  labelResolve,
+  labelThereAreErrorsInTheForm,
+  labelYourFormHasUnsavedChanges,
+};

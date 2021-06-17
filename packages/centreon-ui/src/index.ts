@@ -125,3 +125,4 @@ export { default as LicenseMessage } from './LicenseMessage';
 
 export { default as UnsavedChangesDialog } from './Dialog/UnsavedChanges';
 export { default as useUnsavedChanges } from './Dialog/UnsavedChanges/useUnsavedChanges';
+export { default as unsavedChangesTranslatedLabels } from './Dialog/UnsavedChanges/translatedLabels';
