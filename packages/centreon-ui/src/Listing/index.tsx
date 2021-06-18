@@ -6,6 +6,7 @@ import {
   difference,
   equals,
   findIndex,
+  gt,
   includes,
   isEmpty,
   isNil,
@@ -14,13 +15,11 @@ import {
   lt,
   map,
   not,
-  or,
   prop,
   propEq,
   slice,
   subtract,
   uniq,
-  without,
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -174,8 +173,7 @@ const Listing = <TRow extends { id: RowId }>({
   const [hoveredRowId, setHoveredRowId] = React.useState<RowId | null>(null);
   const [shiftKeyDownRowPivot, setShiftKeyDownRowPivot] =
     React.useState<number | null>(null);
-  const [lastSelectionIndex, setLastSelectionIndex] =
-    React.useState<number | null>(null);
+  const [lastSelectionIndex, setLastSelectionIndex] = React.useState<number>(0);
 
   const containerRef = React.useRef<HTMLDivElement>();
   const actionBarRef = React.useRef<HTMLDivElement>();
@@ -210,6 +208,44 @@ const Listing = <TRow extends { id: RowId }>({
 
     onSelectRows([]);
   };
+
+  interface GetSelectedRowsWithShiftKeyProps {
+    compareFunction;
+    comparisonSliceEndIndex: number;
+    comparisonSliceStartIndex: number;
+    newSelection: Array<TRow>;
+    selectedRowIndex: number;
+    selectedRowsIndex: Array<number>;
+  }
+
+  const getSelectedRowsWithShiftKey = ({
+    newSelection,
+    selectedRowsIndex,
+    selectedRowIndex,
+    compareFunction,
+    comparisonSliceStartIndex,
+    comparisonSliceEndIndex,
+  }: GetSelectedRowsWithShiftKeyProps): Array<TRow> => {
+    if (includes(selectedRowIndex, selectedRowsIndex)) {
+      return difference(selectedRows, newSelection);
+    }
+    if (
+      compareFunction(lastSelectionIndex, last(selectedRowsIndex) as number)
+    ) {
+      return uniq(
+        concat(
+          selectedRows,
+          slice(
+            comparisonSliceStartIndex,
+            comparisonSliceEndIndex,
+            newSelection,
+          ),
+        ),
+      );
+    }
+    return uniq(concat(selectedRows, newSelection));
+  };
+
   const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
     if (equals(shiftKeyDownRowPivot, 0)) {
       onSelectRows(slice(0, selectedRowIndex + 1, rows));
@@ -222,45 +258,36 @@ const Listing = <TRow extends { id: RowId }>({
       selectedRows,
     ).sort(subtract);
 
-    if (selectedRowIndex < (lastSelectionIndex as number)) {
+    if (selectedRowIndex < lastSelectionIndex) {
       const newSelection = slice(
         selectedRowIndex,
         (lastSelectionIndex as number) + 1,
         rows,
       );
-
-      if (includes(selectedRowIndex, selectedRowsIndex)) {
-        onSelectRows(difference(selectedRows, newSelection));
-        return;
-      }
-      if (
-        (lastSelectionIndex as number) > (last(selectedRowsIndex) as number)
-      ) {
-        onSelectRows(uniq(concat(selectedRows, slice(0, -1, newSelection))));
-        return;
-      }
-      onSelectRows(uniq(concat(selectedRows, newSelection)));
-      return;
-    }
-
-    const newSelection = slice(
-      lastSelectionIndex as number,
-      selectedRowIndex + 1,
-      rows,
-    );
-    if (includes(selectedRowIndex, selectedRowsIndex)) {
-      onSelectRows(difference(selectedRows, newSelection));
-      return;
-    }
-    if ((lastSelectionIndex as number) < (last(selectedRowsIndex) as number)) {
       onSelectRows(
-        uniq(
-          concat(selectedRows, slice(1, length(newSelection), newSelection)),
-        ),
+        getSelectedRowsWithShiftKey({
+          compareFunction: gt,
+          comparisonSliceEndIndex: -1,
+          comparisonSliceStartIndex: 0,
+          newSelection,
+          selectedRowIndex,
+          selectedRowsIndex,
+        }),
       );
       return;
     }
-    onSelectRows(uniq(concat(selectedRows, newSelection)));
+
+    const newSelection = slice(lastSelectionIndex, selectedRowIndex + 1, rows);
+    onSelectRows(
+      getSelectedRowsWithShiftKey({
+        compareFunction: lt,
+        comparisonSliceEndIndex: length(newSelection),
+        comparisonSliceStartIndex: 1,
+        newSelection,
+        selectedRowIndex,
+        selectedRowsIndex,
+      }),
+    );
   };
 
   const selectRow = (event: React.MouseEvent, row): void => {

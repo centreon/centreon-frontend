@@ -37,7 +37,7 @@ type Props = {
   isHovered?: boolean;
   isSelected?: boolean;
   isShiftKeyDown: boolean;
-  lastSelectionIndex: number | null;
+  lastSelectionIndex: number;
   row;
   rowColorConditions: Array<RowColorCondition>;
   shiftKeyDownRowPivot: number | null;
