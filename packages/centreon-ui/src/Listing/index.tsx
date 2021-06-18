@@ -18,6 +18,7 @@ import {
   not,
   prop,
   propEq,
+  reject,
   slice,
   subtract,
   uniq,
@@ -206,7 +207,7 @@ const Listing = <TRow extends { id: RowId }>({
       event.target.checked &&
       event.target.getAttribute('data-indeterminate') === 'false'
     ) {
-      onSelectRows(rows);
+      onSelectRows(reject(disableRowCheckCondition, rows));
       return;
     }
 
@@ -214,7 +215,7 @@ const Listing = <TRow extends { id: RowId }>({
   };
 
   const onSelectRowsWithCondition = (condition: (row) => boolean): void => {
-    onSelectRows(filter(condition, rows));
+    onSelectRows(reject(disableRowCheckCondition, filter(condition, rows)));
   };
 
   interface GetSelectedRowsWithShiftKeyProps {
@@ -256,7 +257,9 @@ const Listing = <TRow extends { id: RowId }>({
 
   const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
     if (equals(shiftKeyDownRowPivot, 0)) {
-      onSelectRows(slice(0, selectedRowIndex + 1, rows));
+      onSelectRows(
+        reject(disableRowCheckCondition, slice(0, selectedRowIndex + 1, rows)),
+      );
       return;
     }
 
@@ -273,28 +276,34 @@ const Listing = <TRow extends { id: RowId }>({
         rows,
       );
       onSelectRows(
-        getSelectedRowsWithShiftKey({
-          compareFunction: gt,
-          comparisonSliceEndIndex: -1,
-          comparisonSliceStartIndex: 0,
-          newSelection,
-          selectedRowIndex,
-          selectedRowsIndex,
-        }),
+        reject(
+          disableRowCheckCondition,
+          getSelectedRowsWithShiftKey({
+            compareFunction: gt,
+            comparisonSliceEndIndex: -1,
+            comparisonSliceStartIndex: 0,
+            newSelection,
+            selectedRowIndex,
+            selectedRowsIndex,
+          }),
+        ),
       );
       return;
     }
 
     const newSelection = slice(lastSelectionIndex, selectedRowIndex + 1, rows);
     onSelectRows(
-      getSelectedRowsWithShiftKey({
-        compareFunction: lt,
-        comparisonSliceEndIndex: length(newSelection),
-        comparisonSliceStartIndex: 1,
-        newSelection,
-        selectedRowIndex,
-        selectedRowsIndex,
-      }),
+      reject(
+        disableRowCheckCondition,
+        getSelectedRowsWithShiftKey({
+          compareFunction: lt,
+          comparisonSliceEndIndex: length(newSelection),
+          comparisonSliceStartIndex: 1,
+          newSelection,
+          selectedRowIndex,
+          selectedRowsIndex,
+        }),
+      ),
     );
   };
 
