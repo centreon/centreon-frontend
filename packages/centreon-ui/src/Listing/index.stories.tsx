@@ -85,26 +85,42 @@ const rowColorConditions = [
   },
 ];
 
+const predefinedRowsSelection = [
+  {
+    label: 'active',
+    rowCondition: (row) => row.active,
+  },
+  {
+    label: 'not active',
+    rowCondition: (row) => !row.active,
+  },
+];
+
 const Story = ({
   columns = defaultColumns,
+  checkable = true,
   ...props
 }: Omit<ListingProps<Entity>, 'columns'> & {
   columns?: Array<Column>;
 }): JSX.Element => {
+  const [selected, setSelected] = React.useState<Array<Entity>>([]);
   const classes = useStyles();
 
   return (
     <div className={classes.listing}>
       <Listing
+        checkable={checkable}
         columns={columns}
         currentPage={0}
         disableRowCheckCondition={(row): boolean => row.disableCheckbox}
         disableRowCondition={(row): boolean => row.disableRow}
         limit={listing.length}
+        predefinedRowsSelection={predefinedRowsSelection}
         rowColorConditions={rowColorConditions}
         rows={listing}
-        selectedRows={listing.filter((row) => row.selected)}
+        selectedRows={selected}
         totalRows={listing.length}
+        onSelectRows={setSelected}
         {...props}
       />
     </div>
