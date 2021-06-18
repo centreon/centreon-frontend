@@ -22,6 +22,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { SortableContext } from '@dnd-kit/sortable';
+import { useTranslation } from 'react-i18next';
 
 import {
   TableHead,
@@ -40,6 +41,7 @@ import Checkbox from '../Checkbox';
 import { getVisibleColumns, Props as ListingProps } from '..';
 import { Column, PredefinedRowSelection } from '../models';
 import IconButton from '../../Button/Icon';
+import { labelPredefinedRowsSelectionMenu } from '../translatedLabels';
 
 import SortableHeaderCell from './SortableCell';
 import SortableHeaderCellContent from './SortableCell/Content';
@@ -115,6 +117,8 @@ const ListingHeader = ({
     React.useState<HTMLElement | null>(null);
   const classes = useStyles();
 
+  const { t } = useTranslation();
+
   const sensors = useSensors(useSensor(PointerSensor));
 
   const visibleColumns = getVisibleColumns({
@@ -187,6 +191,7 @@ const ListingHeader = ({
                 />
                 {not(isEmpty(predefinedRowsSelection)) && (
                   <IconButton
+                    ariaLabel={t(labelPredefinedRowsSelectionMenu)}
                     className={classes.predefinedRowsAnchorMenu}
                     size="small"
                     onClick={openPredefinedRowsSelectionMenu}
