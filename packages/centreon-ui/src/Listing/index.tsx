@@ -5,6 +5,7 @@ import {
   concat,
   difference,
   equals,
+  filter,
   findIndex,
   gt,
   includes,
@@ -48,6 +49,7 @@ import { labelNoResultFound } from './translatedLabels';
 import {
   Column,
   ColumnConfiguration,
+  PredefinedRowSelection,
   RowColorCondition,
   RowId,
   SortOrder,
@@ -129,6 +131,7 @@ export interface Props<TRow> {
   onSelectRows?: (rows: Array<TRow>) => void;
   onSort?: (sortParams) => void;
   paginated?: boolean;
+  predefinedRowsSelection?: Array<PredefinedRowSelection>;
   rowColorConditions?: Array<RowColorCondition>;
   rows?: Array<TRow>;
   selectedRows?: Array<TRow>;
@@ -167,6 +170,7 @@ const Listing = <TRow extends { id: RowId }>({
   onSelectRows = (): void => undefined,
   onSort,
   getId = ({ id }) => id,
+  predefinedRowsSelection = [],
 }: Props<TRow>): JSX.Element => {
   const { t } = useTranslation();
   const [tableTopOffset, setTableTopOffset] = React.useState(0);
@@ -207,6 +211,10 @@ const Listing = <TRow extends { id: RowId }>({
     }
 
     onSelectRows([]);
+  };
+
+  const onSelectRowsWithCondition = (condition: (row) => boolean): void => {
+    onSelectRows(filter(condition, rows));
   };
 
   interface GetSelectedRowsWithShiftKeyProps {
@@ -430,12 +438,14 @@ const Listing = <TRow extends { id: RowId }>({
               checkable={checkable}
               columnConfiguration={columnConfiguration}
               columns={columns}
+              predefinedRowsSelection={predefinedRowsSelection}
               rowCount={limit - emptyRows}
               selectedRowCount={selectedRows.length}
               sortField={sortField}
               sortOrder={sortOrder}
               onSelectAllClick={selectAllRows}
               onSelectColumns={onSelectColumns}
+              onSelectRowsWithCondition={onSelectRowsWithCondition}
               onSort={onSort}
             />
 
@@ -472,6 +482,7 @@ const Listing = <TRow extends { id: RowId }>({
                   >
                     {checkable && (
                       <Cell
+                        compact
                         align="left"
                         disableRowCondition={disableRowCondition}
                         isRowHovered={isRowHovered}

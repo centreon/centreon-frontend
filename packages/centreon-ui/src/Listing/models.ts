@@ -45,3 +45,8 @@ export interface ColumnConfiguration {
 }
 
 export type SortOrder = 'asc' | 'desc';
+
+export interface PredefinedRowSelection {
+  label: string;
+  rowCondition: (row) => boolean;
+}
