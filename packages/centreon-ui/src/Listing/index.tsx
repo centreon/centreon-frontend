@@ -236,7 +236,10 @@ const Listing = <TRow extends { id: RowId }>({
       columnConfiguration,
       columns,
     })
-      .map(({ width }) => {
+      .map(({ width, shortName }) => {
+        if (!isNil(shortName)) {
+          return 'min-content';
+        }
         if (isNil(width)) {
           return 'auto';
         }
