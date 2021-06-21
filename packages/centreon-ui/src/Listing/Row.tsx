@@ -101,12 +101,18 @@ const Row = React.memo<RowProps>(
       return false;
     }
 
-    if (not(nextIsInViewport)) {
-      return (
+    if (
+      not(
         equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
-        equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
-        equals(prevLastSelectionIndex, nextLastSelectionIndex)
-      );
+          equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
+          equals(prevLastSelectionIndex, nextLastSelectionIndex),
+      )
+    ) {
+      return false;
+    }
+
+    if (not(nextIsInViewport)) {
+      return equals(prevProps.isSelected, nextProps.isSelected);
     }
 
     const previousRowColors = previousRowColorConditions?.map(({ condition }) =>
@@ -123,10 +129,7 @@ const Row = React.memo<RowProps>(
       equals(prevProps.className, nextProps.className) &&
       equals(previousRowColors, nextRowColors) &&
       equals(prevProps.columnIds, nextProps.columnIds) &&
-      equals(prevProps.columnConfiguration, nextProps.columnConfiguration) &&
-      equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
-      equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
-      equals(prevLastSelectionIndex, nextLastSelectionIndex)
+      equals(prevProps.columnConfiguration, nextProps.columnConfiguration)
     );
   },
 );
