@@ -22,7 +22,6 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { SortableContext } from '@dnd-kit/sortable';
-import { useTranslation } from 'react-i18next';
 
 import {
   TableHead,
@@ -30,7 +29,6 @@ import {
   TableCell,
   withStyles,
   makeStyles,
-  Popover,
   List,
   ListItem,
   ListItemText,
@@ -40,8 +38,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Checkbox from '../Checkbox';
 import { getVisibleColumns, Props as ListingProps } from '..';
 import { Column, PredefinedRowSelection } from '../models';
-import IconButton from '../../Button/Icon';
-import { labelPredefinedRowsSelectionMenu } from '../translatedLabels';
+import PopoverMenu from '../../PopoverMenu';
 
 import SortableHeaderCell from './SortableCell';
 import SortableHeaderCellContent from './SortableCell/Content';
@@ -73,7 +70,8 @@ const useStyles = makeStyles((theme) => ({
   headerLabelDragging: {
     cursor: 'grabbing',
   },
-  predefinedRowsAnchorMenu: {
+  predefinedRowsMenu: {
+    padding: theme.spacing(0),
     width: theme.spacing(2),
   },
   row: {
@@ -113,11 +111,7 @@ const ListingHeader = ({
   predefinedRowsSelection,
   onSelectRowsWithCondition,
 }: Props): JSX.Element => {
-  const [rowsSelectionMenuAnchorEl, setRowsSelectionMenuAnchorEl] =
-    React.useState<HTMLElement | null>(null);
   const classes = useStyles();
-
-  const { t } = useTranslation();
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -158,16 +152,6 @@ const ListingHeader = ({
     return find(propEq('id', id), columns) as Column;
   };
 
-  const openPredefinedRowsSelectionMenu = (
-    event: React.MouseEvent<HTMLElement>,
-  ): void => {
-    setRowsSelectionMenuAnchorEl(event.currentTarget);
-  };
-
-  const closePredefinedRowsSelectionMenu = (): void => {
-    setRowsSelectionMenuAnchorEl(null);
-  };
-
   return (
     <>
       <DndContext
@@ -190,14 +174,26 @@ const ListingHeader = ({
                   onChange={onSelectAllClick}
                 />
                 {not(isEmpty(predefinedRowsSelection)) && (
-                  <IconButton
-                    ariaLabel={t(labelPredefinedRowsSelectionMenu)}
-                    className={classes.predefinedRowsAnchorMenu}
-                    size="small"
-                    onClick={openPredefinedRowsSelectionMenu}
+                  <PopoverMenu
+                    className={classes.predefinedRowsMenu}
+                    icon={<ArrowDropDownIcon />}
                   >
-                    <ArrowDropDownIcon color="primary" fontSize="small" />
-                  </IconButton>
+                    <List dense>
+                      {predefinedRowsSelection.map(
+                        ({ label, rowCondition }) => (
+                          <ListItem
+                            button
+                            key={label}
+                            onClick={() =>
+                              onSelectRowsWithCondition(rowCondition)
+                            }
+                          >
+                            <ListItemText>{label}</ListItemText>
+                          </ListItem>
+                        ),
+                      )}
+                    </List>
+                  </PopoverMenu>
                 )}
               </CheckboxHeaderCell>
             )}
@@ -226,31 +222,6 @@ const ListingHeader = ({
           )}
         </DragOverlay>
       </DndContext>
-      <Popover
-        anchorEl={rowsSelectionMenuAnchorEl}
-        anchorOrigin={{
-          horizontal: 'left',
-          vertical: 'bottom',
-        }}
-        open={Boolean(rowsSelectionMenuAnchorEl)}
-        transformOrigin={{
-          horizontal: 'left',
-          vertical: 'top',
-        }}
-        onClose={closePredefinedRowsSelectionMenu}
-      >
-        <List dense>
-          {predefinedRowsSelection.map(({ label, rowCondition }) => (
-            <ListItem
-              button
-              key={label}
-              onClick={() => onSelectRowsWithCondition(rowCondition)}
-            >
-              <ListItemText>{label}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
-      </Popover>
     </>
   );
 };
