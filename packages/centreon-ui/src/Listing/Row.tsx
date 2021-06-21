@@ -101,13 +101,7 @@ const Row = React.memo<RowProps>(
       return false;
     }
 
-    if (
-      not(
-        equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
-          equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
-          equals(prevLastSelectionIndex, nextLastSelectionIndex),
-      )
-    ) {
+    if (not(equals(prevProps.isHovered, nextProps.isHovered))) {
       return false;
     }
 
@@ -123,13 +117,15 @@ const Row = React.memo<RowProps>(
     );
 
     return (
-      equals(prevProps.isHovered, nextProps.isHovered) &&
       equals(prevProps.isSelected, nextProps.isSelected) &&
       equals(prevProps.row, nextProps.row) &&
       equals(prevProps.className, nextProps.className) &&
       equals(previousRowColors, nextRowColors) &&
       equals(prevProps.columnIds, nextProps.columnIds) &&
-      equals(prevProps.columnConfiguration, nextProps.columnConfiguration)
+      equals(prevProps.columnConfiguration, nextProps.columnConfiguration) &&
+      equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
+      equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
+      equals(prevLastSelectionIndex, nextLastSelectionIndex)
     );
   },
 );
