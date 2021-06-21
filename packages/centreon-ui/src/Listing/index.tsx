@@ -245,27 +245,43 @@ const Listing = <TRow extends { id: RowId }>({
     if (
       compareFunction(lastSelectionIndex, last(selectedRowsIndex) as number)
     ) {
-      return uniqBy(
-        getId,
-        concat(
-          selectedRows,
-          slice(
-            comparisonSliceStartIndex,
-            comparisonSliceEndIndex,
-            newSelection,
-          ),
-        ),
+      const normalizedNewSelection = slice(
+        comparisonSliceStartIndex,
+        comparisonSliceEndIndex,
+        newSelection,
       );
+
+      const newSelectionWithCurrentSelection = concat(
+        selectedRows,
+        normalizedNewSelection,
+      );
+
+      const newSelectedRowsWithUniqElements = uniqBy(
+        getId,
+        newSelectionWithCurrentSelection,
+      );
+
+      return newSelectedRowsWithUniqElements;
     }
-    return uniqBy(getId, concat(selectedRows, newSelection));
+    const newSelectedRowsWithCurrentSelection = concat(
+      selectedRows,
+      newSelection,
+    );
+
+    const newSelectedRowsWithUniqElements = uniqBy(
+      getId,
+      newSelectedRowsWithCurrentSelection,
+    );
+
+    return newSelectedRowsWithUniqElements;
   };
 
   const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
     const lastSelectedIndex = lastSelectionIndex as number;
     if (isNil(shiftKeyDownRowPivot)) {
-      onSelectRows(
-        reject(disableRowCheckCondition, slice(0, selectedRowIndex + 1, rows)),
-      );
+      const selectedRowsFromTheStart = slice(0, selectedRowIndex + 1, rows);
+
+      onSelectRows(reject(disableRowCheckCondition, selectedRowsFromTheStart));
       return;
     }
 
