@@ -102,7 +102,11 @@ const Row = React.memo<RowProps>(
     }
 
     if (not(nextIsInViewport)) {
-      return true;
+      return (
+        equals(prevIsShiftKeyDown, nextIsShiftKeyDown) &&
+        equals(prevShiftKeyDownRowPivot, nextShiftKeyDownRowPivot) &&
+        equals(prevLastSelectionIndex, nextLastSelectionIndex)
+      );
     }
 
     const previousRowColors = previousRowColorConditions?.map(({ condition }) =>
