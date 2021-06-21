@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   and,
   concat,
-  difference,
+  differenceWith,
   equals,
   filter,
   findIndex,
@@ -21,7 +21,7 @@ import {
   reject,
   slice,
   subtract,
-  uniq,
+  uniqBy,
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -196,6 +196,9 @@ const Listing = <TRow extends { id: RowId }>({
 
   const { isShiftKeyDown } = useKeyObserver();
 
+  const haveSameId = (row: TRow, rowToCompare: TRow): boolean =>
+    equals(getId(row), getId(rowToCompare));
+
   const selectedRowsInclude = (row): boolean => {
     return !!selectedRows.find((includedRow) =>
       equals(getId(includedRow), getId(row)),
@@ -236,12 +239,13 @@ const Listing = <TRow extends { id: RowId }>({
     comparisonSliceEndIndex,
   }: GetSelectedRowsWithShiftKeyProps): Array<TRow> => {
     if (includes(selectedRowIndex, selectedRowsIndex)) {
-      return difference(selectedRows, newSelection);
+      return differenceWith(haveSameId, selectedRows, newSelection);
     }
     if (
       compareFunction(lastSelectionIndex, last(selectedRowsIndex) as number)
     ) {
-      return uniq(
+      return uniqBy(
+        getId,
         concat(
           selectedRows,
           slice(
@@ -252,7 +256,7 @@ const Listing = <TRow extends { id: RowId }>({
         ),
       );
     }
-    return uniq(concat(selectedRows, newSelection));
+    return uniqBy(getId, concat(selectedRows, newSelection));
   };
 
   const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
@@ -371,8 +375,8 @@ const Listing = <TRow extends { id: RowId }>({
       columnConfiguration,
       columns,
     })
-      .map(({ width, shortName }) => {
-        if (!isNil(shortName)) {
+      .map(({ width, shortLabel }) => {
+        if (!isNil(shortLabel)) {
           return 'min-content';
         }
         if (isNil(width)) {
