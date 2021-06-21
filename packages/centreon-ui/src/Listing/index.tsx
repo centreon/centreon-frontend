@@ -178,7 +178,8 @@ const Listing = <TRow extends { id: RowId }>({
   const [hoveredRowId, setHoveredRowId] = React.useState<RowId | null>(null);
   const [shiftKeyDownRowPivot, setShiftKeyDownRowPivot] =
     React.useState<number | null>(null);
-  const [lastSelectionIndex, setLastSelectionIndex] = React.useState<number>(0);
+  const [lastSelectionIndex, setLastSelectionIndex] =
+    React.useState<number | null>(null);
 
   const containerRef = React.useRef<HTMLDivElement>();
   const actionBarRef = React.useRef<HTMLDivElement>();
@@ -260,7 +261,8 @@ const Listing = <TRow extends { id: RowId }>({
   };
 
   const selectRowsWithShiftKey = (selectedRowIndex: number): void => {
-    if (equals(shiftKeyDownRowPivot, 0)) {
+    const lastSelectedIndex = lastSelectionIndex as number;
+    if (isNil(shiftKeyDownRowPivot)) {
       onSelectRows(
         reject(disableRowCheckCondition, slice(0, selectedRowIndex + 1, rows)),
       );
@@ -273,7 +275,7 @@ const Listing = <TRow extends { id: RowId }>({
       selectedRows,
     ).sort(subtract);
 
-    if (selectedRowIndex < lastSelectionIndex) {
+    if (selectedRowIndex < lastSelectedIndex) {
       const newSelection = slice(
         selectedRowIndex,
         (lastSelectionIndex as number) + 1,
@@ -295,7 +297,7 @@ const Listing = <TRow extends { id: RowId }>({
       return;
     }
 
-    const newSelection = slice(lastSelectionIndex, selectedRowIndex + 1, rows);
+    const newSelection = slice(lastSelectedIndex, selectedRowIndex + 1, rows);
     onSelectRows(
       reject(
         disableRowCheckCondition,
@@ -398,13 +400,14 @@ const Listing = <TRow extends { id: RowId }>({
   React.useEffect(() => {
     if (not(isShiftKeyDown)) {
       setShiftKeyDownRowPivot(null);
+      setLastSelectionIndex(null);
       return;
     }
     setShiftKeyDownRowPivot(isEmpty(selectedRows) ? 0 : lastSelectionIndex);
   }, [isShiftKeyDown]);
 
   React.useEffect(() => {
-    setLastSelectionIndex(0);
+    setLastSelectionIndex(null);
     setShiftKeyDownRowPivot(null);
   }, [rows]);
 
