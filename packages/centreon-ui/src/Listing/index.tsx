@@ -403,6 +403,11 @@ const Listing = <TRow extends { id: RowId }>({
     setShiftKeyDownRowPivot(isEmpty(selectedRows) ? 0 : lastSelectionIndex);
   }, [isShiftKeyDown]);
 
+  React.useEffect(() => {
+    setLastSelectionIndex(0);
+    setShiftKeyDownRowPivot(null);
+  }, [rows]);
+
   return (
     <>
       {loading && rows.length > 0 && (
