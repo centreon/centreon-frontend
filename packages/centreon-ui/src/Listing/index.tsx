@@ -212,14 +212,17 @@ const Listing = <TRow extends { id: RowId }>({
       event.target.getAttribute('data-indeterminate') === 'false'
     ) {
       onSelectRows(reject(disableRowCheckCondition, rows));
+      setLastSelectionIndex(null);
       return;
     }
 
     onSelectRows([]);
+    setLastSelectionIndex(null);
   };
 
   const onSelectRowsWithCondition = (condition: (row) => boolean): void => {
     onSelectRows(reject(disableRowCheckCondition, filter(condition, rows)));
+    setLastSelectionIndex(null);
   };
 
   interface GetSelectedRowsWithShiftKeyProps {
@@ -340,7 +343,7 @@ const Listing = <TRow extends { id: RowId }>({
       rows,
     );
 
-    if (and(isShiftKeyDown, not(isNil(shiftKeyDownRowPivot)))) {
+    if (isShiftKeyDown) {
       selectRowsWithShiftKey(selectedRowIndex);
       setLastSelectionIndex(selectedRowIndex);
       return;
@@ -418,7 +421,7 @@ const Listing = <TRow extends { id: RowId }>({
       setShiftKeyDownRowPivot(null);
       return;
     }
-    setShiftKeyDownRowPivot(isEmpty(selectedRows) ? 0 : lastSelectionIndex);
+    setShiftKeyDownRowPivot(lastSelectionIndex);
   }, [isShiftKeyDown, lastSelectionIndex]);
 
   return (
