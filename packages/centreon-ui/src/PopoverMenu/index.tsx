@@ -1,7 +1,10 @@
 import * as React from 'react';
 
+import clsx from 'clsx';
+
 import {
   ClickAwayListener,
+  makeStyles,
   Paper,
   Popper,
   PopperPlacementType,
@@ -9,6 +12,12 @@ import {
 } from '@material-ui/core';
 
 import { IconButton } from '..';
+
+const useStyles = makeStyles({
+  popoverIconButton: {
+    padding: 0,
+  },
+});
 
 interface Props {
   children: React.ReactNode;
@@ -31,6 +40,7 @@ const PopoverMenu = ({
 }: Props): JSX.Element => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState();
+  const classes = useStyles();
 
   const isOpen = Boolean(anchorEl);
 
@@ -59,7 +69,7 @@ const PopoverMenu = ({
       <div>
         <IconButton
           ariaLabel={title}
-          className={className}
+          className={clsx(classes.popoverIconButton, className)}
           title={title}
           onClick={toggle}
         >

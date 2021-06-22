@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'grabbing',
   },
   predefinedRowsMenu: {
-    padding: theme.spacing(0),
     width: theme.spacing(2),
   },
   row: {
