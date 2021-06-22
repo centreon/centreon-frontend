@@ -351,6 +351,10 @@ const Listing = <TRow extends { id: RowId }>({
 
     setLastSelectionIndex(selectedRowIndex);
 
+    if (disableRowCheckCondition(row)) {
+      return;
+    }
+
     if (selectedRowsInclude(row)) {
       onSelectRows(
         selectedRows.filter((entity) => !equals(getId(entity), getId(row))),
