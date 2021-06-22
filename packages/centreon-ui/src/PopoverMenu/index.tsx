@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  children: React.ReactNode;
+  children: (props?) => JSX.Element;
   className?: string;
   icon: JSX.Element;
   onClose?: () => void;
@@ -81,7 +81,7 @@ const PopoverMenu = ({
           placement={popperPlacement}
           style={{ zIndex: theme.zIndex.tooltip }}
         >
-          <Paper>{children}</Paper>
+          <Paper>{children({ close })}</Paper>
         </Popper>
       </div>
     </ClickAwayListener>
