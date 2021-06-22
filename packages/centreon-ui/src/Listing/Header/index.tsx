@@ -29,9 +29,6 @@ import {
   TableCell,
   withStyles,
   makeStyles,
-  List,
-  ListItem,
-  ListItemText,
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 

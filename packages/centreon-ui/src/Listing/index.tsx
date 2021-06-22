@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import {
-  and,
   concat,
   differenceWith,
   equals,
@@ -9,7 +8,6 @@ import {
   findIndex,
   gt,
   includes,
-  isEmpty,
   isNil,
   last,
   length,
