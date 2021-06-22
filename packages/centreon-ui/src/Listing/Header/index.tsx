@@ -42,6 +42,7 @@ import PopoverMenu from '../../PopoverMenu';
 
 import SortableHeaderCell from './SortableCell';
 import SortableHeaderCellContent from './SortableCell/Content';
+import PredefinedSelectionList from './PredefinedSelectionList';
 
 const height = 28;
 
@@ -177,21 +178,13 @@ const ListingHeader = ({
                     className={classes.predefinedRowsMenu}
                     icon={<ArrowDropDownIcon />}
                   >
-                    <List dense>
-                      {predefinedRowsSelection.map(
-                        ({ label, rowCondition }) => (
-                          <ListItem
-                            button
-                            key={label}
-                            onClick={() =>
-                              onSelectRowsWithCondition(rowCondition)
-                            }
-                          >
-                            <ListItemText>{label}</ListItemText>
-                          </ListItem>
-                        ),
-                      )}
-                    </List>
+                    {({ close }) => (
+                      <PredefinedSelectionList
+                        close={close}
+                        predefinedRowsSelection={predefinedRowsSelection}
+                        onSelectRowsWithCondition={onSelectRowsWithCondition}
+                      />
+                    )}
                   </PopoverMenu>
                 )}
               </CheckboxHeaderCell>
