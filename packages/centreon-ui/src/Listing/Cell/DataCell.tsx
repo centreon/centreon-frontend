@@ -129,6 +129,7 @@ const MemoizedDataCell = React.memo<Props>(
       isRowHovered: previousIsRowHovered,
       isRowSelected: previousIsRowSelected,
       rowColorConditions: previousRowColorConditions,
+      disableRowCondition: prevDisableRowCondition,
     } = prevProps;
     const previousHasHoverableComponent = previousColumn.hasHoverableComponent;
     const previousRenderComponentOnRowUpdate =
@@ -152,6 +153,7 @@ const MemoizedDataCell = React.memo<Props>(
       isRowHovered: nextIsRowHovered,
       isRowSelected: nextIsRowSelected,
       rowColorConditions: nextRowColorConditions,
+      disableRowCondition: nextDisableRowCondition,
     } = nextProps;
     const nextHasHoverableComponent = nextColumn.hasHoverableComponent;
     const nextRenderComponentOnRowUpdate =
@@ -206,10 +208,14 @@ const MemoizedDataCell = React.memo<Props>(
         nextRenderComponentOnRowUpdate && nextRowProps,
       ) &&
       equals(
-        previousFormattedString && previousRowProps,
-        nextFormattedString && nextRowProps,
+        previousFormattedString ?? previousRowProps,
+        nextFormattedString ?? nextRowProps,
       ) &&
-      equals(prevRowColors, nextRowColors)
+      equals(prevRowColors, nextRowColors) &&
+      equals(
+        prevDisableRowCondition(previousRow),
+        nextDisableRowCondition(nextRow),
+      )
     );
   },
 );
