@@ -80,11 +80,10 @@ stage('Unit tests') {
       junit 'ut.xml'
       discoverGitReferenceBuild()
         recordIssues(
-          aggregatingResults: true,
           enabledForFailure: true,
-          failOnError: true,
           qualityGates: [[threshold: 1, type: 'NEW', unstable: false]],
-          tools: [esLint(id: 'centreon-ui', pattern: 'codestyle.xml')],
+          failOnError: true,
+          tool: esLint(id: 'centreon-ui', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
 
@@ -97,12 +96,10 @@ stage('Unit tests') {
       sh "./centreon-build/jobs/frontend/ui-context/${serie}/uicontext-unittest.sh"
       discoverGitReferenceBuild()
         recordIssues(
-          id: "ui-context",
-          aggregatingResults: true,
-          qualityGates: [[threshold: 1, type: 'NEW', unstable: false]],
           enabledForFailure: true,
+          qualityGates: [[threshold: 1, type: 'NEW', unstable: false]],
           failOnError: true,
-          tools: [esLint(id: 'ui-context', pattern: 'codestyle.xml')],
+          tool: esLint(id: 'ui-context', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
     }
