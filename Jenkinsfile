@@ -108,7 +108,7 @@ stage('Unit tests') {
     }
   }
 }
-if (env.BUILD = 'REFERENCE') {
+if (env.BUILD == 'REFERENCE') {
   stage ('Delivery') {
     node {
       unstash name: 'centreon-frontend-uicontext-centreon-build'
