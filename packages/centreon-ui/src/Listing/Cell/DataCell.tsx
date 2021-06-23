@@ -206,8 +206,8 @@ const MemoizedDataCell = React.memo<Props>(
         nextRenderComponentOnRowUpdate && nextRowProps,
       ) &&
       equals(
-        previousFormattedString ?? previousRowProps,
-        nextFormattedString ?? nextRowProps,
+        previousFormattedString && previousRowProps,
+        nextFormattedString && nextRowProps,
       ) &&
       equals(prevRowColors, nextRowColors)
     );
