@@ -109,6 +109,7 @@ const rowColorConditions = [
 
 const Story = ({
   columns = defaultColumns,
+  checkable = true,
   ...props
 }: Omit<ListingProps<Entity>, 'columns'> & {
   columns?: Array<Column>;
@@ -118,6 +119,7 @@ const Story = ({
   return (
     <div className={classes.listing}>
       <Listing
+        checkable={checkable}
         columns={columns}
         currentPage={0}
         disableRowCheckCondition={(row): boolean => row.disableCheckbox}
@@ -154,10 +156,8 @@ export const withActions = (): JSX.Element => <Story actions={actions} />;
 export const withoutCheckboxes = (): JSX.Element => <Story checkable={false} />;
 
 export const withShortLabelColumns = (): JSX.Element => (
-  <Story columns={columsWithShortLabel} />
+  <Story columns={columnsWithShortLabel} />
 );
-
-const ListingWithSortableColumns = (): JSX.Element => {
 
 const editableColumns = [
   {

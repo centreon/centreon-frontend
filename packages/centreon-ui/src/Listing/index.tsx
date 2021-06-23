@@ -187,6 +187,10 @@ const Listing = <TRow extends { id: RowId }>({
     event.preventDefault();
     event.stopPropagation();
 
+    if (disableRowCheckCondition(row)) {
+      return;
+    }
+
     if (selectedRowsInclude(row)) {
       onSelectRows(
         selectedRows.filter((entity) => !equals(getId(entity), getId(row))),
@@ -232,8 +236,8 @@ const Listing = <TRow extends { id: RowId }>({
       columnConfiguration,
       columns,
     })
-      .map(({ width, shortName }) => {
-        if (!isNil(shortName)) {
+      .map(({ width, shortLabel }) => {
+        if (!isNil(shortLabel)) {
           return 'min-content';
         }
         if (isNil(width)) {
