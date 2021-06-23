@@ -80,8 +80,10 @@ stage('Unit tests') {
       junit 'ut.xml'
       discoverGitReferenceBuild()
         recordIssues(
+          aggregatingResults: true,
           enabledForFailure: true,
           failOnError: true,
+          qualityGates: [[threshold: 1, type: 'NEW', unstable: false]],
           tools: [esLint(id: 'centreon-ui', pattern: 'codestyle.xml')],
           trendChartType: 'NONE'
         )
@@ -97,6 +99,7 @@ stage('Unit tests') {
         recordIssues(
           id: "ui-context",
           aggregatingResults: true,
+          qualityGates: [[threshold: 1, type: 'NEW', unstable: false]],
           enabledForFailure: true,
           failOnError: true,
           tools: [esLint(id: 'ui-context', pattern: 'codestyle.xml')],
@@ -105,10 +108,10 @@ stage('Unit tests') {
     }
   }
 }
-
-stage ('Delivery') {
-  node {
-    unstash name: 'centreon-frontend-uicontext-centreon-build'
-    sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-delivery.sh"
-  }
+if (env.BUILD = 'REFERENCE') {
+  stage ('Delivery') {
+    node {
+      unstash name: 'centreon-frontend-uicontext-centreon-build'
+      sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-delivery.sh"
+    }}
 }
