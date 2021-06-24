@@ -62,6 +62,7 @@ stage('Sonar analysis') {
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
+      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
       stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
@@ -69,7 +70,7 @@ stage('Sonar analysis') {
     }
 }
 
-stage('Push sources // Unit tests') {
+stage('Unit tests') {
   parallel 'centreon-ui': {
     node {
       unstash name: 'centreon-frontend-centreonui-centreon-build'
@@ -99,12 +100,6 @@ stage('Push sources // Unit tests') {
           tool: esLint(id: 'ui-context', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
-    }
-  },
-  'source': {
-    node {
-      unstash name: 'centreon-frontend-centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
     }
   }
 }
