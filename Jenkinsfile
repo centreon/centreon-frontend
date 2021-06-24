@@ -84,7 +84,7 @@ stage('Unit tests') {
           tool: esLint(id: 'centreon-ui', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
-
+      stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
       archiveArtifacts allowEmptyArchive: true, artifacts: 'snapshots/*.png'
     }
   },
