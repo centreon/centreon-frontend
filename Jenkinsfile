@@ -100,9 +100,9 @@ stage('Push sources // Unit tests') {
           trendChartType: 'NONE'
         )
     }
-  }
+  },
   'source': {
-    node{
+    node {
       unstash name: 'centreon-frontend-centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/frontend-sources.sh"
     }
