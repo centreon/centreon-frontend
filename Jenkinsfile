@@ -59,6 +59,9 @@ stage('Sonar analysis') {
           currentBuild.result = 'FAIL'
         }
       }
+      source = readProperties file: 'source.properties'
+      env.VERSION = "${source.VERSION}"
+      env.RELEASE = "${source.RELEASE}"
       stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
@@ -67,24 +70,10 @@ stage('Sonar analysis') {
 }
 
 stage('Source') {
-  parallel 'centreon-ui': {
     node {
       unstash name: 'centreon-frontend-centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-source.sh"
-      source = readProperties file: 'source.properties'
-      env.VERSION = "${source.VERSION}"
-      env.RELEASE = "${source.RELEASE}"
+      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
     }
-  },
-  'ui-context': {
-    node {
-      unstash name: 'centreon-frontend-centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/ui-context/${serie}/uicontext-source.sh"
-      source = readProperties file: 'source.properties'
-      env.VERSION = "${source.VERSION}"
-      env.RELEASE = "${source.RELEASE}"
-    }
-  }
 }
 
 stage('Unit tests') {
