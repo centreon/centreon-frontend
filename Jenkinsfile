@@ -69,14 +69,7 @@ stage('Sonar analysis') {
     }
 }
 
-stage('Source') {
-    node {
-      unstash name: 'centreon-frontend-centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
-    }
-}
-
-stage('Unit tests') {
+stage('Push sources // Unit tests') {
   parallel 'centreon-ui': {
     node {
       unstash name: 'centreon-frontend-centreonui-centreon-build'
@@ -108,7 +101,13 @@ stage('Unit tests') {
         )
     }
   }
+  'source': {
+      unstash name: 'centreon-frontend-centreonui-centreon-build'
+      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
+  }
 }
+
+
 if (env.BUILD == 'REFERENCE') {
   stage ('Delivery') {
     node {
