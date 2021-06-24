@@ -63,7 +63,8 @@ stage('Sonar analysis') {
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
       sh "./centreon-build/jobs/frontend/frontend-sources.sh"
-      stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
+      stash includes: '**', name: 'centreonui-centreon-build'
+      stash includes: '**', name: 'uicontext-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
       error('Quality gate stage failure');
@@ -73,7 +74,7 @@ stage('Sonar analysis') {
 stage('Unit tests') {
   parallel 'centreon-ui': {
     node {
-      unstash name: 'centreon-frontend-centreonui-centreon-build'
+      unstash name: 'centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-unittest.sh"
       junit 'ut.xml'
       discoverGitReferenceBuild()
@@ -90,7 +91,7 @@ stage('Unit tests') {
   },
   'ui-context': {
     node {
-      unstash name: 'centreon-frontend-uicontext-centreon-build'
+      unstash name: 'uicontext-centreon-build'
       sh "./centreon-build/jobs/frontend/ui-context/${serie}/uicontext-unittest.sh"
       discoverGitReferenceBuild()
         recordIssues(
