@@ -43,31 +43,46 @@ def checkoutCentreonBuild(buildBranch) {
 ** Pipeline code.
 */
 
-stage('Source') {
-  parallel 'centreon-ui': {
-    node {
+stage('Sonar analysis') {
+  node {
       dir('centreon-frontend') {
         checkout scm
       }
       checkoutCentreonBuild(buildBranch)
+      discoverGitReferenceBuild()
+      withSonarQubeEnv('SonarQubeDev') {  
+          sh "./centreon-build/jobs/frontend/frontend-analysis.sh"
+      }
+      timeout(time: 10, unit: 'MINUTES') {
+        def qualityGate = waitForQualityGate()
+        if (qualityGate.status != 'OK') {
+          currentBuild.result = 'FAIL'
+        }
+      }
+      stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
+  }
+  if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
+      error('Quality gate stage failure');
+    }
+}
+
+stage('Source') {
+  parallel 'centreon-ui': {
+    node {
+      unstash name: 'centreon-frontend-centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-source.sh"
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
-      stash includes: '**', name: 'centreon-frontend-centreonui-centreon-build'
     }
   },
   'ui-context': {
     node {
-      dir('centreon-frontend') {
-        checkout scm
-      }
-      checkoutCentreonBuild(buildBranch)
+      unstash name: 'centreon-frontend-centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/ui-context/${serie}/uicontext-source.sh"
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
-      stash includes: '**', name: 'centreon-frontend-uicontext-centreon-build'
     }
   }
 }
