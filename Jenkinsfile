@@ -51,7 +51,7 @@ stage('Sonar analysis') {
       checkoutCentreonBuild(buildBranch)
       discoverGitReferenceBuild()
       withSonarQubeEnv('SonarQubeDev') {  
-          sh "./centreon-build/jobs/frontend/{serie}/frontend-analysis.sh"
+          sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
       }
       timeout(time: 10, unit: 'MINUTES') {
         def qualityGate = waitForQualityGate()
