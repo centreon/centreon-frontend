@@ -102,8 +102,10 @@ stage('Push sources // Unit tests') {
     }
   }
   'source': {
+    node{
       unstash name: 'centreon-frontend-centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/frontend-sources.sh"
+    }
   }
 }
 
