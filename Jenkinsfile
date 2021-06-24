@@ -51,7 +51,7 @@ stage('Sonar analysis') {
       checkoutCentreonBuild(buildBranch)
       discoverGitReferenceBuild()
       withSonarQubeEnv('SonarQubeDev') {  
-          sh "./centreon-build/jobs/frontend/frontend-analysis.sh"
+          sh "./centreon-build/jobs/frontend/{serie}/frontend-analysis.sh"
       }
       timeout(time: 10, unit: 'MINUTES') {
         def qualityGate = waitForQualityGate()
@@ -75,7 +75,7 @@ stage('Unit tests') {
   parallel 'centreon-ui': {
     node {
       unstash name: 'centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-unittest.sh"
+      sh "./centreon-build/jobs/frontend/${serie}/centreon-ui/centreonui-unittest.sh"
       junit 'ut.xml'
       discoverGitReferenceBuild()
         recordIssues(
@@ -92,7 +92,7 @@ stage('Unit tests') {
   'ui-context': {
     node {
       unstash name: 'uicontext-centreon-build'
-      sh "./centreon-build/jobs/frontend/ui-context/${serie}/uicontext-unittest.sh"
+      sh "./centreon-build/jobs/frontend/${serie}/ui-context/uicontext-unittest.sh"
       discoverGitReferenceBuild()
         recordIssues(
           enabledForFailure: true,
@@ -110,6 +110,6 @@ if (env.BUILD == 'REFERENCE') {
   stage ('Delivery') {
     node {
       unstash name: 'centreonui-centreon-build'
-      sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-delivery.sh"
+      sh "./centreon-build/jobs/frontend/${serie}/centreon-ui/centreonui-delivery.sh"
     }}
 }
