@@ -62,7 +62,7 @@ stage('Sonar analysis') {
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
-      sh "./centreon-build/jobs/frontend/frontend-sources.sh"
+      sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
       stash includes: '**', name: 'centreonui-centreon-build'
       stash includes: '**', name: 'uicontext-centreon-build'
   }
