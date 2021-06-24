@@ -109,7 +109,7 @@ stage('Unit tests') {
 if (env.BUILD == 'REFERENCE') {
   stage ('Delivery') {
     node {
-      unstash name: 'centreon-frontend-uicontext-centreon-build'
+      unstash name: 'centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/centreon-ui/${serie}/centreonui-delivery.sh"
     }}
 }
