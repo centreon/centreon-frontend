@@ -67,7 +67,7 @@ stage('Sonar analysis') {
       stash includes: '**', name: 'uicontext-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-      error('Quality gate stage failure');
+      error('Sonar analysis stage failure');
     }
 }
 
