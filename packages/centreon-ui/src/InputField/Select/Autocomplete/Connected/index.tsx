@@ -160,12 +160,11 @@ const ConnectedAutocompleteField = (
               </Typography>
             )}
           </div>
-          {canTriggerInfiniteScroll ||
-            (optionEqualsLastValue && sending && (
-              <div style={{ textAlign: 'center', width: '100%' }}>
-                <CircularProgress size={theme.spacing(2.5)} />
-              </div>
-            ))}
+          {canTriggerInfiniteScroll && optionEqualsLastValue && sending && (
+            <div style={{ textAlign: 'center', width: '100%' }}>
+              <CircularProgress size={theme.spacing(2.5)} />
+            </div>
+          )}
         </div>
       );
     };
