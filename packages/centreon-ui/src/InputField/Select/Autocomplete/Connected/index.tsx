@@ -139,11 +139,13 @@ const ConnectedAutocompleteField = (
       const { value } = props;
 
       const lastValue = Array.isArray(value) ? last(value) : value;
-      const lastPreSelectedValue = equals(lastValue)(option);
+      const optionEqualsLastValue = equals(option)(lastValue);
       const lastOption = last(options);
+      const isLastOption = equals(lastOption)(option);
 
-      const isLastOption = equals(lastOption)(option) && page > 1;
-      const ref = isLastOption ? { ref: lastOptionRef } : {};
+      const canTriggerInfiniteScroll = isLastOption && page < maxPage;
+
+      const ref = canTriggerInfiniteScroll ? { ref: lastOptionRef } : {};
 
       return (
         <div style={{ width: '100%' }}>
@@ -158,8 +160,8 @@ const ConnectedAutocompleteField = (
               </Typography>
             )}
           </div>
-          {isLastOption ||
-            (lastPreSelectedValue && sending && (
+          {canTriggerInfiniteScroll ||
+            (optionEqualsLastValue && sending && (
               <div style={{ textAlign: 'center', width: '100%' }}>
                 <CircularProgress size={theme.spacing(2.5)} />
               </div>
