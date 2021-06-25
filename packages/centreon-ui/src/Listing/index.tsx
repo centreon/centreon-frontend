@@ -174,10 +174,12 @@ const Listing = <TRow extends { id: RowId }>({
   const { t } = useTranslation();
   const [tableTopOffset, setTableTopOffset] = React.useState(0);
   const [hoveredRowId, setHoveredRowId] = React.useState<RowId | null>(null);
-  const [shiftKeyDownRowPivot, setShiftKeyDownRowPivot] =
-    React.useState<number | null>(null);
-  const [lastSelectionIndex, setLastSelectionIndex] =
-    React.useState<number | null>(null);
+  const [shiftKeyDownRowPivot, setShiftKeyDownRowPivot] = React.useState<
+    number | null
+  >(null);
+  const [lastSelectionIndex, setLastSelectionIndex] = React.useState<
+    number | null
+  >(null);
 
   const containerRef = React.useRef<HTMLDivElement>();
   const actionBarRef = React.useRef<HTMLDivElement>();
