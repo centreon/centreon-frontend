@@ -335,7 +335,7 @@ const Listing = <TRow extends { id: RowId }>({
   const selectRow = (event: React.MouseEvent, row): void => {
     event.preventDefault();
     event.stopPropagation();
-    // This prevents from unwanted text selection
+    // This prevents unwanted text selection
     document.getSelection()?.removeAllRanges();
 
     const selectedRowIndex = findIndex(
