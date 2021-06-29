@@ -1,6 +1,7 @@
 /*
 ** Variables.
 */
+import groovy.json.JsonSlurper
 
 properties([buildDiscarder(logRotator(numToKeepStr: '50'))])
 def serie = '21.10'
