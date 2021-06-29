@@ -74,14 +74,16 @@ stage('Sonar analysis') {
             if (taskStatus != "IN_PROGRESS" && taskStatus != "PENDING") {
                 break;
             }
+            timeout(time: 10, unit: 'MINUTES') {
+              def qualityGate = waitForQualityGate()
+              if (qualityGate.status != 'OK') {
+                currentBuild.result = 'FAIL'
+              }
+            }
+        }
     }
 }
-      timeout(time: 10, unit: 'MINUTES') {
-        def qualityGate = waitForQualityGate()
-        if (qualityGate.status != 'OK') {
-          currentBuild.result = 'FAIL'
-        }
-      }
+
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
       env.RELEASE = "${source.RELEASE}"
