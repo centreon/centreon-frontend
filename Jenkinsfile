@@ -53,6 +53,28 @@ stage('Sonar analysis') {
       withSonarQubeEnv('SonarQubeDev') {  
           sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
       }
+    
+      def reportFilePath = "target/sonar/report-task.txt"
+      def reportTaskFileExists = fileExists "${reportFilePath}"
+      if (reportTaskFileExists) {
+        echo "Found report task file"
+        def taskProps = readProperties file: "${reportFilePath}"
+        echo "taskId[${taskProps['ceTaskId']}]"
+        while (true) {
+            sleep 20
+            def taskStatusResult    =
+                sh(returnStdout: true,
+                   script: "curl -s -X GET -u ${authString} \'${sonarProps['sonar.host.url']}/api/ce/task?id=${taskProps['ceTaskId']}\'")
+                echo "taskStatusResult[${taskStatusResult}]"
+            def taskStatus  = new JsonSlurper().parseText(taskStatusResult).task.status
+            echo "taskStatus[${taskStatus}]"
+            // Status can be SUCCESS, ERROR, PENDING, or IN_PROGRESS. The last two indicate it's
+            // not done yet.
+            if (taskStatus != "IN_PROGRESS" && taskStatus != "PENDING") {
+                break;
+            }
+    }
+}
       timeout(time: 10, unit: 'MINUTES') {
         sleep 30
         def qualityGate = waitForQualityGate()
