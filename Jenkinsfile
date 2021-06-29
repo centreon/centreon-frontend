@@ -62,7 +62,7 @@ stage('Sonar analysis') {
         def taskProps = readProperties file: "${reportFilePath}"
         echo "taskId[${taskProps['ceTaskId']}]"
         while (true) {
-            sleep 20
+            sleep 5
             def taskStatusResult    =
                 sh(returnStdout: true,
                    script: "curl -s -X GET -u ${authString} \'${sonarProps['sonar.host.url']}/api/ce/task?id=${taskProps['ceTaskId']}\'")
@@ -77,7 +77,6 @@ stage('Sonar analysis') {
     }
 }
       timeout(time: 10, unit: 'MINUTES') {
-        sleep 30
         def qualityGate = waitForQualityGate()
         if (qualityGate.status != 'OK') {
           currentBuild.result = 'FAIL'
