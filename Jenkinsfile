@@ -54,6 +54,7 @@ stage('Sonar analysis') {
           sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
       }
       timeout(time: 10, unit: 'MINUTES') {
+        sleep 30
         def qualityGate = waitForQualityGate()
         if (qualityGate.status != 'OK') {
           currentBuild.result = 'FAIL'
