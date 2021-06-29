@@ -82,7 +82,6 @@ stage('Sonar analysis') {
             }
         }
     }
-}
 
       source = readProperties file: 'source.properties'
       env.VERSION = "${source.VERSION}"
