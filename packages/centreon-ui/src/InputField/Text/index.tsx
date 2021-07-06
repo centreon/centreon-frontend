@@ -12,8 +12,6 @@ import {
   Tooltip,
 } from '@material-ui/core';
 
-import HeaderLabel from '../../Listing/Header/Label';
-
 enum Size {
   compact = 'compact',
   small = 'small',
