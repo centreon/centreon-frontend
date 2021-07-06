@@ -87,7 +87,7 @@ const TextField = React.forwardRef(
     const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
 
     return (
-      <Tooltip title={error as string}>
+      <Tooltip title={error || ''}>
         <MuiTextField
           InputProps={{
             className: clsx({
