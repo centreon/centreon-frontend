@@ -84,13 +84,6 @@ const TextField = React.forwardRef(
   ): JSX.Element => {
     const classes = useStyles();
 
-    const headerContent = (
-      <Tooltip placement="top" title={error || ''}>
-        <div>
-          <HeaderLabel>{error}</HeaderLabel>
-        </div>
-      </Tooltip>
-    );
     const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
 
     return (
