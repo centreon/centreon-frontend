@@ -112,7 +112,6 @@ const TextField = React.forwardRef(
               </OptionalLabelInputAdornment>
             ),
           }}
-          {...headerContent}
           error={!isNil(error)}
           inputProps={{
             ...rest.inputProps,
