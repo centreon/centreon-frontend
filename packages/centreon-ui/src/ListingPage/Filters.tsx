@@ -1,15 +1,6 @@
 import * as React from 'react';
 
-import { isNil } from 'ramda';
-
-import {
-  withStyles,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  useTheme,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { withStyles, Accordion, AccordionSummary } from '@material-ui/core';
 
 import { useMemoComponent } from '..';
 
@@ -20,6 +11,7 @@ const ExpansionPanelSummary = withStyles((theme) => ({
     },
     flexGrow: 0,
     margin: theme.spacing(1, 0),
+    width: '100%',
   },
   expanded: {},
   focused: {},
@@ -36,12 +28,6 @@ const ExpansionPanelSummary = withStyles((theme) => ({
   },
 }))(AccordionSummary);
 
-const ExpansionPanelDetails = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(0, 0.5, 1, 2),
-  },
-}))(AccordionDetails);
-
 export interface FiltersProps {
   expandLabel?: string;
   expandableFilters?: React.ReactElement;
@@ -51,35 +37,15 @@ export interface FiltersProps {
 }
 
 const Filters = React.forwardRef(
-  (
-    {
-      expandLabel,
-      expanded = false,
-      onExpand,
-      filters,
-      expandableFilters,
-    }: FiltersProps,
-    ref,
-  ): JSX.Element => {
-    const expandable = !isNil(onExpand);
-    const theme = useTheme();
-
+  ({ filters }: FiltersProps, ref): JSX.Element => {
     return (
-      <Accordion square expanded={expandable ? expanded : false}>
+      <Accordion square expanded={false}>
         <ExpansionPanelSummary
-          IconButtonProps={{
-            onClick: onExpand,
-            style: { padding: theme.spacing(1) },
-          }}
-          expandIcon={expandable && <ExpandMoreIcon aria-label={expandLabel} />}
           ref={ref as React.RefObject<HTMLDivElement>}
           style={{ cursor: 'default' }}
         >
           {filters}
         </ExpansionPanelSummary>
-        {expandableFilters && (
-          <ExpansionPanelDetails>{expandableFilters}</ExpansionPanelDetails>
-        )}
       </Accordion>
     );
   },
