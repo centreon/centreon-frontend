@@ -2,18 +2,20 @@ import * as React from 'react';
 
 import { Paper, makeStyles } from '@material-ui/core';
 
+import { useMemoComponent } from '..';
+
 const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(1),
   },
 }));
 
-export interface FiltersProps {
+export interface FilterProps {
   content?: React.ReactElement;
 }
 
 const Filter = React.forwardRef(
-  ({ content }: FiltersProps, ref): JSX.Element => {
+  ({ content }: FilterProps, ref): JSX.Element => {
     const classes = useStyles();
 
     return (
@@ -23,5 +25,18 @@ const Filter = React.forwardRef(
     );
   },
 );
+
+interface MemoizedFilterProps extends FilterProps {
+  memoProps?: Array<unknown>;
+}
+
+export const MemoizedFilter = ({
+  memoProps = [],
+  ...props
+}: MemoizedFilterProps): JSX.Element =>
+  useMemoComponent({
+    Component: <Filter {...props} />,
+    memoProps: [...memoProps],
+  });
 
 export default Filter;
