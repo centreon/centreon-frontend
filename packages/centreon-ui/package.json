@@ -83,5 +83,11 @@
     "typescript": "4.3.4",
     "webpack-merge": "^5.8.0",
     "yup": "^0.32.9"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@material-ui/styles": "^4.11.4"
   }
 }
