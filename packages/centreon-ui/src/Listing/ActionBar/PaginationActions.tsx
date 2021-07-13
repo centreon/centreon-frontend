@@ -24,12 +24,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface Props
+  extends Pick<TablePaginationActionsProps, 'page' | 'rowsPerPage' | 'count'> {
+  onChangePage: (e, page: number) => void;
+}
+
 const PaginationActions = ({
   onChangePage,
   page,
   rowsPerPage,
   count,
-}: TablePaginationActionsProps): JSX.Element => {
+}: Props): JSX.Element => {
   const classes = useStyles();
   const { t } = useTranslation();
 
