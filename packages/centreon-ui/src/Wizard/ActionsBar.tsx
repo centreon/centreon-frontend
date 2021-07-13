@@ -50,7 +50,7 @@ const ActionsBar = ({
       alignItems="center"
       className={classes.container}
       direction="row"
-      justify="flex-end"
+      justifyContent="flex-end"
     >
       <Grid item>
         {!isFirstStep && (
