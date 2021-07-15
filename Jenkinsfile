@@ -43,34 +43,32 @@ def checkoutCentreonBuild(buildBranch) {
 /*
 ** Pipeline code.
 */
-
 stage('Sonar analysis') {
   node {
-      dir('centreon-frontend') {
-        checkout scm
-      }
-      checkoutCentreonBuild(buildBranch)
-      discoverGitReferenceBuild()
-      withSonarQubeEnv('SonarQubeDev') {  
-          sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-      }
+    dir('centreon-frontend') {
+      checkout scm
+    }
+    checkoutCentreonBuild(buildBranch)
+    discoverGitReferenceBuild()
+    withSonarQubeEnv('SonarQubeDev') {
+      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
+    }
 
-      def qualityGate = waitForQualityGate()
-        if (qualityGate.status != 'OK') {
-          currentBuild.result = 'FAIL'
-        }
+    def qualityGate = waitForQualityGate()
+    if (qualityGate.status != 'OK') {
+      currentBuild.result = 'FAIL'
+    }
 
-
-      source = readProperties file: 'source.properties'
-      env.VERSION = "${source.VERSION}"
-      env.RELEASE = "${source.RELEASE}"
-      sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
-      stash includes: '**', name: 'centreonui-centreon-build'
-      stash includes: '**', name: 'uicontext-centreon-build'
+    source = readProperties file: 'source.properties'
+    env.VERSION = "${source.VERSION}"
+    env.RELEASE = "${source.RELEASE}"
+    sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
+    stash includes: '**', name: 'centreonui-centreon-build'
+    stash includes: '**', name: 'uicontext-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-      error('Sonar analysis stage failure');
-    }
+    error('Sonar analysis stage failure');
+  }
 }
 
 stage('Unit tests') {
@@ -107,11 +105,11 @@ stage('Unit tests') {
   }
 }
 
-
 if (env.BUILD == 'REFERENCE') {
   stage ('Delivery') {
     node {
       unstash name: 'centreonui-centreon-build'
       sh "./centreon-build/jobs/frontend/${serie}/centreon-ui/centreonui-delivery.sh"
-    }}
+    }
+  }
 }
