@@ -44,7 +44,7 @@ export type {
 } from './Listing/models';
 
 export { default as ListingPage } from './ListingPage';
-export { default as Filters, MemoizedFilters } from './ListingPage/Filters';
+export { default as Filter, MemoizedFilter } from './ListingPage/Filter';
 export { default as Panel } from './Panel';
 export { default as WithPanel } from './Panel/WithPanel';
 export { default as MemoizedPanel } from './Panel/Memoized';
@@ -122,3 +122,7 @@ export { default as MenuSkeleton } from './MenuSkeleton';
 export { default as PopoverMenu } from './PopoverMenu';
 
 export { default as LicenseMessage } from './LicenseMessage';
+
+export { default as UnsavedChangesDialog } from './Dialog/UnsavedChanges';
+export { default as useUnsavedChanges } from './Dialog/UnsavedChanges/useUnsavedChanges';
+export { default as unsavedChangesTranslatedLabels } from './Dialog/UnsavedChanges/translatedLabels';
