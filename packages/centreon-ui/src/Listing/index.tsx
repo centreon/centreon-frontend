@@ -177,6 +177,7 @@ const Listing = <TRow extends { id: RowId }>({
       event.target.getAttribute('data-indeterminate') === 'false'
     ) {
       onSelectRows(rows);
+
       return;
     }
 
@@ -195,6 +196,7 @@ const Listing = <TRow extends { id: RowId }>({
       onSelectRows(
         selectedRows.filter((entity) => !equals(getId(entity), getId(row))),
       );
+
       return;
     }
     onSelectRows([...selectedRows, row]);

@@ -198,6 +198,7 @@ const ExpandableFilters = (): JSX.Element => {
 
 const DetailsPanelContent = (): JSX.Element => {
   const classes = useStyles();
+
   return (
     <div className={classes.detailsPanel}>
       <div className={classes.detailsContent}>
@@ -265,6 +266,7 @@ interface PanelProps {
 
 const DetailsPanelHeader = (): JSX.Element => {
   const classes = useStyles();
+
   return (
     <div className={classes.detailsPanelHeader}>
       <Typography align="center" variant="h5">
@@ -337,6 +339,7 @@ export const withFilterDetailsAndOpenPanel = (): JSX.Element => (
 
 export const withExpandableFiltersAndFixedPanel = (): JSX.Element => {
   const [open, setOpen] = React.useState(true);
+
   return (
     <ListingPage
       panelFixed
