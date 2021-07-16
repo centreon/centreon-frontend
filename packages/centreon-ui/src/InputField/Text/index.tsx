@@ -78,8 +78,7 @@ const TextField = React.forwardRef(
       ariaLabel,
       transparent = false,
       size,
-      displayErrorInTooltip = false,
-
+      displayErrorInTooltip = true,
       ...rest
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
@@ -90,7 +89,7 @@ const TextField = React.forwardRef(
     const tooltipTitle = displayErrorInTooltip && !isNil(error) ? error : '';
 
     return (
-      <Tooltip placement="top" title={tooltipTitle}>
+      <Tooltip placement="bottom" title={tooltipTitle}>
         <MuiTextField
           InputProps={{
             className: clsx({
@@ -109,7 +108,7 @@ const TextField = React.forwardRef(
             ),
           }}
           error={!isNil(error)}
-          helperText={displayErrorInTooltip && isNil(error)}
+          helperText={displayErrorInTooltip && !error}
           inputProps={{
             ...rest.inputProps,
             'aria-label': ariaLabel,
