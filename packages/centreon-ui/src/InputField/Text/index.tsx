@@ -1,7 +1,7 @@
 import React from 'react';
 
 import clsx from 'clsx';
-import { equals, ifElse, isNil, not } from 'ramda';
+import { equals, isNil, not } from 'ramda';
 
 import {
   TextField as MuiTextField,
@@ -11,7 +11,6 @@ import {
   makeStyles,
   Tooltip,
 } from '@material-ui/core';
-import { AlertTitle } from '@material-ui/lab';
 
 enum Size {
   compact = 'compact',
