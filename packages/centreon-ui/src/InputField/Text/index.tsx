@@ -1,7 +1,7 @@
 import React from 'react';
 
 import clsx from 'clsx';
-import { equals, isNil, not } from 'ramda';
+import { equals, ifElse, isNil, not } from 'ramda';
 
 import {
   TextField as MuiTextField,
@@ -11,6 +11,7 @@ import {
   makeStyles,
   Tooltip,
 } from '@material-ui/core';
+import { AlertTitle } from '@material-ui/lab';
 
 enum Size {
   compact = 'compact',
@@ -61,7 +62,9 @@ export type Props = {
   EndAdornment?: React.SFC;
   StartAdornment?: React.SFC;
   ariaLabel?: string;
+  displayErrorInTooltip?: boolean;
   error?: string;
+  open?: boolean;
   size?: 'small' | 'compact';
   transparent?: boolean;
 } & Omit<TextFieldProps, 'variant' | 'size' | 'error'>;
@@ -76,6 +79,8 @@ const TextField = React.forwardRef(
       ariaLabel,
       transparent = false,
       size,
+      displayErrorInTooltip = false,
+
       ...rest
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
@@ -83,9 +88,10 @@ const TextField = React.forwardRef(
     const classes = useStyles();
 
     const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
+    const tooltipTitle = displayErrorInTooltip && !isNil(error) ? error : '';
 
     return (
-      <Tooltip title={error || ''}>
+      <Tooltip placement="top" title={tooltipTitle}>
         <MuiTextField
           InputProps={{
             className: clsx({
@@ -104,7 +110,7 @@ const TextField = React.forwardRef(
             ),
           }}
           error={!isNil(error)}
-          helperText={error}
+          helperText={displayErrorInTooltip && isNil(error)}
           inputProps={{
             ...rest.inputProps,
             'aria-label': ariaLabel,
