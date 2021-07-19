@@ -78,7 +78,7 @@ const TextField = React.forwardRef(
       ariaLabel,
       transparent = false,
       size,
-      displayErrorInTooltip = true,
+      displayErrorInTooltip = false,
       ...rest
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
@@ -86,10 +86,10 @@ const TextField = React.forwardRef(
     const classes = useStyles();
 
     const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
-    const tooltipTitle = displayErrorInTooltip && !isNil(error) ? error : '';
+    const tooltipTitle = !displayErrorInTooltip && !isNil(error) ? error : '';
 
     return (
-      <Tooltip placement="bottom" title={tooltipTitle}>
+      <Tooltip placement="bottom-start" title={tooltipTitle}>
         <MuiTextField
           InputProps={{
             className: clsx({
@@ -108,7 +108,7 @@ const TextField = React.forwardRef(
             ),
           }}
           error={!isNil(error)}
-          helperText={displayErrorInTooltip && !error}
+          helperText={displayErrorInTooltip ? undefined : error}
           inputProps={{
             ...rest.inputProps,
             'aria-label': ariaLabel,
