@@ -86,7 +86,7 @@ const TextField = React.forwardRef(
     const classes = useStyles();
 
     const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
-    const tooltipTitle = !displayErrorInTooltip && !isNil(error) ? error : '';
+    const tooltipTitle = displayErrorInTooltip && !isNil(error) ? error : '';
 
     return (
       <Tooltip placement="top" title={tooltipTitle}>
