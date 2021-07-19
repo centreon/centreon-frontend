@@ -89,7 +89,7 @@ const TextField = React.forwardRef(
     const tooltipTitle = !displayErrorInTooltip && !isNil(error) ? error : '';
 
     return (
-      <Tooltip placement="bottom-start" title={tooltipTitle}>
+      <Tooltip placement="top" title={tooltipTitle}>
         <MuiTextField
           InputProps={{
             className: clsx({
