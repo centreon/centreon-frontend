@@ -13,6 +13,7 @@ const useStyles = makeStyles<Theme, Pick<Props, 'isDragging'>>((theme) => ({
   content: {
     alignItems: 'center',
     display: 'flex',
+    minHeight: theme.spacing(3),
     paddingLeft: theme.spacing(1.5),
   },
   dragHandle: ({ isDragging }) => ({
