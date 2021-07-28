@@ -43,6 +43,14 @@ const SortableList = ({
 }: Props): JSX.Element => {
   const classes = useStyles();
 
+  const dragEnd = (newItems) =>
+    changeItemsOrder(
+      map(
+        (item) => find(propEq('id', item), items),
+        newItems,
+      ) as Array<SelectEntry>,
+    );
+
   const Content = ({
     attributes,
     listeners,
@@ -72,7 +80,7 @@ const SortableList = ({
 
   return (
     <SortableItems
-      updateSortableItems
+      updateSortableItemsOnItemsChange
       Content={Content}
       collisionDetection={rectIntersection}
       defaultSortableItems={pluck('id', items) as Array<string>}
@@ -80,14 +88,7 @@ const SortableList = ({
       itemProps={['id', 'name', 'createOption']}
       items={items}
       sortingStrategy={rectSortingStrategy}
-      onDragEnd={(newItems) =>
-        changeItemsOrder(
-          map(
-            (item) => find(propEq('id', item), items),
-            newItems,
-          ) as Array<SelectEntry>,
-        )
-      }
+      onDragEnd={dragEnd}
     />
   );
 };

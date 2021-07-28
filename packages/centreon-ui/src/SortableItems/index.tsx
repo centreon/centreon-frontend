@@ -69,7 +69,7 @@ interface Props<T> {
   onDragEnd?: (items: Array<string>) => void;
   onDragOver?: (items: Array<string>) => void;
   sortingStrategy: SortingStrategy;
-  updateSortableItems?: boolean;
+  updateSortableItemsOnItemsChange?: boolean;
 }
 
 type OrderDebounce = (value: Array<string>) => void;
@@ -87,7 +87,7 @@ const SortableItems = <T extends { id: string | number }>({
   RootComponent = ({ children }) => children as JSX.Element,
   Content,
   getDisableItemCondition = () => false,
-  updateSortableItems = false,
+  updateSortableItemsOnItemsChange = false,
 }: Props<T>): JSX.Element => {
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [sortableItems, setSortableItems] =
@@ -139,7 +139,7 @@ const SortableItems = <T extends { id: string | number }>({
   ) as Record<string, unknown>;
 
   React.useEffect(() => {
-    if (not(updateSortableItems)) {
+    if (not(updateSortableItemsOnItemsChange)) {
       return;
     }
     setSortableItems(defaultSortableItems);

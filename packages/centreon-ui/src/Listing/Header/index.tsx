@@ -167,6 +167,7 @@ const ListingHeader = ({
             </CheckboxHeaderCell>
           )}
           <SortableItems
+            updateSortableItemsOnItemsChange
             Content={Content}
             additionalProps={[sortField, sortOrder]}
             collisionDetection={rectIntersection}
