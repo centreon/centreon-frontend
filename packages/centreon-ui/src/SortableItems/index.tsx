@@ -69,11 +69,12 @@ interface Props<T> {
   onDragEnd?: (items: Array<string>) => void;
   onDragOver?: (items: Array<string>) => void;
   sortingStrategy: SortingStrategy;
+  updateSortableItems?: boolean;
 }
 
 type OrderDebounce = (value: Array<string>) => void;
 
-const SortableItems = <T extends { id: string }>({
+const SortableItems = <T extends { id: string | number }>({
   defaultSortableItems,
   items,
   onDragEnd,
@@ -86,6 +87,7 @@ const SortableItems = <T extends { id: string }>({
   RootComponent = ({ children }) => children as JSX.Element,
   Content,
   getDisableItemCondition = () => false,
+  updateSortableItems = false,
 }: Props<T>): JSX.Element => {
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [sortableItems, setSortableItems] =
@@ -136,6 +138,13 @@ const SortableItems = <T extends { id: string }>({
     items,
   ) as Record<string, unknown>;
 
+  React.useEffect(() => {
+    if (not(updateSortableItems)) {
+      return;
+    }
+    setSortableItems(defaultSortableItems);
+  }, [defaultSortableItems]);
+
   return (
     <DndContext
       collisionDetection={collisionDetection}
@@ -152,7 +161,11 @@ const SortableItems = <T extends { id: string }>({
               const item = find(
                 propEq(itemPropertyToFilter, sortableItem),
                 items,
-              ) as Record<string, unknown>;
+              ) as Record<string, unknown> | undefined;
+
+              if (isNil(item)) {
+                return null;
+              }
 
               return (
                 not(getDisableItemCondition(item as T)) && (

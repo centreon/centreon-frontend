@@ -12,6 +12,8 @@ import {
   isEmpty,
   isNil,
   not,
+  findIndex,
+  propEq,
 } from 'ramda';
 
 import { Typography } from '@material-ui/core';
@@ -48,8 +50,11 @@ const DraggableAutocomplete = (
       setSelectedValues(newSelectedValues);
     };
 
-    const deleteValue = (index) => {
-      setSelectedValues((values) => remove(index, 1, values));
+    const deleteValue = (id) => {
+      setSelectedValues((values) => {
+        const index = findIndex(propEq('id', id), values);
+        return remove(index, 1, values);
+      });
     };
 
     const onChange = (_, newValue) => {
@@ -64,7 +69,7 @@ const DraggableAutocomplete = (
           ...values,
           {
             createOption: lastValue,
-            id: totalValues,
+            id: `${lastValue}_${totalValues}`,
             name: lastValue,
           },
         ]);
@@ -76,7 +81,7 @@ const DraggableAutocomplete = (
       setSelectedValues((values) => [
         ...values,
         {
-          id: totalValues,
+          id: `${lastItem.name}_${totalValues}`,
           name: lastItem.name,
         },
       ]);
