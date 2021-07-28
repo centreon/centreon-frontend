@@ -126,17 +126,18 @@ const ContentWithHandler = ({
 }: ContentProps): JSX.Element => {
   const classes = useContentStyles({ isDragging });
   return (
-    <Paper
-      style={style}
-      {...attributes}
-      className={classes.contentWithHandler}
-      ref={itemRef}
-    >
-      <IconButton size="small" {...listeners} className={classes.handler}>
-        <MoreVertIcon fontSize="small" />
-      </IconButton>
-      <Typography>{name as string}</Typography>
-    </Paper>
+    <div style={style}>
+      <Paper
+        {...attributes}
+        className={classes.contentWithHandler}
+        ref={itemRef}
+      >
+        <IconButton size="small" {...listeners} className={classes.handler}>
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+        <Typography>{name as string}</Typography>
+      </Paper>
+    </div>
   );
 };
 

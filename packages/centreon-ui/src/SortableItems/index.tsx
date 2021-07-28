@@ -59,7 +59,7 @@ interface Props<T> {
     children,
     isInDragOverlay,
   }: RootComponentProps) => JSX.Element;
-  additionalProps?: Array<Record<string, unknown>>;
+  additionalProps?: Array<unknown>;
   collisionDetection: CollisionDetection;
   defaultSortableItems: Array<string>;
   getDisableItemCondition?: (item: T) => boolean;
@@ -151,7 +151,7 @@ const SortableItems = <T extends { id: string }>({
                 not(getDisableItemCondition(item as T)) && (
                   <SortableItem
                     Content={Content}
-                    id={sortableItem}
+                    itemId={sortableItem}
                     key={sortableItem}
                     memoProps={itemProps}
                     {...pick(itemProps, item)}
