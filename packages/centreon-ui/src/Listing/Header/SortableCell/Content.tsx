@@ -45,7 +45,6 @@ const SortableHeaderCellContent = ({
   style,
   ...props
 }: Props): JSX.Element => {
-  console.log(sortOrder);
   const classes = useStyles({ isDragging });
 
   const columnLabel = column.shortLabel || column.label;

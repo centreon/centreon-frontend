@@ -1,29 +1,8 @@
 import * as React from 'react';
 
-import {
-  equals,
-  find,
-  indexOf,
-  isEmpty,
-  isNil,
-  map,
-  move,
-  not,
-  path,
-  pick,
-  prop,
-  propEq,
-} from 'ramda';
-import {
-  DndContext,
-  DraggableSyntheticListeners,
-  DragOverlay,
-  PointerSensor,
-  rectIntersection,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+import { equals, find, isEmpty, map, not, pick, prop, propEq } from 'ramda';
+import { DraggableSyntheticListeners, rectIntersection } from '@dnd-kit/core';
+import { rectSortingStrategy } from '@dnd-kit/sortable';
 
 import {
   TableHead,
@@ -132,6 +111,30 @@ const ListingHeader = ({
     return find(propEq('id', id), columns) as Column;
   };
 
+  const Content = ({
+    listeners,
+    attributes,
+    style,
+    isDragging,
+    itemRef,
+    id,
+  }: ContentProps) => {
+    return (
+      <SortableHeaderCellContent
+        column={getColumnById(id)}
+        columnConfiguration={columnConfiguration}
+        isDragging={isDragging}
+        itemRef={itemRef}
+        sortField={sortField}
+        sortOrder={sortOrder}
+        style={style}
+        onSort={onSort}
+        {...listeners}
+        {...attributes}
+      />
+    );
+  };
+
   return (
     <>
       <TableHead className={classes.row} component="div">
@@ -164,28 +167,7 @@ const ListingHeader = ({
             </CheckboxHeaderCell>
           )}
           <SortableItems
-            Content={({
-              listeners,
-              attributes,
-              style,
-              isDragging,
-              itemRef,
-              id,
-            }: ContentProps) => {
-              return (
-                <SortableHeaderCellContent
-                  column={getColumnById(id)}
-                  columnConfiguration={columnConfiguration}
-                  isDragging={isDragging}
-                  itemRef={itemRef}
-                  sortField={sortField}
-                  sortOrder={sortOrder}
-                  style={style}
-                  {...listeners}
-                  {...attributes}
-                />
-              );
-            }}
+            Content={Content}
             additionalProps={[sortField, sortOrder]}
             collisionDetection={rectIntersection}
             defaultSortableItems={visibleColumnIds}
