@@ -16,12 +16,14 @@ import {
 } from 'ramda';
 import {
   DndContext,
+  DraggableSyntheticListeners,
   DragOverlay,
   PointerSensor,
+  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { SortableContext } from '@dnd-kit/sortable';
+import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 
 import {
   TableHead,
@@ -36,8 +38,8 @@ import Checkbox from '../Checkbox';
 import { getVisibleColumns, Props as ListingProps } from '..';
 import { Column, PredefinedRowSelection } from '../models';
 import PopoverMenu from '../../PopoverMenu';
+import SortableItems from '../../SortableItems';
 
-import SortableHeaderCell from './SortableCell';
 import SortableHeaderCellContent from './SortableCell/Content';
 import PredefinedSelectionList from './PredefinedSelectionList';
 
@@ -94,6 +96,15 @@ type Props = Pick<
   selectedRowCount: number;
 };
 
+interface ContentProps extends Pick<Props, 'sortField' | 'sortOrder'> {
+  attributes;
+  id: string;
+  isDragging: boolean;
+  itemRef: React.RefObject<HTMLDivElement>;
+  listeners: DraggableSyntheticListeners;
+  style;
+}
+
 const ListingHeader = ({
   onSelectAllClick,
   sortOrder,
@@ -110,8 +121,6 @@ const ListingHeader = ({
 }: Props): JSX.Element => {
   const classes = useStyles();
 
-  const sensors = useSensors(useSensor(PointerSensor));
-
   const visibleColumns = getVisibleColumns({
     columnConfiguration,
     columns,
@@ -119,98 +128,75 @@ const ListingHeader = ({
 
   const visibleColumnIds = visibleColumns.map(prop('id'));
 
-  const [draggingColumnId, setDraggingColumnId] = React.useState<string>();
-
-  const startDrag = (event) => {
-    setDraggingColumnId(path<string>(['active', 'id'], event));
-  };
-
-  const cancelDrag = () => {
-    setDraggingColumnId(undefined);
-  };
-
-  const endDrag = ({ over }) => {
-    if (isNil(over)) {
-      return;
-    }
-
-    const { id } = over;
-
-    const fromIndex = indexOf(draggingColumnId, visibleColumnIds);
-    const toIndex = indexOf(id, visibleColumnIds);
-
-    const updatedColumnIds = move(fromIndex, toIndex, visibleColumnIds);
-
-    onSelectColumns?.(updatedColumnIds);
-    setDraggingColumnId(undefined);
-  };
-
   const getColumnById = (id: string): Column => {
     return find(propEq('id', id), columns) as Column;
   };
 
   return (
     <>
-      <DndContext
-        sensors={sensors}
-        onDragCancel={cancelDrag}
-        onDragEnd={endDrag}
-        onDragStart={startDrag}
-      >
-        <TableHead className={classes.row} component="div">
-          <TableRow className={classes.row} component="div">
-            {checkable && (
-              <CheckboxHeaderCell component="div">
-                <Checkbox
-                  checked={selectedRowCount === rowCount}
-                  className={classes.compactCell}
-                  indeterminate={
-                    selectedRowCount > 0 && selectedRowCount < rowCount
-                  }
-                  inputProps={{ 'aria-label': 'Select all' }}
-                  onChange={onSelectAllClick}
-                />
-                {not(isEmpty(predefinedRowsSelection)) && (
-                  <PopoverMenu
-                    className={classes.predefinedRowsMenu}
-                    icon={<ArrowDropDownIcon />}
-                  >
-                    {({ close }) => (
-                      <PredefinedSelectionList
-                        close={close}
-                        predefinedRowsSelection={predefinedRowsSelection}
-                        onSelectRowsWithCondition={onSelectRowsWithCondition}
-                      />
-                    )}
-                  </PopoverMenu>
-                )}
-              </CheckboxHeaderCell>
-            )}
-
-            <SortableContext items={visibleColumnIds}>
-              {visibleColumns.map((column) => (
-                <SortableHeaderCell
-                  column={column}
+      <TableHead className={classes.row} component="div">
+        <TableRow className={classes.row} component="div">
+          {checkable && (
+            <CheckboxHeaderCell component="div">
+              <Checkbox
+                checked={selectedRowCount === rowCount}
+                className={classes.compactCell}
+                indeterminate={
+                  selectedRowCount > 0 && selectedRowCount < rowCount
+                }
+                inputProps={{ 'aria-label': 'Select all' }}
+                onChange={onSelectAllClick}
+              />
+              {not(isEmpty(predefinedRowsSelection)) && (
+                <PopoverMenu
+                  className={classes.predefinedRowsMenu}
+                  icon={<ArrowDropDownIcon />}
+                >
+                  {({ close }) => (
+                    <PredefinedSelectionList
+                      close={close}
+                      predefinedRowsSelection={predefinedRowsSelection}
+                      onSelectRowsWithCondition={onSelectRowsWithCondition}
+                    />
+                  )}
+                </PopoverMenu>
+              )}
+            </CheckboxHeaderCell>
+          )}
+          <SortableItems
+            Content={({
+              listeners,
+              attributes,
+              style,
+              isDragging,
+              itemRef,
+              id,
+            }: ContentProps) => {
+              return (
+                <SortableHeaderCellContent
+                  column={getColumnById(id)}
                   columnConfiguration={columnConfiguration}
-                  key={column.id}
+                  isDragging={isDragging}
+                  itemRef={itemRef}
                   sortField={sortField}
                   sortOrder={sortOrder}
-                  onSort={onSort}
+                  style={style}
+                  {...listeners}
+                  {...attributes}
                 />
-              ))}
-            </SortableContext>
-          </TableRow>
-        </TableHead>
-        <DragOverlay>
-          {draggingColumnId && (
-            <SortableHeaderCellContent
-              isDragging
-              column={getColumnById(draggingColumnId)}
-              columnConfiguration={columnConfiguration}
-            />
-          )}
-        </DragOverlay>
-      </DndContext>
+              );
+            }}
+            additionalProps={[sortField, sortOrder]}
+            collisionDetection={rectIntersection}
+            defaultSortableItems={visibleColumnIds}
+            itemPropertyToFilter="id"
+            itemProps={['id']}
+            items={visibleColumns}
+            sortingStrategy={rectSortingStrategy}
+            onDragOver={(newItems) => onSelectColumns?.(newItems)}
+          />
+        </TableRow>
+      </TableHead>
     </>
   );
 };
