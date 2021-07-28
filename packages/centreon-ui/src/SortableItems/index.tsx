@@ -28,7 +28,7 @@ import {
   pick,
 } from 'ramda';
 
-import { useTheme } from '@material-ui/core';
+import { debounce, useTheme } from '@material-ui/core';
 
 import SortableItem from './SortableItem';
 import Item from './Item';
@@ -71,6 +71,8 @@ interface Props<T> {
   sortingStrategy: SortingStrategy;
 }
 
+type OrderDebounce = (value: Array<string>) => void;
+
 const SortableItems = <T extends { id: string }>({
   defaultSortableItems,
   items,
@@ -95,6 +97,12 @@ const SortableItems = <T extends { id: string }>({
     }),
   );
   const theme = useTheme();
+  const debouncedChangeOrder = React.useRef<OrderDebounce>(
+    debounce<OrderDebounce>((newItemsOrder: Array<string>): void => {
+      setSortableItems(newItemsOrder);
+      onDragOver?.(newItemsOrder);
+    }, 150),
+  );
 
   const dragStart = (event): void => {
     setActiveId(path(['active', 'id'], event) as string);
@@ -119,8 +127,7 @@ const SortableItems = <T extends { id: string }>({
       const newIndex = indexOf(overId, sortableItems);
 
       const newItemsOrder = move<string>(oldIndex, newIndex, sortableItems);
-      setSortableItems(newItemsOrder);
-      onDragOver?.(newItemsOrder);
+      debouncedChangeOrder.current(newItemsOrder);
     }
   };
 
