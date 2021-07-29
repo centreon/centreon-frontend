@@ -22,10 +22,10 @@ interface UseSnackbar {
 }
 
 const useSnackbar = (): UseSnackbar => {
-  const { enqueueSnackbar } = useNotistackSnackbar();
+  const notistackHookProps = useNotistackSnackbar();
 
   const showMessage = ({ message, severity }: ShowMessageProps): void => {
-    enqueueSnackbar({ message, severity });
+    notistackHookProps?.enqueueSnackbar({ message, severity });
   };
 
   const showMessages = ({ messages, severity }: ShowMessagesProps): void => {
