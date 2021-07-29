@@ -10,9 +10,15 @@ interface SnackbarContextProviderProps {
   children?: React.ReactNode;
 }
 
-const withSnackbar = (
-  Component: (props) => JSX.Element,
-): ((props) => JSX.Element) => {
+interface WithSnackbarProps {
+  Component: (props) => JSX.Element;
+  maxSnackbars?: number;
+}
+
+const withSnackbar = ({
+  Component,
+  maxSnackbars = 3,
+}: WithSnackbarProps): ((props) => JSX.Element) => {
   return (props: SnackbarContextProviderProps): React.ReactElement => {
     const snackbarContent = (
       id: string | number,
@@ -30,7 +36,7 @@ const withSnackbar = (
         )}
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         content={snackbarContent}
-        maxSnack={3}
+        maxSnack={maxSnackbars}
       >
         <Component {...props} />
       </SnackbarProvider>

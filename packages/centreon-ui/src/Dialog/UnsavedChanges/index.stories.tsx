@@ -37,7 +37,7 @@ const Story = ({ isValidForm, isSubmitting }: Props): JSX.Element => {
   );
 };
 
-const StoryWithSnackbar = withSnackbar(Story);
+const StoryWithSnackbar = withSnackbar({ Component: Story });
 
 export const normal = (): JSX.Element => (
   <StoryWithSnackbar isValidForm isSubmitting={false} />
