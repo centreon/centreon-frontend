@@ -1,31 +1,69 @@
 import React from 'react';
 
-import Severity from './Severity';
+import { Button } from '@material-ui/core';
 
-import Snackbar from '.';
+import Severity from './Severity';
+import useSnackbar from './useSnackbar';
+import withSnackbar from './withSnackbar';
 
 export default { title: 'Snackbar' };
 
-export const errorSnackbar = (): JSX.Element => (
-  <Snackbar
-    open
-    message="Something unexpected happened..."
-    severity={Severity.error}
-  />
-);
+interface Props {
+  displayMessages?: boolean;
+}
 
-export const successSnackbar = (): JSX.Element => (
-  <Snackbar
-    open
-    message="Something successful happened..."
-    severity={Severity.success}
-  />
-);
+const Story = ({ displayMessages = false }: Props): JSX.Element => {
+  const { showMessage, showMessages } = useSnackbar();
 
-export const infoSnackbar = (): JSX.Element => (
-  <Snackbar open message="Some informations..." severity={Severity.info} />
-);
+  const message = 'This is a message';
 
-export const warningSnackbar = (): JSX.Element => (
-  <Snackbar open message="A warning message..." severity={Severity.warning} />
+  const messages = {
+    first: 'my first message',
+    second: 'my second message',
+  };
+
+  const snackbars = [
+    {
+      buttonLabel: 'Show success snackbar',
+      severity: Severity.success,
+    },
+    {
+      buttonLabel: 'Show error snackbar',
+      severity: Severity.error,
+    },
+    {
+      buttonLabel: 'Show warning snackbar',
+      severity: Severity.warning,
+    },
+    {
+      buttonLabel: 'Show info snackbar',
+      severity: Severity.info,
+    },
+  ];
+
+  return (
+    <>
+      {snackbars.map(({ buttonLabel, severity }) => (
+        <Button
+          key={buttonLabel}
+          variant="contained"
+          onClick={() =>
+            displayMessages
+              ? showMessages({ messages, severity })
+              : showMessage({ message, severity })
+          }
+        >
+          {buttonLabel}
+        </Button>
+      ))}
+    </>
+  );
+};
+
+const StoryWithSnackbar = withSnackbar(Story);
+
+export const snackbar = (): JSX.Element => <StoryWithSnackbar />;
+
+export const snackbarWithMessages = (): JSX.Element => (
+  <StoryWithSnackbar displayMessages />
 );
