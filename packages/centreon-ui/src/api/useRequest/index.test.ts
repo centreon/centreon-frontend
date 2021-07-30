@@ -6,8 +6,6 @@ import {
 import axios from 'axios';
 import anyLogger from 'anylogger';
 
-import { Severity } from '../..';
-
 import useRequest, { RequestResult, RequestParams } from '.';
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -66,10 +64,7 @@ describe(useRequest, () => {
       });
     });
 
-    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
-      message: 'custom message',
-      severity: Severity.error,
-    });
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith('custom message');
   });
 
   it("shows an error via the Snackbar and inside browser's console using the error message from the API when available", async () => {
@@ -88,10 +83,7 @@ describe(useRequest, () => {
 
     expect(anyLogger().error).toHaveBeenCalledWith(response);
 
-    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
-      message: 'failure',
-      severity: Severity.error,
-    });
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith('failure');
   });
 
   it('shows a default failure message via the Snackbar as fallback', async () => {
@@ -108,10 +100,7 @@ describe(useRequest, () => {
       });
     });
 
-    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
-      message: 'Oops',
-      severity: Severity.error,
-    });
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith('Oops');
   });
 
   it('does not show any message via the Snackbar when the error is an axios cancel', async () => {
