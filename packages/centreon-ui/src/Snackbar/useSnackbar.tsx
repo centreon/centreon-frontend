@@ -16,9 +16,18 @@ interface ShowMessagesProps {
   severity: Severity;
 }
 
+type ShowMessage = (message: string) => void;
+type ShowMessages = (message: Record<string, string>) => void;
+
 interface UseSnackbar {
-  showMessage: (props: ShowMessageProps) => void;
-  showMessages: (props: ShowMessagesProps) => void;
+  showErrorMessage: ShowMessage;
+  showErrorMessages: ShowMessages;
+  showInfoMessage: ShowMessage;
+  showInfoMessages: ShowMessages;
+  showSuccessMessage: ShowMessage;
+  showSuccessMessages: ShowMessages;
+  showWarningMessage: ShowMessage;
+  showWarningMessages: ShowMessages;
 }
 
 const useSnackbar = (): UseSnackbar => {
@@ -50,9 +59,47 @@ const useSnackbar = (): UseSnackbar => {
     });
   };
 
+  const showSuccessMessage = (message: string): void => {
+    showMessage({ message, severity: Severity.success });
+  };
+
+  const showSuccessMessages = (messages: Record<string, string>): void => {
+    showMessages({ messages, severity: Severity.success });
+  };
+
+  const showErrorMessage = (message: string): void => {
+    showMessage({ message, severity: Severity.error });
+  };
+
+  const showErrorMessages = (messages: Record<string, string>): void => {
+    showMessages({ messages, severity: Severity.error });
+  };
+
+  const showWarningMessage = (message: string): void => {
+    showMessage({ message, severity: Severity.warning });
+  };
+
+  const showWarningMessages = (messages: Record<string, string>): void => {
+    showMessages({ messages, severity: Severity.warning });
+  };
+
+  const showInfoMessage = (message: string): void => {
+    showMessage({ message, severity: Severity.info });
+  };
+
+  const showInfoMessages = (messages: Record<string, string>): void => {
+    showMessages({ messages, severity: Severity.info });
+  };
+
   return {
-    showMessage,
-    showMessages,
+    showErrorMessage,
+    showErrorMessages,
+    showInfoMessage,
+    showInfoMessages,
+    showSuccessMessage,
+    showSuccessMessages,
+    showWarningMessage,
+    showWarningMessages,
   };
 };
 

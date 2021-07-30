@@ -13,7 +13,16 @@ interface Props {
 }
 
 const Story = ({ displayMessages = false }: Props): JSX.Element => {
-  const { showMessage, showMessages } = useSnackbar();
+  const {
+    showErrorMessage,
+    showErrorMessages,
+    showInfoMessage,
+    showInfoMessages,
+    showSuccessMessage,
+    showSuccessMessages,
+    showWarningMessage,
+    showWarningMessages,
+  } = useSnackbar();
 
   const message = 'This is a message';
 
@@ -24,26 +33,25 @@ const Story = ({ displayMessages = false }: Props): JSX.Element => {
 
   const snackbars = [
     {
-      severity: Severity.success,
+      showSnackbar: displayMessages ? showSuccessMessages : showSuccessMessage,
     },
     {
-      severity: Severity.error,
+      showSnackbar: displayMessages ? showErrorMessages : showErrorMessage,
     },
     {
-      severity: Severity.warning,
+      showSnackbar: displayMessages ? showWarningMessages : showWarningMessage,
     },
     {
-      severity: Severity.info,
+      showSnackbar: displayMessages ? showInfoMessages : showInfoMessage,
     },
   ];
 
   React.useEffect(() => {
-    snackbars.forEach(({ severity }) => {
-      if (displayMessages) {
-        showMessages({ messages, severity });
-        return;
-      }
-      showMessage({ message, severity });
+    snackbars.forEach(({ showSnackbar }) => {
+      showSnackbar(
+        (displayMessages ? messages : message) as string &
+          Record<string, string>,
+      );
     });
   }, [displayMessages]);
 

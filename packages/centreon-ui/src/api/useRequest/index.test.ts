@@ -12,13 +12,13 @@ import useRequest, { RequestResult, RequestParams } from '.';
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-const mockedShowMessage = jest.fn();
+const mockedShowErrorMessage = jest.fn();
 
 jest.mock('../../Snackbar/useSnackbar', () => ({
   __esModule: true,
   default: jest
     .fn()
-    .mockImplementation(() => ({ showMessage: mockedShowMessage })),
+    .mockImplementation(() => ({ showErrorMessage: mockedShowErrorMessage })),
 }));
 
 interface Result {
@@ -35,7 +35,7 @@ const renderUseRequest = (
 describe(useRequest, () => {
   afterEach(() => {
     request.mockReset();
-    mockedShowMessage.mockReset();
+    mockedShowErrorMessage.mockReset();
     mockedAxios.isCancel.mockReset();
   });
 
@@ -66,7 +66,7 @@ describe(useRequest, () => {
       });
     });
 
-    expect(mockedShowMessage).toHaveBeenCalledWith({
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
       message: 'custom message',
       severity: Severity.error,
     });
@@ -88,7 +88,7 @@ describe(useRequest, () => {
 
     expect(anyLogger().error).toHaveBeenCalledWith(response);
 
-    expect(mockedShowMessage).toHaveBeenCalledWith({
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
       message: 'failure',
       severity: Severity.error,
     });
@@ -108,7 +108,7 @@ describe(useRequest, () => {
       });
     });
 
-    expect(mockedShowMessage).toHaveBeenCalledWith({
+    expect(mockedShowErrorMessage).toHaveBeenCalledWith({
       message: 'Oops',
       severity: Severity.error,
     });
@@ -129,6 +129,6 @@ describe(useRequest, () => {
       });
     });
 
-    expect(mockedShowMessage).not.toHaveBeenCalled();
+    expect(mockedShowErrorMessage).not.toHaveBeenCalled();
   });
 });
