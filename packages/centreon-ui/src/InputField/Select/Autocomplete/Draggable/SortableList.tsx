@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { map, pluck, find, propEq } from 'ramda';
+import { map, find, propEq } from 'ramda';
 import { rectIntersection, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 import clsx from 'clsx';
