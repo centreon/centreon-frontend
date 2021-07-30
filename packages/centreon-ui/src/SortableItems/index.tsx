@@ -9,6 +9,8 @@ import {
   useSensors,
   CollisionDetection,
   DraggableSyntheticListeners,
+  DragOverEvent,
+  DragStartEvent,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -73,7 +75,9 @@ interface Props<T> {
 
 type OrderDebounce = (value: Array<string>) => void;
 
-const SortableItems = <T extends { id: string }>({
+const propertyToFilterItemsOn = 'id';
+
+const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
   items,
   onDragEnd,
   onDragOver,
@@ -86,8 +90,11 @@ const SortableItems = <T extends { id: string }>({
   getDisableItemCondition = () => false,
   updateSortableItemsOnItemsChange = false,
 }: Props<T>): JSX.Element => {
+  const getItemsIds = () => pluck(propertyToFilterItemsOn, items);
+
   const [activeId, setActiveId] = React.useState<string | null>(null);
-  const [sortableItems, setSortableItems] = React.useState(pluck('id', items));
+  const [sortableItemsIds, setSortableItemsIds] = React.useState(getItemsIds());
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -97,13 +104,13 @@ const SortableItems = <T extends { id: string }>({
   const theme = useTheme();
   const debouncedChangeOrder = React.useRef<OrderDebounce>(
     debounce<OrderDebounce>((newItemsOrder: Array<string>): void => {
-      setSortableItems(newItemsOrder);
+      setSortableItemsIds(newItemsOrder);
       onDragOver?.(newItemsOrder);
     }, 150),
   );
 
-  const dragStart = (event): void => {
-    setActiveId(path(['active', 'id'], event) as string);
+  const dragStart = (event: DragStartEvent): void => {
+    setActiveId(path(['active', propertyToFilterItemsOn], event) as string);
   };
 
   const dragCancel = () => setActiveId(null);
@@ -111,34 +118,33 @@ const SortableItems = <T extends { id: string }>({
   const dragEnd = () => {
     setActiveId(null);
 
-    onDragEnd?.(sortableItems);
+    onDragEnd?.(sortableItemsIds);
   };
 
-  const dragOver = (event): void => {
-    const overId = path(['over', 'id'], event);
+  const dragOver = (event: DragOverEvent): void => {
+    const overId = path(['over', propertyToFilterItemsOn], event);
 
     if (
       pipe(isNil, not)(overId) &&
       pipe(equals(activeId), not)(overId as string | null)
     ) {
-      const oldIndex = indexOf(activeId, sortableItems);
-      const newIndex = indexOf(overId, sortableItems);
+      const oldIndex = indexOf(activeId, sortableItemsIds);
+      const newIndex = indexOf(overId, sortableItemsIds);
 
-      const newItemsOrder = move<string>(oldIndex, newIndex, sortableItems);
+      const newItemsOrder = move<string>(oldIndex, newIndex, sortableItemsIds);
       debouncedChangeOrder.current(newItemsOrder);
     }
   };
 
-  const activeItem = find(propEq('id', activeId), items) as Record<
-    string,
-    unknown
-  >;
+  const getItemById = (id) => find(propEq(propertyToFilterItemsOn, id), items);
+
+  const activeItem = getItemById(activeId) as Record<string, unknown>;
 
   React.useEffect(() => {
     if (not(updateSortableItemsOnItemsChange)) {
       return;
     }
-    setSortableItems(pluck('id', items));
+    setSortableItemsIds(getItemsIds());
   }, [items]);
 
   return (
@@ -150,11 +156,11 @@ const SortableItems = <T extends { id: string }>({
       onDragOver={dragOver}
       onDragStart={dragStart}
     >
-      <SortableContext items={sortableItems} strategy={sortingStrategy}>
+      <SortableContext items={sortableItemsIds} strategy={sortingStrategy}>
         <RootComponent>
           <>
-            {sortableItems.map((sortableItem) => {
-              const item = find(propEq('id', sortableItem), items) as
+            {sortableItemsIds.map((sortableItemId) => {
+              const item = getItemById(sortableItemId) as
                 | Record<string, unknown>
                 | undefined;
 
@@ -166,8 +172,8 @@ const SortableItems = <T extends { id: string }>({
                 not(getDisableItemCondition(item as T)) && (
                   <SortableItem
                     Content={Content}
-                    itemId={sortableItem}
-                    key={sortableItem}
+                    itemId={sortableItemId}
+                    key={sortableItemId}
                     memoProps={itemProps}
                     {...pick(itemProps, item)}
                     {...additionalProps}
