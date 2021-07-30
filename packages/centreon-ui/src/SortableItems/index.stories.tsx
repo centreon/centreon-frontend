@@ -7,7 +7,7 @@ import {
   SortingStrategy,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { not, pluck } from 'ramda';
+import { not } from 'ramda';
 
 import {
   Paper,
@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import SortableItems from '.';
+import SortableItems, { RootComponentProps } from '.';
 
 export default { title: 'SortableItems' };
 
@@ -229,6 +229,20 @@ const ContentWithGrid = ({
   );
 };
 
+const RootComponent = ({
+  children,
+  isInDragOverlay,
+}: RootComponentProps): JSX.Element => (
+  <Grid container spacing={1} style={{ width: '550px' }}>
+    {not(isInDragOverlay) && (
+      <Grid item xs={12}>
+        <Typography align="center">This item cannot move</Typography>
+      </Grid>
+    )}
+    {children}
+  </Grid>
+);
+
 const StoryWithRootComponent = (): JSX.Element => {
   const classes = useStyles();
 
@@ -236,16 +250,7 @@ const StoryWithRootComponent = (): JSX.Element => {
     <div className={classes.verticalContainer}>
       <SortableItems
         Content={ContentWithGrid}
-        RootComponent={({ children, isInDragOverlay }) => (
-          <Grid container spacing={1} style={{ width: '550px' }}>
-            {not(isInDragOverlay) && (
-              <Grid item xs={12}>
-                <Typography align="center">This item cannot move</Typography>
-              </Grid>
-            )}
-            {children}
-          </Grid>
-        )}
+        RootComponent={RootComponent}
         collisionDetection={rectIntersection}
         itemProps={['name', 'xs']}
         items={items}

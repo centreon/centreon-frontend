@@ -31,7 +31,7 @@ import {
   pluck,
 } from 'ramda';
 
-import { debounce, useTheme } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 
 import SortableItem from './SortableItem';
 import Item from './Item';
@@ -44,10 +44,13 @@ interface ContentProps {
   style;
 }
 
-interface RootComponentProps {
+export interface RootComponentProps {
   children: JSX.Element | null;
   isInDragOverlay?: boolean;
 }
+
+const DefaultRootComponent = ({ children }: RootComponentProps): JSX.Element =>
+  children as JSX.Element;
 
 interface Props<T> {
   Content: ({
@@ -73,8 +76,6 @@ interface Props<T> {
   updateSortableItemsOnItemsChange?: boolean;
 }
 
-type OrderDebounce = (value: Array<string>) => void;
-
 const propertyToFilterItemsOn = 'id';
 
 const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
@@ -85,7 +86,7 @@ const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
   sortingStrategy,
   itemProps,
   additionalProps,
-  RootComponent = ({ children }) => children as JSX.Element,
+  RootComponent = DefaultRootComponent,
   Content,
   getDisableItemCondition = () => false,
   updateSortableItemsOnItemsChange = false,
@@ -102,12 +103,6 @@ const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
     }),
   );
   const theme = useTheme();
-  const debouncedChangeOrder = React.useRef<OrderDebounce>(
-    debounce<OrderDebounce>((newItemsOrder: Array<string>): void => {
-      setSortableItemsIds(newItemsOrder);
-      onDragOver?.(newItemsOrder);
-    }, 150),
-  );
 
   const dragStart = (event: DragStartEvent): void => {
     setActiveId(path(['active', propertyToFilterItemsOn], event) as string);
@@ -132,7 +127,8 @@ const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
       const newIndex = indexOf(overId, sortableItemsIds);
 
       const newItemsOrder = move<string>(oldIndex, newIndex, sortableItemsIds);
-      debouncedChangeOrder.current(newItemsOrder);
+      setSortableItemsIds(newItemsOrder);
+      onDragOver?.(newItemsOrder);
     }
   };
 
