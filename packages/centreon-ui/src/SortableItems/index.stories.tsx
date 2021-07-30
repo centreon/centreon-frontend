@@ -184,8 +184,6 @@ const Story = ({
       <SortableItems
         Content={handler ? ContentWithHandler : Content}
         collisionDetection={rectIntersection}
-        defaultSortableItems={pluck('id', items)}
-        itemPropertyToFilter="id"
         itemProps={['name']}
         items={items}
         sortingStrategy={sortingStrategy}
@@ -249,8 +247,6 @@ const StoryWithRootComponent = (): JSX.Element => {
           </Grid>
         )}
         collisionDetection={rectIntersection}
-        defaultSortableItems={pluck('id', items)}
-        itemPropertyToFilter="id"
         itemProps={['name', 'xs']}
         items={items}
         sortingStrategy={rectSortingStrategy}

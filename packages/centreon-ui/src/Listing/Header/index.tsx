@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { equals, find, isEmpty, map, not, pick, prop, propEq } from 'ramda';
+import { equals, find, isEmpty, map, not, pick, propEq } from 'ramda';
 import { DraggableSyntheticListeners, rectIntersection } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 
@@ -105,8 +105,6 @@ const ListingHeader = ({
     columns,
   });
 
-  const visibleColumnIds = visibleColumns.map(prop('id'));
-
   const getColumnById = (id: string): Column => {
     return find(propEq('id', id), columns) as Column;
   };
@@ -171,8 +169,6 @@ const ListingHeader = ({
             Content={Content}
             additionalProps={[sortField, sortOrder]}
             collisionDetection={rectIntersection}
-            defaultSortableItems={visibleColumnIds}
-            itemPropertyToFilter="id"
             itemProps={['id']}
             items={visibleColumns}
             sortingStrategy={rectSortingStrategy}

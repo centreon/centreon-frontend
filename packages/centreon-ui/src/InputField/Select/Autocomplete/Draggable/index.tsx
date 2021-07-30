@@ -18,15 +18,16 @@ import {
 
 import { Typography } from '@material-ui/core';
 
-import { SelectEntry } from '../..';
 import { ConnectedAutoCompleteFieldProps } from '../Connected';
 import { Props as SingleAutocompletefieldProps } from '..';
 
-import SortableList from './SortableList';
+import SortableList, { DraggableSelectEntry } from './SortableList';
 
 interface Props {
-  initialValues?: Array<SelectEntry>;
-  onSelectedValuesChange?: (values: Array<SelectEntry>) => Array<SelectEntry>;
+  initialValues?: Array<DraggableSelectEntry>;
+  onSelectedValuesChange?: (
+    values: Array<DraggableSelectEntry>,
+  ) => Array<DraggableSelectEntry>;
 }
 
 const DraggableAutocomplete = (
@@ -39,7 +40,7 @@ const DraggableAutocomplete = (
   }: Props &
     (ConnectedAutoCompleteFieldProps | SingleAutocompletefieldProps)) => {
     const [selectedValues, setSelectedValues] = React.useState<
-      Array<SelectEntry>
+      Array<DraggableSelectEntry>
     >(initialValues || []);
     const [totalValues, setTotalValues] = React.useState<number>(
       length(initialValues || []),
@@ -77,7 +78,9 @@ const DraggableAutocomplete = (
         setInputText(null);
         return;
       }
-      const lastItem = last<SelectEntry>(newValue) as SelectEntry;
+      const lastItem = last<DraggableSelectEntry>(
+        newValue,
+      ) as DraggableSelectEntry;
       setSelectedValues((values) => [
         ...values,
         {
@@ -111,7 +114,7 @@ const DraggableAutocomplete = (
           ...values,
           {
             createOption: inputText,
-            id: totalValues,
+            id: `${inputText}_${totalValues}`,
             name: inputText,
           },
         ]);

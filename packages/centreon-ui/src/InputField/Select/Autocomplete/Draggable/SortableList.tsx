@@ -11,16 +11,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import { SelectEntry } from '../..';
 import SortableItems from '../../../../SortableItems';
 
+export interface DraggableSelectEntry extends SelectEntry {
+  id: string;
+}
+
 interface Props {
-  changeItemsOrder: (newItems: Array<SelectEntry>) => void;
+  changeItemsOrder: (newItems: Array<DraggableSelectEntry>) => void;
   deleteValue: (id: string | number) => void;
-  items: Array<SelectEntry>;
+  items: Array<DraggableSelectEntry>;
 }
 
 interface ContentProps
-  extends Pick<SelectEntry, 'name' | 'createOption' | 'id'> {
+  extends Pick<DraggableSelectEntry, 'name' | 'createOption' | 'id'> {
   attributes;
-  id: string | number;
+  id: string;
   isDragging: boolean;
   itemRef: React.RefObject<HTMLDivElement>;
   listeners: DraggableSyntheticListeners;
@@ -48,7 +52,7 @@ const SortableList = ({
       map(
         (item) => find(propEq('id', item), items),
         newItems,
-      ) as Array<SelectEntry>,
+      ) as Array<DraggableSelectEntry>,
     );
 
   const Content = ({
@@ -83,8 +87,6 @@ const SortableList = ({
       updateSortableItemsOnItemsChange
       Content={Content}
       collisionDetection={rectIntersection}
-      defaultSortableItems={pluck('id', items) as Array<string>}
-      itemPropertyToFilter="id"
       itemProps={['id', 'name', 'createOption']}
       items={items}
       sortingStrategy={rectSortingStrategy}

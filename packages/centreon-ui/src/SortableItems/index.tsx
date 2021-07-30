@@ -26,6 +26,7 @@ import {
   pipe,
   propEq,
   pick,
+  pluck,
 } from 'ramda';
 
 import { debounce, useTheme } from '@material-ui/core';
@@ -61,9 +62,7 @@ interface Props<T> {
   }: RootComponentProps) => JSX.Element;
   additionalProps?: Array<unknown>;
   collisionDetection: CollisionDetection;
-  defaultSortableItems: Array<string>;
   getDisableItemCondition?: (item: T) => boolean;
-  itemPropertyToFilter: string;
   itemProps: Array<string>;
   items: Array<T>;
   onDragEnd?: (items: Array<string>) => void;
@@ -74,12 +73,10 @@ interface Props<T> {
 
 type OrderDebounce = (value: Array<string>) => void;
 
-const SortableItems = <T extends { id: string | number }>({
-  defaultSortableItems,
+const SortableItems = <T extends { id: string }>({
   items,
   onDragEnd,
   onDragOver,
-  itemPropertyToFilter,
   collisionDetection,
   sortingStrategy,
   itemProps,
@@ -90,8 +87,7 @@ const SortableItems = <T extends { id: string | number }>({
   updateSortableItemsOnItemsChange = false,
 }: Props<T>): JSX.Element => {
   const [activeId, setActiveId] = React.useState<string | null>(null);
-  const [sortableItems, setSortableItems] =
-    React.useState(defaultSortableItems);
+  const [sortableItems, setSortableItems] = React.useState(pluck('id', items));
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -133,17 +129,17 @@ const SortableItems = <T extends { id: string | number }>({
     }
   };
 
-  const activeItem = find(
-    propEq(itemPropertyToFilter, activeId),
-    items,
-  ) as Record<string, unknown>;
+  const activeItem = find(propEq('id', activeId), items) as Record<
+    string,
+    unknown
+  >;
 
   React.useEffect(() => {
     if (not(updateSortableItemsOnItemsChange)) {
       return;
     }
-    setSortableItems(defaultSortableItems);
-  }, [defaultSortableItems]);
+    setSortableItems(pluck('id', items));
+  }, [items]);
 
   return (
     <DndContext
@@ -158,10 +154,9 @@ const SortableItems = <T extends { id: string | number }>({
         <RootComponent>
           <>
             {sortableItems.map((sortableItem) => {
-              const item = find(
-                propEq(itemPropertyToFilter, sortableItem),
-                items,
-              ) as Record<string, unknown> | undefined;
+              const item = find(propEq('id', sortableItem), items) as
+                | Record<string, unknown>
+                | undefined;
 
               if (isNil(item)) {
                 return null;
