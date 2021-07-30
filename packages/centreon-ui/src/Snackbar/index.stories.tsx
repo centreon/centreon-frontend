@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Typography } from '@material-ui/core';
 
-import Severity from './Severity';
 import useSnackbar from './useSnackbar';
 import withSnackbar from './withSnackbar';
 
