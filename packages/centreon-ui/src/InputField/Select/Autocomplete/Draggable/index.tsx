@@ -35,7 +35,10 @@ const DraggableAutocomplete = (
     initialValues,
     ...props
   }: Props &
-    (ConnectedAutoCompleteFieldProps | SingleAutocompletefieldProps)) => {
+    (
+      | ConnectedAutoCompleteFieldProps
+      | SingleAutocompletefieldProps
+    )): JSX.Element => {
     const [selectedValues, setSelectedValues] = React.useState<
       Array<SelectEntry>
     >(initialValues || []);
@@ -44,15 +47,15 @@ const DraggableAutocomplete = (
     );
     const [inputText, setInputText] = React.useState<string | null>(null);
 
-    const onChangeSelectedValuesOrder = (newSelectedValues) => {
+    const onChangeSelectedValuesOrder = (newSelectedValues): void => {
       setSelectedValues(newSelectedValues);
     };
 
-    const deleteValue = (index) => {
+    const deleteValue = (index): void => {
       setSelectedValues((values) => remove(index, 1, values));
     };
 
-    const onChange = (_, newValue) => {
+    const onChange = (_, newValue): void => {
       if (isEmpty(newValue)) {
         setSelectedValues(newValue);
         setInputText(null);
@@ -84,7 +87,7 @@ const DraggableAutocomplete = (
       setInputText(null);
     };
 
-    const renderTags = () => {
+    const renderTags = (): JSX.Element => {
       return (
         <SortableList
           changeItemsOrder={onChangeSelectedValuesOrder}

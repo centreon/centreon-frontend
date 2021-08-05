@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { equals } from 'ramda';
 
 import { makeStyles, Theme } from '@material-ui/core';
+import { CreateCSSProperties } from '@material-ui/styles';
 
 import { Column } from '../../models';
 import { useStyles as useCellStyles } from '../../Cell/DataCell';
@@ -21,7 +22,11 @@ interface StylesProps {
 }
 
 const useStyles = makeStyles<Theme, StylesProps>(() => ({
-  item: ({ transform, transition, isSorting }: StylesProps) => {
+  item: ({
+    transform,
+    transition,
+    isSorting,
+  }: StylesProps): CreateCSSProperties<StylesProps> => {
     return {
       display: 'flex',
       opacity: isSorting ? 0.5 : 1,

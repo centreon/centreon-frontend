@@ -121,15 +121,15 @@ const ListingHeader = ({
 
   const [draggingColumnId, setDraggingColumnId] = React.useState<string>();
 
-  const startDrag = (event) => {
+  const startDrag = (event): void => {
     setDraggingColumnId(path<string>(['active', 'id'], event));
   };
 
-  const cancelDrag = () => {
+  const cancelDrag = (): void => {
     setDraggingColumnId(undefined);
   };
 
-  const endDrag = ({ over }) => {
+  const endDrag = ({ over }): void => {
     if (isNil(over)) {
       return;
     }
@@ -175,7 +175,7 @@ const ListingHeader = ({
                     className={classes.predefinedRowsMenu}
                     icon={<ArrowDropDownIcon />}
                   >
-                    {({ close }) => (
+                    {({ close }): JSX.Element => (
                       <PredefinedSelectionList
                         close={close}
                         predefinedRowsSelection={predefinedRowsSelection}

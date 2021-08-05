@@ -89,3 +89,7 @@ export type SearchQueryParameterValue =
   | RegexSearchQueryParameterValue
   | ListsSearchQueryParameterValue
   | undefined;
+
+export interface FieldInValues {
+  $in: Array<unknown>;
+}

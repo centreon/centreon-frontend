@@ -71,15 +71,15 @@ const SortableList = ({
     }
   };
 
-  const dragStart = (event) => {
+  const dragStart = (event): void => {
     setActiveId(path(['active', 'id'], event) as string);
   };
 
-  const dragCancel = () => setActiveId(null);
+  const dragCancel = (): void => setActiveId(null);
 
-  const dragEnd = () => setActiveId(null);
+  const dragEnd = (): void => setActiveId(null);
 
-  const getActiveElement = () => {
+  const getActiveElement = (): ({ index: number } & SelectEntry) | null => {
     if (isNil(activeId)) {
       return null;
     }

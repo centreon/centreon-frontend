@@ -81,7 +81,8 @@ const TextField = React.forwardRef(
   ): JSX.Element => {
     const classes = useStyles();
 
-    const isSizeEqualTo = (sizeToCompare: Size) => equals(size, sizeToCompare);
+    const isSizeEqualTo = (sizeToCompare: Size): boolean =>
+      equals(size, sizeToCompare);
 
     return (
       <MuiTextField

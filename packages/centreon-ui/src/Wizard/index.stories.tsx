@@ -201,7 +201,9 @@ export const threeStepsWithCustomConfirmDialogLabels = (): JSX.Element => (
   />
 );
 
-const FirstStep = ({ disableNextOnSendingRequests }: StepComponentProps) => {
+const FirstStep = ({
+  disableNextOnSendingRequests,
+}: StepComponentProps): JSX.Element => {
   React.useEffect(() => {
     disableNextOnSendingRequests([true, false, true]);
     setTimeout(() => {
@@ -254,7 +256,7 @@ const Form = (): JSX.Element => {
       }}
       steps={[
         {
-          Component: () => {
+          Component: (): JSX.Element => {
             const { handleChange, handleBlur, values, errors, touched } =
               useFormikContext<Values>();
 
@@ -272,7 +274,7 @@ const Form = (): JSX.Element => {
             );
           },
           stepName: 'First Step',
-          validate: (values: Values) => {
+          validate: (values: Values): FormikErrors<FormikValues> => {
             const errors: FormikErrors<FormikValues> = {};
             if (!values.email) {
               errors.email = 'Required';
@@ -285,7 +287,9 @@ const Form = (): JSX.Element => {
           },
         },
         {
-          Component: ({ disableNextOnSendingRequests }: StepComponentProps) => {
+          Component: ({
+            disableNextOnSendingRequests,
+          }: StepComponentProps): JSX.Element => {
             const {
               setFieldValue,
               values,
@@ -318,7 +322,7 @@ const Form = (): JSX.Element => {
             );
           },
           stepName: 'Second Step',
-          validate: (values: Values) => {
+          validate: (values: Values): FormikErrors<FormikValues> => {
             const errors: FormikErrors<FormikValues> = {};
 
             if (!values.password) {
@@ -331,7 +335,7 @@ const Form = (): JSX.Element => {
           },
         },
         {
-          Component: () => {
+          Component: (): JSX.Element => {
             const { values } = useFormikContext();
             return (
               <Typography>
@@ -342,7 +346,7 @@ const Form = (): JSX.Element => {
           stepName: 'Third Step',
         },
       ]}
-      onSubmit={(_, { setSubmitting }) => {
+      onSubmit={(_, { setSubmitting }): void => {
         setTimeout(() => {
           setSubmitting(false);
           setSubmitted(true);
