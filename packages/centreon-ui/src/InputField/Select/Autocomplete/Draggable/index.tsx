@@ -54,7 +54,7 @@ const DraggableAutocomplete = (
       setSelectedValues(newSelectedValues);
     };
 
-    const deleteValue = (id) => {
+    const deleteValue = (id): void => {
       setSelectedValues((values) => {
         const index = findIndex(propEq('id', id), values);
         return remove(index, 1, values);
