@@ -12,19 +12,22 @@ import {
   isEmpty,
   isNil,
   not,
+  findIndex,
+  propEq,
 } from 'ramda';
 
 import { Typography } from '@material-ui/core';
 
-import { SelectEntry } from '../..';
 import { ConnectedAutoCompleteFieldProps } from '../Connected';
 import { Props as SingleAutocompletefieldProps } from '..';
 
-import SortableList from './SortableList';
+import SortableList, { DraggableSelectEntry } from './SortableList';
 
 interface Props {
-  initialValues?: Array<SelectEntry>;
-  onSelectedValuesChange?: (values: Array<SelectEntry>) => Array<SelectEntry>;
+  initialValues?: Array<DraggableSelectEntry>;
+  onSelectedValuesChange?: (
+    values: Array<DraggableSelectEntry>,
+  ) => Array<DraggableSelectEntry>;
 }
 
 const DraggableAutocomplete = (
@@ -40,7 +43,7 @@ const DraggableAutocomplete = (
       | SingleAutocompletefieldProps
     )): JSX.Element => {
     const [selectedValues, setSelectedValues] = React.useState<
-      Array<SelectEntry>
+      Array<DraggableSelectEntry>
     >(initialValues || []);
     const [totalValues, setTotalValues] = React.useState<number>(
       length(initialValues || []),
@@ -51,8 +54,11 @@ const DraggableAutocomplete = (
       setSelectedValues(newSelectedValues);
     };
 
-    const deleteValue = (index): void => {
-      setSelectedValues((values) => remove(index, 1, values));
+    const deleteValue = (id) => {
+      setSelectedValues((values) => {
+        const index = findIndex(propEq('id', id), values);
+        return remove(index, 1, values);
+      });
     };
 
     const onChange = (_, newValue): void => {
@@ -67,7 +73,7 @@ const DraggableAutocomplete = (
           ...values,
           {
             createOption: lastValue,
-            id: totalValues,
+            id: `${lastValue}_${totalValues}`,
             name: lastValue,
           },
         ]);
@@ -75,11 +81,13 @@ const DraggableAutocomplete = (
         setInputText(null);
         return;
       }
-      const lastItem = last<SelectEntry>(newValue) as SelectEntry;
+      const lastItem = last<DraggableSelectEntry>(
+        newValue,
+      ) as DraggableSelectEntry;
       setSelectedValues((values) => [
         ...values,
         {
-          id: totalValues,
+          id: `${lastItem.name}_${totalValues}`,
           name: lastItem.name,
         },
       ]);
@@ -109,7 +117,7 @@ const DraggableAutocomplete = (
           ...values,
           {
             createOption: inputText,
-            id: totalValues,
+            id: `${inputText}_${totalValues}`,
             name: inputText,
           },
         ]);
