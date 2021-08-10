@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { equals, props } from 'ramda';
 
-import { makeStyles, Tooltip, Typography, Theme } from '@material-ui/core';
+import { makeStyles, Tooltip, Typography } from '@material-ui/core';
 
 import {
   Column,
