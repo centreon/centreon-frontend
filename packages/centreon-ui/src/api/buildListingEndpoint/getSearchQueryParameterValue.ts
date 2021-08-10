@@ -15,10 +15,10 @@ import {
   RegexSearchParameter,
   RegexSearchQueryParameterValue,
   SearchParameter,
-  ListsSearchQueryParameterValue,
   SearchQueryParameterValue,
   ConditionsSearchParameter,
-  FieldInValues,
+  GetListsSearchQueryParameterValueProps,
+  GetConditionsSearchQueryParameterValueState,
 } from './models';
 
 const getFoundFields = ({
@@ -62,10 +62,6 @@ const getRegexSearchQueryParameterValue = (
   };
 };
 
-interface GetListsSearchQueryParameterValueProps {
-  $and: Array<Record<string, FieldInValues>>;
-}
-
 const getListsSearchQueryParameterValue = (
   lists,
 ): GetListsSearchQueryParameterValueProps | undefined => {
@@ -79,10 +75,6 @@ const getListsSearchQueryParameterValue = (
     })),
   };
 };
-
-interface GetConditionsSearchQueryParameterValueState {
-  $and: Array<Record<string, unknown>>;
-}
 
 const getConditionsSearchQueryParameterValue = (
   conditions: Array<ConditionsSearchParameter> | undefined,
@@ -131,7 +123,9 @@ const getSearchQueryParameterValue = (
     getConditionsSearchQueryParameterValue(conditions);
 
   const result = reject<
-    RegexSearchQueryParameterValue | ListsSearchQueryParameterValue
+    | RegexSearchQueryParameterValue
+    | GetListsSearchQueryParameterValueProps
+    | GetConditionsSearchQueryParameterValueState
   >(isNil, [regexSearchParam, listSearchesParam, conditionSearchesParam]);
 
   if (result.length === 1) {

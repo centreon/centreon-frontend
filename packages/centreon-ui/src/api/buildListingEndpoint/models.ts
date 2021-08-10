@@ -80,14 +80,25 @@ export type RegexSearchQueryParameterValue =
   | AndSearchQueryParameterValue
   | undefined;
 
+export interface GetListsSearchQueryParameterValueProps {
+  $and: Array<Record<string, FieldInValues>>;
+}
+
+export interface GetConditionsSearchQueryParameterValueState {
+  $and: Array<Record<string, unknown>>;
+}
+
 export type SearchQueryParameterValue =
   | {
       $and: Array<
-        RegexSearchQueryParameterValue | ListsSearchQueryParameterValue
+        | RegexSearchQueryParameterValue
+        | GetListsSearchQueryParameterValueProps
+        | GetConditionsSearchQueryParameterValueState
       >;
     }
   | RegexSearchQueryParameterValue
-  | ListsSearchQueryParameterValue
+  | GetListsSearchQueryParameterValueProps
+  | GetConditionsSearchQueryParameterValueState
   | undefined;
 
 export interface FieldInValues {
