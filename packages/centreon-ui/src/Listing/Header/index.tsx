@@ -26,9 +26,9 @@ const height = 28;
 
 const HeaderCell = withStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: 'transparent',
     height,
-    padding: theme.spacing(0, 0, 0, 1.5),
+    padding: theme.spacing(0),
   },
 }))(TableCell);
 
@@ -79,6 +79,7 @@ interface ContentProps extends Pick<Props, 'sortField' | 'sortOrder'> {
   attributes;
   id: string;
   isDragging: boolean;
+  isInDragOverlay?: boolean;
   itemRef: React.RefObject<HTMLDivElement>;
   listeners: DraggableSyntheticListeners;
   style;
@@ -110,6 +111,7 @@ const ListingHeader = ({
   };
 
   const Content = ({
+    isInDragOverlay,
     listeners,
     attributes,
     style,
@@ -122,6 +124,7 @@ const ListingHeader = ({
         column={getColumnById(id)}
         columnConfiguration={columnConfiguration}
         isDragging={isDragging}
+        isInDragOverlay={isInDragOverlay}
         itemRef={itemRef}
         sortField={sortField}
         sortOrder={sortOrder}
