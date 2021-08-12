@@ -26,7 +26,6 @@ const height = 28;
 
 const HeaderCell = withStyles((theme) => ({
   root: {
-    backgroundColor: 'transparent',
     height,
     padding: theme.spacing(0),
   },

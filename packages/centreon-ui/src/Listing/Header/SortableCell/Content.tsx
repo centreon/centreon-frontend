@@ -91,6 +91,7 @@ const SortableHeaderCellContent = ({
       className={clsx([cellClasses.cell, classes.item])}
       component="div"
       padding={column.compact ? 'none' : 'normal'}
+      style={{ background: isDragging ? 'transparent' : 'white' }}
     >
       <div className={classes.content} ref={itemRef} style={style}>
         {columnConfiguration?.sortable && (
