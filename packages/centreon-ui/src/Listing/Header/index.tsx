@@ -67,6 +67,7 @@ type Props = Pick<
   | 'columnConfiguration'
   | 'totalRows'
 > & {
+  memoProps: Array<unknown>;
   onSelectAllClick: (event) => void;
   onSelectRowsWithCondition: (condition) => void;
   predefinedRowsSelection: Array<PredefinedRowSelection>;
@@ -97,6 +98,7 @@ const ListingHeader = ({
   checkable,
   predefinedRowsSelection,
   onSelectRowsWithCondition,
+  memoProps,
 }: Props): JSX.Element => {
   const classes = useStyles();
 
@@ -173,6 +175,7 @@ const ListingHeader = ({
             collisionDetection={rectIntersection}
             itemProps={['id']}
             items={visibleColumns}
+            memoProps={memoProps}
             sortingStrategy={rectSortingStrategy}
             onDragOver={(newItems): void => onSelectColumns?.(newItems)}
           />
@@ -191,7 +194,7 @@ const columnMemoProps = [
   'type',
 ];
 
-const MemoizedListingHeader = React.memo<Props & { memoProps: Array<unknown> }>(
+const MemoizedListingHeader = React.memo<Props>(
   ListingHeader,
   (prevProps, nextProps) =>
     equals(prevProps.sortOrder, nextProps.sortOrder) &&
