@@ -70,7 +70,7 @@ interface Props<T> {
   getDisableItemCondition?: (item: T) => boolean;
   itemProps: Array<string>;
   items: Array<T>;
-  memoProps: Array<unknown>;
+  memoProps?: Array<unknown>;
   onDragEnd?: (items: Array<string>) => void;
   onDragOver?: (items: Array<string>) => void;
   sortingStrategy: SortingStrategy;
@@ -86,7 +86,7 @@ const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
   collisionDetection,
   sortingStrategy,
   itemProps,
-  memoProps,
+  memoProps = [],
   additionalProps,
   RootComponent = DefaultRootComponent,
   Content,
