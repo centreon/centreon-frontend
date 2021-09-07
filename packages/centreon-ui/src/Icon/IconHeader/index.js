@@ -9,16 +9,15 @@ import clsx from 'clsx';
 
 import styles from './icon-header.scss';
 
-const IconHeader = ({ iconType, iconName, style, onClick, children }) => {
+const IconHeader = ({ Icon, iconName, style, onClick, children }) => {
   return (
     <span className={clsx(styles['icons-wrap'])} style={style}>
-      <span
-        className={clsx(styles.iconmoon, {
-          [styles[`icon-${iconType}`]]: true,
-        })}
-        onClick={onClick}
-      />
-      <span className={clsx(styles.icons__name)}>{iconName}</span>
+      <Icon style={{ color: '#FFFFFF', cursor: 'pointer' }} onClick={onClick}></Icon>
+      <span className={clsx(styles.icons__name)}>
+      <Typography variant="caption">
+        {iconName}
+      </Typography>
+      </span>
       {children}
     </span>
   );
