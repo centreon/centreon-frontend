@@ -7,7 +7,6 @@
     padding: 0px 5px;
     position: relative;
     color: $white-color;
-    font-family: $primary-font-bold;
     overflow: hidden;
     text-align: center;
     min-width: 32px;
@@ -65,14 +64,12 @@
   .number {
     &-wrap {
       font-size: 0.875rem;
-      font-family: $primary-font-bold;
       position: relative;
       text-decoration: none;
     }
     &-count {
       line-height: 28px;
       color: $white-color;
-      font-family: $primary-font-bold !important;
     }
   }
 }
