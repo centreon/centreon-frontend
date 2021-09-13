@@ -25,7 +25,7 @@ const IconHeader = ({ Icon, iconName, style, onClick, children, pending }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         classes={{ badge: classes.badge }}
         invisible={not(pending)}
-        overlap="circle"
+        overlap="circular"
         variant="dot"
       >
         <Icon
