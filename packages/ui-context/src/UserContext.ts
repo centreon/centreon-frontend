@@ -8,6 +8,7 @@ const defaultUser = {
   locale: navigator.language,
   name: '',
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  useDeprecatedPages: false,
 };
 
 const defaultAcl = {
