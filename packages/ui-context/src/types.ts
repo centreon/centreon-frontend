@@ -6,7 +6,7 @@ export interface User {
   locale: string;
   name: string;
   timezone: string;
-  useDeprecatedPages: boolean;
+  use_deprecated_pages: boolean;
 }
 
 export interface CloudServices {
