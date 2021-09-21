@@ -9,31 +9,31 @@ import IconHeader from '.';
 
 export default { title: 'Icon/Header' };
 
-const alertOnClick = (name) => {
+const alertOnClick = (name): void => {
   alert(`${name} clicked`);
 };
 
-const HeaderBackground = ({ children, color = undefined }) => (
+const HeaderBackground = ({ children, color = undefined }): JSX.Element => (
   <div style={{ backgroundColor: color || '#232f39' }}>{children}</div>
 );
 
-export const normal = () => (
+export const normal = (): JSX.Element => (
   <HeaderBackground>
     <IconHeader
       Icon={DnsIcon}
       iconName="hosts"
-      onClick={() => alertOnClick('Home')}
+      onClick={(): void => alertOnClick('Home')}
     />
   </HeaderBackground>
 );
 
-export const withPending = () => (
+export const withPending = (): JSX.Element => (
   <HeaderBackground>
     <IconHeader
       pending
       Icon={DnsIcon}
       iconName="hosts"
-      onClick={() => alertOnClick('Home')}
+      onClick={(): void => alertOnClick('Home')}
     />
   </HeaderBackground>
 );

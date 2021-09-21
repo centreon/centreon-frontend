@@ -11,7 +11,11 @@ import SubmenuHeader from '.';
 
 export default { title: 'SubemnuHeader' };
 
-const Submenu = ({ iconType }): JSX.Element => {
+interface Props {
+  iconType: string;
+}
+
+const Submenu = ({ iconType }: Props): JSX.Element => {
   const [active, setActive] = React.useState(false);
 
   return (
@@ -21,7 +25,7 @@ const Submenu = ({ iconType }): JSX.Element => {
           pending
           Icon={HostIcon}
           iconName="Hosts"
-          onClick={() => setActive(!active)}
+          onClick={(): void => setActive(!active)}
         />
         <IconNumber
           iconColor="red"
@@ -38,7 +42,11 @@ const Submenu = ({ iconType }): JSX.Element => {
           iconNumber={<span>3</span>}
           iconType={iconType}
         />
-        <IconToggleSubmenu iconType="arrow" rotate={false} onClick={() => setActive(!active)} />
+        <IconToggleSubmenu
+          iconType="arrow"
+          rotate={false}
+          onClick={(): void => setActive(!active)}
+        />
         <div
           style={{
             backgroundColor: '#232f39',
@@ -84,4 +92,6 @@ const Submenu = ({ iconType }): JSX.Element => {
 
 export const hostSubmenu = (): JSX.Element => <Submenu iconType="bordered" />;
 
-export const hostSubmenuWithColor = (): JSX.Element => <Submenu iconType="colored" />;
+export const hostSubmenuWithColor = (): JSX.Element => (
+  <Submenu iconType="colored" />
+);

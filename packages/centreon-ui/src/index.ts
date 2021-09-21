@@ -56,6 +56,7 @@ export { default as DuplicateDialog } from './Dialog/Duplicate';
 export { default as withSnackbar } from './Snackbar/withSnackbar';
 export { default as useSnackbar } from './Snackbar/useSnackbar';
 export { default as Severity } from './Snackbar/Severity';
+export { default as SaveButton } from './Button/Save';
 
 export { default as IconHeader } from './Icon/IconHeader';
 export { default as IconNumber } from './Icon/IconNumber';
