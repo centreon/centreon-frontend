@@ -1,15 +1,17 @@
 import * as React from 'react';
 
-import { map, find, propEq } from 'ramda';
+import { map, find, propEq, not } from 'ramda';
 import { rectIntersection, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 import clsx from 'clsx';
 
-import { Chip, lighten, makeStyles } from '@material-ui/core';
+import { Chip, lighten, makeStyles, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { SelectEntry } from '../..';
 import SortableItems from '../../../../SortableItems';
+
+import { ItemHoverProps } from '.';
 
 export interface DraggableSelectEntry extends SelectEntry {
   id: string;
@@ -18,6 +20,8 @@ export interface DraggableSelectEntry extends SelectEntry {
 interface Props {
   changeItemsOrder: (newItems: Array<DraggableSelectEntry>) => void;
   deleteValue: (id: string | number) => void;
+  itemClick?: (item: DraggableSelectEntry) => void;
+  itemHover?: (props: ItemHoverProps | null) => void;
   items: Array<DraggableSelectEntry>;
 }
 
@@ -44,6 +48,8 @@ const SortableList = ({
   items,
   deleteValue,
   changeItemsOrder,
+  itemClick,
+  itemHover,
 }: Props): JSX.Element => {
   const classes = useStyles();
 
@@ -64,6 +70,25 @@ const SortableList = ({
     style,
     itemRef,
   }: ContentProps): JSX.Element => {
+    const labelItemRef = React.useRef<HTMLElement | null>(null);
+
+    const mouseUp = (event: React.MouseEvent): void => {
+      if (not(event.shiftKey)) {
+        return;
+      }
+      itemClick?.({ createOption, id, name });
+    };
+
+    const mouseLeave = (): void => itemHover?.(null);
+
+    const mouseOver = (): void =>
+      itemHover?.({
+        anchorElement: labelItemRef.current,
+        item: { createOption, id, name },
+      });
+
+    const deleteItem = (): void => deleteValue(id);
+
     return (
       <div ref={itemRef} style={style}>
         <Chip
@@ -71,12 +96,20 @@ const SortableList = ({
           className={clsx(classes.tag, createOption && classes.createdTag)}
           deleteIcon={<CloseIcon />}
           label={
-            <p {...attributes} {...listeners}>
+            <Typography
+              ref={labelItemRef}
+              variant="body2"
+              onMouseUp={mouseUp}
+              {...attributes}
+              {...listeners}
+            >
               {name}
-            </p>
+            </Typography>
           }
           size="small"
-          onDelete={(): void => deleteValue(id)}
+          onDelete={deleteItem}
+          onMouseLeave={mouseLeave}
+          onMouseOver={mouseOver}
         />
       </div>
     );

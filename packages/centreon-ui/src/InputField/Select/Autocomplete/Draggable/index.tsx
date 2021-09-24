@@ -23,10 +23,18 @@ import { Props as SingleAutocompletefieldProps } from '..';
 
 import SortableList, { DraggableSelectEntry } from './SortableList';
 
+export interface ItemHoverProps {
+  anchorElement: HTMLElement | null;
+  item: DraggableSelectEntry;
+}
+
 interface Props {
   initialValues?: Array<DraggableSelectEntry>;
+  itemClick?: (item: DraggableSelectEntry) => void;
+  itemHover?: (props: ItemHoverProps | null) => void;
   onSelectedValuesChange?: (
     values: Array<DraggableSelectEntry>,
+    valueAddedOrDeleted?: DraggableSelectEntry,
   ) => Array<DraggableSelectEntry>;
 }
 
@@ -36,6 +44,8 @@ const DraggableAutocomplete = (
   const InnerDraggableAutocompleteField = ({
     onSelectedValuesChange,
     initialValues,
+    itemClick,
+    itemHover,
     ...props
   }: Props &
     (
@@ -52,33 +62,42 @@ const DraggableAutocomplete = (
 
     const onChangeSelectedValuesOrder = (newSelectedValues): void => {
       setSelectedValues(newSelectedValues);
+      onSelectedValuesChange?.(newSelectedValues);
     };
 
     const deleteValue = (id): void => {
       setSelectedValues((values) => {
         const index = findIndex(propEq('id', id), values);
 
-        return remove(index, 1, values);
+        const removedItem = values[index];
+        const newSelectedValues = remove(index, 1, values);
+
+        onSelectedValuesChange?.(newSelectedValues, removedItem);
+
+        return newSelectedValues;
       });
     };
 
     const onChange = (_, newValue): void => {
       if (isEmpty(newValue)) {
-        setSelectedValues(newValue);
         setInputText(null);
 
         return;
       }
       const lastValue = last(newValue);
       if (pipe(type, equals('String'))(lastValue)) {
-        setSelectedValues((values) => [
-          ...values,
-          {
-            createOption: lastValue,
-            id: `${lastValue}_${totalValues}`,
-            name: lastValue,
-          },
-        ]);
+        const lastDraggableItem = {
+          createOption: lastValue,
+          id: `${lastValue}_${totalValues}`,
+          name: lastValue,
+        };
+
+        setSelectedValues((values) => {
+          const newSelectedValues = [...values, lastDraggableItem];
+          onSelectedValuesChange?.(newSelectedValues, lastDraggableItem);
+
+          return newSelectedValues;
+        });
         setTotalValues(inc(totalValues));
         setInputText(null);
 
@@ -87,13 +106,18 @@ const DraggableAutocomplete = (
       const lastItem = last<DraggableSelectEntry>(
         newValue,
       ) as DraggableSelectEntry;
-      setSelectedValues((values) => [
-        ...values,
-        {
-          id: `${lastItem.name}_${totalValues}`,
-          name: lastItem.name,
-        },
-      ]);
+
+      const lastDraggableItem = {
+        id: `${lastItem.name}_${totalValues}`,
+        name: lastItem.name,
+      };
+
+      setSelectedValues((values) => {
+        const newSelectedValues = [...values, lastDraggableItem];
+        onSelectedValuesChange?.(newSelectedValues, lastDraggableItem);
+
+        return newSelectedValues;
+      });
       setTotalValues(inc(totalValues));
       setInputText(null);
     };
@@ -103,6 +127,8 @@ const DraggableAutocomplete = (
         <SortableList
           changeItemsOrder={onChangeSelectedValuesOrder}
           deleteValue={deleteValue}
+          itemClick={itemClick}
+          itemHover={itemHover}
           items={selectedValues}
         />
       );
@@ -116,14 +142,18 @@ const DraggableAutocomplete = (
 
     const blurInput = (): void => {
       if (inputText) {
-        setSelectedValues((values) => [
-          ...values,
-          {
-            createOption: inputText,
-            id: `${inputText}_${totalValues}`,
-            name: inputText,
-          },
-        ]);
+        const lastItem = {
+          createOption: inputText,
+          id: `${inputText}_${totalValues}`,
+          name: inputText,
+        };
+
+        setSelectedValues((values) => {
+          const newSelectedValues = [...values, lastItem];
+          onSelectedValuesChange?.(newSelectedValues, lastItem);
+
+          return newSelectedValues;
+        });
         setTotalValues(inc(totalValues));
       }
       setInputText(null);
@@ -132,10 +162,6 @@ const DraggableAutocomplete = (
     const renderOption = (option): JSX.Element => (
       <Typography variant="body2">{option.name}</Typography>
     );
-
-    React.useEffect(() => {
-      onSelectedValuesChange?.(selectedValues);
-    }, [selectedValues]);
 
     return (
       <MultiAutocomplete
