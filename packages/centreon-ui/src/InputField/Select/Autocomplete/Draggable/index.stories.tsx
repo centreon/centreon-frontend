@@ -2,6 +2,9 @@ import * as React from 'react';
 
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { isNil, not } from 'ramda';
+
+import { Tooltip, Typography } from '@material-ui/core';
 
 import { SelectEntry } from '../..';
 import { buildListingEndpoint } from '../../../..';
@@ -9,6 +12,9 @@ import { Listing } from '../../../../api/models';
 
 import MultiDraggableConnectedAutocompleteField from './MultiConnected';
 import MultiDraggableAutocompleteField from './Multi';
+import { DraggableSelectEntry } from './SortableList';
+
+import { ItemHoverProps } from '.';
 
 export default { title: 'InputField/Autocomplete/Draggable' };
 
@@ -123,4 +129,39 @@ const MultiDraggableInitialValues = (): JSX.Element => (
 
 export const draggableWithInitialValues = (): JSX.Element => (
   <MultiDraggableInitialValues />
+);
+
+const MultiDraggableClickAndHoverItem = (): JSX.Element => {
+  const [clickedItem, setClickedItem] =
+    React.useState<DraggableSelectEntry | null>(null);
+  const [hoveredItem, setHoveredItem] = React.useState<ItemHoverProps | null>(
+    null,
+  );
+
+  return (
+    <div>
+      <Tooltip
+        PopperProps={{
+          anchorEl: hoveredItem?.anchorElement,
+        }}
+        open={not(isNil(hoveredItem?.item.name))}
+        title={hoveredItem?.item.name || ''}
+      >
+        <MultiDraggableAutocompleteField
+          itemClick={setClickedItem}
+          itemHover={setHoveredItem}
+          label="Draggable Autocomplete"
+          options={options}
+          placeholder="Type here..."
+        />
+      </Tooltip>
+      {not(isNil(clickedItem)) && (
+        <Typography>You clicked on {clickedItem?.name}</Typography>
+      )}
+    </div>
+  );
+};
+
+export const draggableWithClickAndHoverListenersOnItem = (): JSX.Element => (
+  <MultiDraggableClickAndHoverItem />
 );
