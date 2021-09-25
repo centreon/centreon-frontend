@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { map, find, propEq, not } from 'ramda';
+import { map, find, propEq, not, findIndex } from 'ramda';
 import { rectIntersection, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 import clsx from 'clsx';
@@ -78,8 +78,11 @@ const SortableList = ({
       if (not(event.shiftKey)) {
         return;
       }
+
+      const itemIndex = findIndex(propEq('id', id), items);
+
       itemHover?.(null);
-      itemClick?.({ index, item: { createOption, id, name } });
+      itemClick?.({ index: itemIndex, item: { createOption, id, name } });
     };
 
     const mouseLeave = (): void => itemHover?.(null);
