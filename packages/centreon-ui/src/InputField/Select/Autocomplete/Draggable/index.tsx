@@ -37,6 +37,7 @@ interface Props {
     values: Array<DraggableSelectEntry>,
     valueAddedOrDeleted?: DraggableSelectEntry,
   ) => Array<DraggableSelectEntry>;
+  updatedValues?: Array<DraggableSelectEntry>;
 }
 
 const DraggableAutocomplete = (
@@ -163,6 +164,20 @@ const DraggableAutocomplete = (
     const renderOption = (option): JSX.Element => (
       <Typography variant="body2">{option.name}</Typography>
     );
+
+    React.useEffect(() => {
+      if (isNil(initialValues)) {
+        return;
+      }
+
+      const areValuesEqual = equals(initialValues, selectedValues);
+
+      if (areValuesEqual) {
+        return;
+      }
+
+      setSelectedValues(initialValues);
+    }, [initialValues]);
 
     return (
       <MultiAutocomplete
