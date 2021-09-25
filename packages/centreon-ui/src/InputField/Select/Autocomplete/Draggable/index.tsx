@@ -14,6 +14,7 @@ import {
   not,
   findIndex,
   propEq,
+  pluck,
 } from 'ramda';
 
 import { Typography } from '@material-ui/core';
@@ -37,7 +38,6 @@ interface Props {
     values: Array<DraggableSelectEntry>,
     valueAddedOrDeleted?: DraggableSelectEntry,
   ) => Array<DraggableSelectEntry>;
-  updatedValues?: Array<DraggableSelectEntry>;
 }
 
 const DraggableAutocomplete = (
@@ -170,7 +170,10 @@ const DraggableAutocomplete = (
         return;
       }
 
-      const areValuesEqual = equals(initialValues, selectedValues);
+      const areValuesEqual = equals(
+        pluck('name', initialValues),
+        pluck('name', selectedValues),
+      );
 
       if (areValuesEqual) {
         return;
