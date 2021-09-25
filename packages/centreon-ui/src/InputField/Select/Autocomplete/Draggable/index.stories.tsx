@@ -14,7 +14,7 @@ import MultiDraggableConnectedAutocompleteField from './MultiConnected';
 import MultiDraggableAutocompleteField from './Multi';
 import { DraggableSelectEntry } from './SortableList';
 
-import { ItemHoverProps } from '.';
+import { ItemActionProps } from '.';
 
 export default { title: 'InputField/Autocomplete/Draggable' };
 
@@ -132,9 +132,10 @@ export const draggableWithInitialValues = (): JSX.Element => (
 );
 
 const MultiDraggableClickAndHoverItem = (): JSX.Element => {
-  const [clickedItem, setClickedItem] =
-    React.useState<DraggableSelectEntry | null>(null);
-  const [hoveredItem, setHoveredItem] = React.useState<ItemHoverProps | null>(
+  const [clickedItem, setClickedItem] = React.useState<ItemActionProps | null>(
+    null,
+  );
+  const [hoveredItem, setHoveredItem] = React.useState<ItemActionProps | null>(
     null,
   );
 
@@ -144,7 +145,7 @@ const MultiDraggableClickAndHoverItem = (): JSX.Element => {
         PopperProps={{
           anchorEl: hoveredItem?.anchorElement,
         }}
-        open={not(isNil(hoveredItem?.item.name))}
+        open={not(isNil(hoveredItem?.anchorElement))}
         title={hoveredItem?.item.name || ''}
       >
         <MultiDraggableAutocompleteField
@@ -156,7 +157,7 @@ const MultiDraggableClickAndHoverItem = (): JSX.Element => {
         />
       </Tooltip>
       {not(isNil(clickedItem)) && (
-        <Typography>You clicked on {clickedItem?.name}</Typography>
+        <Typography>You clicked on {clickedItem?.item.name}</Typography>
       )}
     </div>
   );

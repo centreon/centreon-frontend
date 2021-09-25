@@ -23,15 +23,16 @@ import { Props as SingleAutocompletefieldProps } from '..';
 
 import SortableList, { DraggableSelectEntry } from './SortableList';
 
-export interface ItemHoverProps {
-  anchorElement: HTMLElement | null;
+export interface ItemActionProps {
+  anchorElement?: HTMLElement | null;
+  index: number;
   item: DraggableSelectEntry;
 }
 
 interface Props {
   initialValues?: Array<DraggableSelectEntry>;
-  itemClick?: (item: DraggableSelectEntry) => void;
-  itemHover?: (props: ItemHoverProps | null) => void;
+  itemClick?: (item: ItemActionProps) => void;
+  itemHover?: (item: ItemActionProps | null) => void;
   onSelectedValuesChange?: (
     values: Array<DraggableSelectEntry>,
     valueAddedOrDeleted?: DraggableSelectEntry,

@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { SelectEntry } from '../..';
 import SortableItems from '../../../../SortableItems';
 
-import { ItemHoverProps } from '.';
+import { ItemActionProps } from '.';
 
 export interface DraggableSelectEntry extends SelectEntry {
   id: string;
@@ -20,8 +20,8 @@ export interface DraggableSelectEntry extends SelectEntry {
 interface Props {
   changeItemsOrder: (newItems: Array<DraggableSelectEntry>) => void;
   deleteValue: (id: string | number) => void;
-  itemClick?: (item: DraggableSelectEntry) => void;
-  itemHover?: (props: ItemHoverProps | null) => void;
+  itemClick?: (item: ItemActionProps) => void;
+  itemHover?: (item: ItemActionProps | null) => void;
   items: Array<DraggableSelectEntry>;
 }
 
@@ -29,6 +29,7 @@ interface ContentProps
   extends Pick<DraggableSelectEntry, 'name' | 'createOption' | 'id'> {
   attributes;
   id: string;
+  index: number;
   isDragging: boolean;
   itemRef: React.RefObject<HTMLDivElement>;
   listeners: DraggableSyntheticListeners;
@@ -69,6 +70,7 @@ const SortableList = ({
     id,
     style,
     itemRef,
+    index,
   }: ContentProps): JSX.Element => {
     const labelItemRef = React.useRef<HTMLElement | null>(null);
 
@@ -76,14 +78,16 @@ const SortableList = ({
       if (not(event.shiftKey)) {
         return;
       }
-      itemClick?.({ createOption, id, name });
+      itemHover?.(null);
+      itemClick?.({ index, item: { createOption, id, name } });
     };
 
     const mouseLeave = (): void => itemHover?.(null);
 
-    const mouseOver = (): void =>
+    const mouseEnter = (): void =>
       itemHover?.({
         anchorElement: labelItemRef.current,
+        index,
         item: { createOption, id, name },
       });
 
@@ -108,8 +112,8 @@ const SortableList = ({
           }
           size="small"
           onDelete={deleteItem}
+          onMouseEnter={mouseEnter}
           onMouseLeave={mouseLeave}
-          onMouseOver={mouseOver}
         />
       </div>
     );
