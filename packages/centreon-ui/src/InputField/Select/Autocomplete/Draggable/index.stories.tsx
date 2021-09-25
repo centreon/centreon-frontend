@@ -12,7 +12,6 @@ import { Listing } from '../../../../api/models';
 
 import MultiDraggableConnectedAutocompleteField from './MultiConnected';
 import MultiDraggableAutocompleteField from './Multi';
-import { DraggableSelectEntry } from './SortableList';
 
 import { ItemActionProps } from '.';
 
