@@ -66,6 +66,7 @@ const DraggableAutocomplete = (
     };
 
     const deleteValue = (id): void => {
+      itemHover?.(null);
       setSelectedValues((values) => {
         const index = findIndex(propEq('id', id), values);
 
