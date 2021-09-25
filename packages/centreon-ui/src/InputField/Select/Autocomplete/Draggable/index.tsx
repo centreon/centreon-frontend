@@ -69,10 +69,9 @@ const DraggableAutocomplete = (
       setSelectedValues((values) => {
         const index = findIndex(propEq('id', id), values);
 
-        const removedItem = values[index];
         const newSelectedValues = remove(index, 1, values);
 
-        onSelectedValuesChange?.(newSelectedValues, removedItem);
+        onSelectedValuesChange?.(newSelectedValues);
 
         return newSelectedValues;
       });
