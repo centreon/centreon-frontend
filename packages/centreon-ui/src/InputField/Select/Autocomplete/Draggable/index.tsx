@@ -83,6 +83,7 @@ const DraggableAutocomplete = (
     const onChange = (_, newValue): void => {
       if (isEmpty(newValue)) {
         setInputText(null);
+        onSelectedValuesChange?.([]);
 
         return;
       }
