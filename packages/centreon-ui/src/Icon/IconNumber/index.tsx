@@ -2,20 +2,40 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, Theme  } from '@material-ui/core/';
+import { makeStyles, Theme } from '@material-ui/core/';
 
 import { getStatusColors, Avatar } from '@centreon/ui';
 
 import { SeverityCode } from '../../StatusChip';
 
 const useStyles = makeStyles<Theme, { severityCode?: number }>((theme) => {
-  const getStatusIconColor = (severityCode :string): JSX.Element =>
+  const getStatusIconColor = (severityCode: string): JSX.Element =>
     getStatusColors({
       severityCode,
       theme,
     }).backgroundColor;
 
   return {
+    bordered: ({ severityCode }): CreateCSSProperties => ({
+      ...(severityCode && {
+        border: getStatusIconColor(severityCode),
+      }),
+      colored: ({ severityCode }): CreateCSSProperties => ({
+        ...(severityCode && {
+          background: getStatusIconColor(severityCode),
+          border: '2px solid transparent',
+        }),
+      }),
+      numberCount: {
+        color: theme.palette.background.paper,
+        lineHeight: '28px',
+      },
+      numberWrap: {
+        fontSize: '0.875rem',
+        position: 'relative',
+        textDecoration: 'none',
+      },
+    }),
     icon: {
       borderRadius: '50px',
       boxSizing: 'border-box',
@@ -32,27 +52,8 @@ const useStyles = makeStyles<Theme, { severityCode?: number }>((theme) => {
       textAlign: 'center',
       textDecoration: 'none',
     },
-    bordered: ({ severityCode }): CreateCSSProperties => ({
-      ...(severityCode && {
-        border: getStatusIconColor(severityCode),
-      }),
-    colored: ({ severityCode }): CreateCSSProperties => ({
-      ...(severityCode && {
-        background: getStatusIconColor(severityCode),
-        border: '2px solid transparent',
-      }),
-    }),
-    numberCount: {
-      color: theme.palette.background.paper,
-      lineHeight: '28px',
-    },
-    numberWrap: {
-      fontSize: '0.875rem',
-      position: 'relative',
-      textDecoration: 'none',
-    },
-  
-})};
+  };
+});
 
 interface Props {
   iconNumber: number | JSX.Element;
@@ -70,8 +71,7 @@ const IconNumber = ({
   return (
     <span className={clsx(classes.icon, classes[iconType], classes.numberWrap)}>
       <span className={classes.numberCount}>
-        <Avatar colored={{  bgcolor: severityCode  }}>{iconNumber},
-        </Avatar>
+        <Avatar colored={{ bgcolor: severityCode }}>{iconNumber},</Avatar>
       </span>
     </span>
   );
