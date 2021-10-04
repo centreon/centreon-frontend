@@ -9,11 +9,17 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['prefer-arrow-functions', 'sort-keys-fix'],
+  plugins: ['prefer-arrow-functions', 'sort-keys-fix', 'hooks'],
   root: true,
 
   rules: {
     camelcase: ['error', { ignoreDestructuring: true, properties: 'never' }],
+    'hooks/sort': [
+      2,
+      {
+        groups: ['useState', 'useContext', 'useEffect', 'useCallback'],
+      },
+    ],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -21,7 +27,6 @@ module.exports = {
         js: 'never',
       },
     ],
-
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/prefer-default-export': 'off',
     'newline-before-return': ['error'],
