@@ -17,7 +17,15 @@ module.exports = {
     'hooks/sort': [
       2,
       {
-        groups: ['useState', 'useContext', 'useEffect', 'useCallback'],
+        groups: [
+          'useStyles',
+          'useState',
+          'useTranslations',
+          'useUserContext',
+          'useEffect',
+          'useCallback',
+          'useRequest',
+        ],
       },
     ],
     'import/extensions': [
