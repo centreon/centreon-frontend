@@ -2,54 +2,44 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, Theme } from '@material-ui/core/';
+import { makeStyles, Theme, Avatar } from '@material-ui/core';
+import { CreateCSSProperties } from '@material-ui/styles';
 
-import { getStatusColors, Avatar } from '@centreon/ui';
+import { getStatusColors } from '@centreon/ui';
 
 import { SeverityCode } from '../../StatusChip';
 
-const useStyles = makeStyles<Theme, { severityCode?: number }>((theme) => {
-  const getStatusIconColor = (severityCode: string): JSX.Element =>
+interface StyleProps {
+  severityCode?: SeverityCode;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => {
+  const getStatusIconColor = (severityCode: SeverityCode): string =>
     getStatusColors({
       severityCode,
       theme,
     }).backgroundColor;
 
   return {
-    bordered: ({ severityCode }): CreateCSSProperties => ({
+    bordered: ({ severityCode }): CreateCSSProperties<StyleProps> => ({
       ...(severityCode && {
         border: getStatusIconColor(severityCode),
       }),
-      colored: ({ severityCode }): CreateCSSProperties => ({
-        ...(severityCode && {
-          background: getStatusIconColor(severityCode),
-          border: '2px solid transparent',
-        }),
-      }),
-      numberCount: {
-        color: theme.palette.background.paper,
-        lineHeight: '28px',
-      },
-      numberWrap: {
-        fontSize: '0.875rem',
-        position: 'relative',
-        textDecoration: 'none',
-      },
     }),
-    icon: {
-      borderRadius: '50px',
-      boxSizing: 'border-box',
+    colored: ({ severityCode }): CreateCSSProperties<StyleProps> => ({
+      ...(severityCode && {
+        background: getStatusIconColor(severityCode),
+        border: '2px solid transparent',
+      }),
+    }),
+
+    numberCount: {
       color: theme.palette.background.paper,
-      cursor: 'pointer',
-      display: 'inline-block',
-      fontSize: '.875rem',
-      height: '32px',
-      margin: '0 6px',
-      minWidth: '32px',
-      overflow: 'hidden',
-      padding: '0px 5px',
+      lineHeight: '28px',
+    },
+    numberWrap: {
+      fontSize: '0.875rem',
       position: 'relative',
-      textAlign: 'center',
       textDecoration: 'none',
     },
   };
@@ -69,9 +59,9 @@ const IconNumber = ({
   const classes = useStyles({ severityCode });
 
   return (
-    <span className={clsx(classes.icon, classes[iconType], classes.numberWrap)}>
+    <span className={clsx(classes[iconType], classes.numberWrap)}>
       <span className={classes.numberCount}>
-        <Avatar colored={{ bgcolor: severityCode }}>{iconNumber},</Avatar>
+        <Avatar className={classes.colored}>{iconNumber}</Avatar>
       </span>
     </span>
   );

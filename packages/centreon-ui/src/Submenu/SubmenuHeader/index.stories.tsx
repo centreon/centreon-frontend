@@ -3,6 +3,7 @@ import React from 'react';
 import HostIcon from '@material-ui/icons/Dns';
 
 import { IconHeader, IconNumber, IconToggleSubmenu } from '../..';
+import { SeverityCode } from '../../StatusChip';
 
 import SubmenuItems from './SubmenuItems';
 import SubmenuItem from './SubmenuItem';
@@ -28,19 +29,19 @@ const Submenu = ({ iconType }: Props): JSX.Element => {
           onClick={(): void => setActive(!active)}
         />
         <IconNumber
-          iconColor="red"
           iconNumber={<span>1</span>}
           iconType={iconType}
+          severityCode={SeverityCode.High}
         />
         <IconNumber
-          iconColor="gray-dark"
-          iconNumber={<span>2</span>}
+          iconNumber={<span>0</span>}
           iconType={iconType}
+          severityCode={SeverityCode.None}
         />
         <IconNumber
-          iconColor="green"
           iconNumber={<span>3</span>}
           iconType={iconType}
+          severityCode={SeverityCode.Ok}
         />
         <IconToggleSubmenu
           iconType="arrow"
