@@ -23,7 +23,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => {
   return {
     bordered: ({ severityCode }): CreateCSSProperties<StyleProps> => ({
       ...(severityCode && {
-        border: getStatusIconColor(severityCode),
+        textDecoration: 'none',
+        border: `3px solid ${getStatusIconColor(severityCode)}`,
       }),
     }),
     colored: ({ severityCode }): CreateCSSProperties<StyleProps> => ({
@@ -59,11 +60,13 @@ const IconNumber = ({
   const classes = useStyles({ severityCode });
 
   return (
+    <Avatar className={classes.bordered}>
     <span className={clsx(classes[iconType], classes.numberWrap)}>
       <span className={classes.numberCount}>
-        <Avatar className={classes.colored}>{iconNumber}</Avatar>
+        {iconNumber}
       </span>
     </span>
+    </Avatar>
   );
 };
 

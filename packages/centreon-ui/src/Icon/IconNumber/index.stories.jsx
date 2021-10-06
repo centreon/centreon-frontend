@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { SeverityCode } from '../../StatusChip';
+
 import IconNumber from '.';
 
 export default { title: 'Icon/Number' };
@@ -18,78 +20,130 @@ export const normal = () => (
 
 export const coloredRed = () => (
   <HeaderBackground>
-    <IconNumber iconColor="red" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.High}
+    />
   </HeaderBackground>
 );
 
 export const coloredGrayLight = () => (
   <HeaderBackground>
-    <IconNumber iconColor="gray-light" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.None}
+    />
   </HeaderBackground>
 );
 
 export const coloredGrayDark = () => (
   <HeaderBackground>
-    <IconNumber iconColor="gray-dark" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.Low}
+    />
   </HeaderBackground>
 );
 
 export const coloredGreen = () => (
   <HeaderBackground>
-    <IconNumber iconColor="green" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.Ok}
+    />
   </HeaderBackground>
 );
 
 export const coloredOrange = () => (
   <HeaderBackground>
-    <IconNumber iconColor="orange" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.Medium}
+    />
   </HeaderBackground>
 );
 
 export const coloredBlue = () => (
   <HeaderBackground>
-    <IconNumber iconColor="blue" iconNumber={3} iconType="colored" />
+    <IconNumber
+      iconNumber={3}
+      iconType="colored"
+      severityCode={SeverityCode.Pending}
+    />
   </HeaderBackground>
 );
 
 export const borderedRed = () => (
   <HeaderBackground>
-    <IconNumber iconColor="red" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.High}
+    />
   </HeaderBackground>
 );
 
 export const borderedGrayLight = () => (
   <HeaderBackground>
-    <IconNumber iconColor="gray-light" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.None}
+    />
   </HeaderBackground>
 );
 
 export const borderedGrayDark = () => (
   <HeaderBackground>
-    <IconNumber iconColor="gray-dark" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.Low}
+    />
   </HeaderBackground>
 );
 
 export const borderedGreen = () => (
   <HeaderBackground>
-    <IconNumber iconColor="green" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.Ok}
+    />
   </HeaderBackground>
 );
 
 export const borderedOrange = () => (
   <HeaderBackground>
-    <IconNumber iconColor="orange" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.Medium}
+    />
   </HeaderBackground>
 );
 
 export const borderedBlue = () => (
   <HeaderBackground>
-    <IconNumber iconColor="blue" iconNumber={3} iconType="bordered" />
+    <IconNumber
+      iconNumber={3}
+      iconType="bordered"
+      severityCode={SeverityCode.Pending}
+    />
   </HeaderBackground>
 );
 
 export const bigNumber = () => (
   <HeaderBackground>
-    <IconNumber iconColor="blue" iconNumber={123456789} iconType="bordered" />
+    <IconNumber
+      iconNumber={123456789}
+      iconType="bordered"
+      severityCode={SeverityCode.Pending}
+    />
   </HeaderBackground>
 );
