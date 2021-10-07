@@ -14,51 +14,33 @@ const HeaderBackground = ({ children }) => (
 
 export const severityCodeHigh = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={3}
-      severityCode={SeverityCode.High}
-    />
+    <StatusCounter count={3} severityCode={SeverityCode.High} />
   </HeaderBackground>
 );
-
 
 export const severityCodeMedium = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={3}
-      severityCode={SeverityCode.Medium}
-    />
+    <StatusCounter count={3} severityCode={SeverityCode.Medium} />
   </HeaderBackground>
 );
 
-
 export const severityCodeLow = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={3}
-      severityCode={SeverityCode.Low}
-    />
+    <StatusCounter count={3} severityCode={SeverityCode.Low} />
   </HeaderBackground>
 );
 
 export const severityCodeOk = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={3}
-      severityCode={SeverityCode.Ok}
-    />
+    <StatusCounter count={3} severityCode={SeverityCode.Ok} />
   </HeaderBackground>
 );
 
 export const severityCodeHighCount0 = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={0}
-      severityCode={SeverityCode.High}
-    />
+    <StatusCounter count={0} severityCode={SeverityCode.High} />
   </HeaderBackground>
 );
-
 
 export const severityCodeMediumCount0 = () => (
   <HeaderBackground>
@@ -68,10 +50,7 @@ export const severityCodeMediumCount0 = () => (
 
 export const severityCodeLowCount0 = () => (
   <HeaderBackground>
-    <StatusCounter
-      count={0}
-      severityCode={SeverityCode.Low}
-    />
+    <StatusCounter count={0} severityCode={SeverityCode.Low} />
   </HeaderBackground>
 );
 

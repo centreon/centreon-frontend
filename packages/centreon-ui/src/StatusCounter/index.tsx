@@ -1,11 +1,10 @@
 import React from 'react';
 
 import clsx from 'clsx';
+import numeral from 'numeral';
 
 import { makeStyles, Theme, Avatar } from '@material-ui/core';
 import { CreateCSSProperties } from '@material-ui/styles';
-
-import numeral from 'numeral'
 
 import { getStatusColors } from '@centreon/ui';
 
@@ -52,9 +51,11 @@ const StatusCounter = ({ severityCode, count }: Props): JSX.Element => {
 
   const avatarClass = count > 0 ? classes.colored : classes.bordered;
 
-  return <Avatar className={clsx(avatarClass, classes.icon)}>{numeral(count).format('0a')
-
-}</Avatar>;
+  return (
+    <Avatar className={clsx(avatarClass, classes.icon)}>
+      {numeral(count).format('0a')}
+    </Avatar>
+  );
 };
 
 export default StatusCounter;
