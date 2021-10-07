@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     gridGap: theme.spacing(1),
-    padding: '6px 6px 6px 16px',
+    padding: theme.spacing(1, 1, 1, 2),
     position: 'relative',
   },
 }));
