@@ -7,7 +7,12 @@ module.exports = {
   module: {
     rules: [
       {
-        exclude: /node_modules(\\|\/)(?!(@centreon(\\|\/)centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/,
+        parser: { system: false },
+        test: /\.[cm]?(j|t)sx?$/,
+      },
+      {
+        exclude:
+          /node_modules(\\|\/)(?!(@centreon(\\|\/)centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/,
         test: /\.(j|t)sx?$/,
         use: [
           'babel-loader',
