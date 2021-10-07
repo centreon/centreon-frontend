@@ -10,7 +10,7 @@ interface Props {
   submenuType: string;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   active: {
     backgroundColor: '#000915',
   },
@@ -22,22 +22,18 @@ const useStyles = makeStyles({
     backgroundColor: '#232f39',
     display: 'flex',
     flexWrap: 'wrap',
+    gridGap: theme.spacing(1),
     padding: '6px 6px 6px 16px',
     position: 'relative',
   },
-});
+}));
 
-const SubmenuHeader = ({
-  submenuType,
-  children,
-  active,
-  ...props
-}: Props): JSX.Element => {
+const SubmenuHeader = ({ children, active, ...props }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
     <div
-      className={clsx(classes[submenuType], {
+      className={clsx(classes.top, {
         [classes.active]: active,
       })}
       {...props}
