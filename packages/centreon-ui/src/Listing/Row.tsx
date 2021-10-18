@@ -4,7 +4,13 @@ import * as React from 'react';
 
 import { equals, not, pluck } from 'ramda';
 
-import { TableRowProps, TableRow, makeStyles, Theme } from '@material-ui/core';
+import {
+  TableRowProps,
+  TableRow,
+  makeStyles,
+  Theme,
+  useTheme,
+} from '@material-ui/core';
 
 import { useViewportIntersection } from '../utils/useViewportIntersection';
 
@@ -132,7 +138,11 @@ const Row = React.memo<RowProps>(
 
 const IntersectionRow = (props: Props): JSX.Element => {
   const rowRef = React.useRef<HTMLDivElement | null>(null);
-  const { isInViewport, setElement } = useViewportIntersection();
+  const theme = useTheme();
+  const { isInViewport, setElement } = useViewportIntersection({
+    root: rowRef.current?.parentElement?.parentElement?.parentElement,
+    rootMargin: `${theme.spacing(20)}px 0px ${theme.spacing(20)}px 0px`,
+  });
   const classes = useStyles();
 
   const getFirstCellElement = (): ChildNode | null | undefined =>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import * as React from 'react';
 
 import {
@@ -504,7 +505,7 @@ const Listing = <TRow extends { id: RowId }>({
               component="div"
               onMouseLeave={clearHoveredRow}
             >
-              {rows.map((row) => {
+              {rows.map((row, index) => {
                 const isRowSelected = isSelected(row);
 
                 const isRowHovered = equals(hoveredRowId, getId(row));
@@ -517,7 +518,7 @@ const Listing = <TRow extends { id: RowId }>({
                     isHovered={isRowHovered}
                     isSelected={isRowSelected}
                     isShiftKeyDown={isShiftKeyDown}
-                    key={getId(row)}
+                    key={`row_${index}`}
                     lastSelectionIndex={lastSelectionIndex}
                     row={row}
                     rowColorConditions={rowColorConditions}
