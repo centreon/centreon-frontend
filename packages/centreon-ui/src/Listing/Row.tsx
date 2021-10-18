@@ -11,6 +11,7 @@ import {
   Theme,
   useTheme,
 } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 
 import { useViewportIntersection } from '../utils/useViewportIntersection';
 
@@ -29,13 +30,16 @@ const useStyles = makeStyles<Theme>((theme) => {
     },
     skeleton: {
       height: theme.spacing(2.5),
-      margin: theme.spacing(0.5, 0),
       width: '100%',
+    },
+    skeletonContainer: {
+      padding: theme.spacing(0.5),
     },
   };
 });
 
 type Props = {
+  checkable: boolean;
   children;
   columnConfiguration?: ColumnConfiguration;
   columnIds: Array<string>;
@@ -61,8 +65,32 @@ const Row = React.memo<RowProps>(
     onMouseOver,
     onFocus,
     onClick,
+    isInViewport,
+    visibleColumns,
+    checkable,
   }: RowProps): JSX.Element => {
     const classes = useStyles();
+
+    if (not(isInViewport)) {
+      return (
+        <>
+          {checkable && (
+            <div className={classes.skeletonContainer}>
+              <div>
+                <Skeleton className={classes.skeleton} variant="rect" />
+              </div>
+            </div>
+          )}
+          {visibleColumns.map(({ id }) => (
+            <div className={classes.skeletonContainer} key={`loading_${id}`}>
+              <div>
+                <Skeleton className={classes.skeleton} variant="rect" />
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    }
 
     return (
       <TableRow
@@ -81,6 +109,7 @@ const Row = React.memo<RowProps>(
     const {
       row: previousRow,
       rowColorConditions: previousRowColorConditions,
+      isInViewport: prevIsInViewport,
       visibleColumns: previousVisibleColumns,
       isShiftKeyDown: prevIsShiftKeyDown,
       shiftKeyDownRowPivot: prevShiftKeyDownRowPivot,
@@ -111,8 +140,12 @@ const Row = React.memo<RowProps>(
       return false;
     }
 
-    if (not(nextIsInViewport)) {
-      return equals(prevProps.isSelected, nextProps.isSelected);
+    if (not(prevIsInViewport) && not(nextIsInViewport)) {
+      return true;
+    }
+
+    if (not(prevIsInViewport) && nextIsInViewport) {
+      return false;
     }
 
     const previousRowColors = previousRowColorConditions?.map(({ condition }) =>

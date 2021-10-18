@@ -512,6 +512,7 @@ const Listing = <TRow extends { id: RowId }>({
 
                 return (
                   <ListingRow
+                    checkable={checkable}
                     columnConfiguration={columnConfiguration}
                     columnIds={columns.map(prop('id'))}
                     disableRowCondition={disableRowCondition}
