@@ -73,7 +73,7 @@ const Row = React.memo<RowProps>(
 
     if (not(isInViewport)) {
       return (
-        <>
+        <div style={{ display: 'contents' }}>
           {checkable && (
             <div className={classes.skeletonContainer}>
               <div>
@@ -88,7 +88,7 @@ const Row = React.memo<RowProps>(
               </div>
             </div>
           ))}
-        </>
+        </div>
       );
     }
 
