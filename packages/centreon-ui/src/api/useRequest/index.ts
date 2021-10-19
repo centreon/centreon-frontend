@@ -20,7 +20,6 @@ export interface RequestParams<TResult> {
 
 export interface RequestResult<TResult> {
   sendRequest: (params?) => Promise<TResult>;
-  sendRequestCaught: (params?) => Promise<TResult | undefined>;
   sending: boolean;
 }
 
@@ -74,11 +73,7 @@ const useRequest = <TResult>({
       .finally(() => setSending(false));
   };
 
-  const sendRequestCaught = (params): Promise<TResult | undefined> => {
-    return sendRequest(params).catch(() => undefined);
-  };
-
-  return { sendRequest, sendRequestCaught, sending };
+  return { sendRequest, sending };
 };
 
 export default useRequest;
