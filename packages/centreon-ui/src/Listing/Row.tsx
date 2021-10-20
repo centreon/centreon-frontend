@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { equals, not, pluck } from 'ramda';
+import { equals, gte, lt, not, pluck } from 'ramda';
 
 import {
   TableRowProps,
@@ -16,6 +16,8 @@ import { Skeleton } from '@material-ui/lab';
 import { useViewportIntersection } from '../utils/useViewportIntersection';
 
 import { Column, ColumnConfiguration, RowColorCondition } from './models';
+
+import { performanceRowsLimit } from '.';
 
 const useStyles = makeStyles<Theme>((theme) => {
   return {
@@ -48,6 +50,7 @@ type Props = {
   isSelected?: boolean;
   isShiftKeyDown: boolean;
   lastSelectionIndex: number | null;
+  limit: number;
   row;
   rowColorConditions: Array<RowColorCondition>;
   shiftKeyDownRowPivot: number | null;
@@ -68,10 +71,11 @@ const Row = React.memo<RowProps>(
     isInViewport,
     visibleColumns,
     checkable,
+    limit,
   }: RowProps): JSX.Element => {
     const classes = useStyles();
 
-    if (not(isInViewport)) {
+    if (not(isInViewport) && gte(limit, performanceRowsLimit)) {
       return (
         <div style={{ display: 'contents' }}>
           {checkable && (
@@ -123,6 +127,7 @@ const Row = React.memo<RowProps>(
       isShiftKeyDown: nextIsShiftKeyDown,
       shiftKeyDownRowPivot: nextShiftKeyDownRowPivot,
       lastSelectionIndex: nextLastSelectionIndex,
+      limit: nextLimit,
     } = nextProps;
 
     if (
@@ -140,12 +145,20 @@ const Row = React.memo<RowProps>(
       return false;
     }
 
-    if (not(prevIsInViewport) && not(nextIsInViewport)) {
+    const isNoLongerInViewport = not(prevIsInViewport) && not(nextIsInViewport);
+
+    if (isNoLongerInViewport && gte(nextLimit, performanceRowsLimit)) {
       return true;
     }
 
-    if (not(prevIsInViewport) && nextIsInViewport) {
+    const isBackInViewport = not(prevIsInViewport) && nextIsInViewport;
+
+    if (isBackInViewport && gte(nextLimit, performanceRowsLimit)) {
       return false;
+    }
+
+    if (not(nextIsInViewport) && lt(nextLimit, 60)) {
+      return equals(prevProps.isSelected, nextProps.isSelected);
     }
 
     const previousRowColors = previousRowColorConditions?.map(({ condition }) =>

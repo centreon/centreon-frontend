@@ -145,6 +145,8 @@ const defaultColumnConfiguration = {
   sortable: false,
 };
 
+export const performanceRowsLimit = 60;
+
 const Listing = <TRow extends { id: RowId }>({
   limit = 10,
   columns,
@@ -519,8 +521,13 @@ const Listing = <TRow extends { id: RowId }>({
                     isHovered={isRowHovered}
                     isSelected={isRowSelected}
                     isShiftKeyDown={isShiftKeyDown}
-                    key={`row_${index}`}
+                    key={
+                      gte(limit, performanceRowsLimit)
+                        ? `row_${index}`
+                        : getId(row)
+                    }
                     lastSelectionIndex={lastSelectionIndex}
+                    limit={limit}
                     row={row}
                     rowColorConditions={rowColorConditions}
                     shiftKeyDownRowPivot={shiftKeyDownRowPivot}
