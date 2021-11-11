@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { SnackbarProvider } from 'notistack';
 
-import { Fade } from '@material-ui/core';
+import { Fade } from '@mui/material';
 
 import Snackbar, { SnackbarProps } from '.';
 

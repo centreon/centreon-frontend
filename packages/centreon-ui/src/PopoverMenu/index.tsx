@@ -2,14 +2,9 @@ import * as React from 'react';
 
 import clsx from 'clsx';
 
-import {
-  ClickAwayListener,
-  makeStyles,
-  Paper,
-  Popper,
-  PopperPlacementType,
-  useTheme,
-} from '@material-ui/core';
+import { ClickAwayListener, Paper, Popper, PopperPlacementType, useTheme } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
 
 import { IconButton } from '..';
 
@@ -73,7 +68,7 @@ const PopoverMenu = ({
         className={clsx(classes.popoverIconButton, className)}
         title={title}
         onClick={toggle}
-      >
+        size="large">
         {icon}
       </IconButton>
       {isOpen && (

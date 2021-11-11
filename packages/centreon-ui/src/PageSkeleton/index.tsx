@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import clsx from 'clsx';
 
-import { makeStyles, useTheme } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Skeleton } from '@mui/material';
 
 import BaseRectSkeleton, { useSkeletonStyles } from './BaseSkeleton';
 import ContentSkeleton from './ContentSkeleton';
@@ -21,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateRows: `auto ${theme.spacing(footerHeight)}`,
     height: '100%',
-    rowGap: `${theme.spacing(1)}px`,
+    rowGap: theme.spacing(1),
   },
   menuContentContainer: {
     display: 'grid',
-    gridTemplateColumns: `${theme.spacing(5.5)}px 1fr`,
+    gridTemplateColumns: `${theme.spacing(5.5)} 1fr`,
     height: '100%',
   },
   skeletonContainer: {
@@ -57,7 +58,7 @@ const PageSkeleton = ({
         <BaseRectSkeleton
           animate={animate}
           height="100%"
-          width={`calc(100% - ${theme.spacing(0.5)}px)`}
+          width={`calc(100% - ${theme.spacing(0.5)})`}
         />
         <div className={classes.headerContentFooterContainer}>
           <div>

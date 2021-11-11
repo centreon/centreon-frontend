@@ -4,14 +4,9 @@ import * as React from 'react';
 
 import { equals, gte, lt, not, pluck } from 'ramda';
 
-import {
-  TableRowProps,
-  TableRow,
-  makeStyles,
-  Theme,
-  useTheme,
-} from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { TableRowProps, TableRow, Theme, useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Skeleton } from '@mui/material';
 
 import { useViewportIntersection } from '../utils/useViewportIntersection';
 
@@ -81,14 +76,14 @@ const Row = React.memo<RowProps>(
           {checkable && (
             <div className={classes.skeletonContainer}>
               <div>
-                <Skeleton className={classes.skeleton} variant="rect" />
+                <Skeleton className={classes.skeleton} variant="rectangular" />
               </div>
             </div>
           )}
           {visibleColumns.map(({ id }) => (
             <div className={classes.skeletonContainer} key={`loading_${id}`}>
               <div>
-                <Skeleton className={classes.skeleton} variant="rect" />
+                <Skeleton className={classes.skeleton} variant="rectangular" />
               </div>
             </div>
           ))}
@@ -187,7 +182,7 @@ const IntersectionRow = (props: Props): JSX.Element => {
   const theme = useTheme();
   const { isInViewport, setElement } = useViewportIntersection({
     root: rowRef.current?.parentElement?.parentElement?.parentElement,
-    rootMargin: `${theme.spacing(20)}px 0px ${theme.spacing(20)}px 0px`,
+    rootMargin: `${theme.spacing(20)} 0px ${theme.spacing(20)} 0px`,
   });
   const classes = useStyles();
 

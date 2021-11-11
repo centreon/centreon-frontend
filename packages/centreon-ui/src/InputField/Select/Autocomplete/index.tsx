@@ -5,15 +5,13 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 import {
-  makeStyles,
   CircularProgress,
   InputAdornment,
-} from '@material-ui/core';
-import {
   Autocomplete,
   AutocompleteProps,
-  UseAutocompleteProps,
-} from '@material-ui/lab';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { UseAutocompleteProps } from '@mui/material/useAutocomplete';
 
 import Option from '../Option';
 import TextField from '../../Text';
@@ -188,12 +186,12 @@ const AutocompleteField = ({
       }}
       forcePopupIcon={displayPopupIcon}
       getOptionLabel={(option: SelectEntry): string => option.name}
-      getOptionSelected={areSelectEntriesEqual}
+      isOptionEqualToValue={areSelectEntriesEqual}
       loading={loading}
       loadingText={<LoadingIndicator />}
       options={options}
       renderInput={renderInput}
-      renderOption={(option): JSX.Element => {
+      renderOption={(_, option): JSX.Element => {
         return (
           <div className={classes.options}>
             {displayOptionThumbnail && (

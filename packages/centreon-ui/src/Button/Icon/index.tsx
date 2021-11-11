@@ -1,11 +1,8 @@
 import * as React from 'react';
 
-import {
-  makeStyles,
-  IconButton as MuiIconButton,
-  IconButtonProps,
-  Tooltip,
-} from '@material-ui/core';
+import { IconButton as MuiIconButton, IconButtonProps, Tooltip } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   button: {

@@ -25,7 +25,8 @@ import {
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Table,
   TableBody,
@@ -33,7 +34,7 @@ import {
   LinearProgress,
   TableRow,
   useTheme,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import useMemoComponent from '../utils/useMemoComponent';
 import useKeyObserver from '../utils/useKeyObserver';

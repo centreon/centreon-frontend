@@ -3,14 +3,9 @@ import React from 'react';
 import clsx from 'clsx';
 import { equals, isNil, not } from 'ramda';
 
-import {
-  TextField as MuiTextField,
-  InputAdornment,
-  TextFieldProps,
-  Theme,
-  makeStyles,
-  Tooltip,
-} from '@material-ui/core';
+import { TextField as MuiTextField, InputAdornment, TextFieldProps, Theme, Tooltip } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
 
 enum Size {
   compact = 'compact',

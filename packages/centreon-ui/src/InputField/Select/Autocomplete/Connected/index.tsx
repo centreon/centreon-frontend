@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import { equals, prop, last, isEmpty, map, isNil } from 'ramda';
 
-import { Typography, CircularProgress, useTheme } from '@material-ui/core';
-import debounce from '@material-ui/core/utils/debounce';
-
+import { Typography, CircularProgress, useTheme } from '@mui/material';
 import { Props as AutocompleteFieldProps } from '..';
+
 import useRequest from '../../../../api/useRequest';
 import { getData } from '../../../../api';
 import useIntersectionObserver from '../../../../utils/useIntersectionObserver';
 import { ListingModel, SelectEntry } from '../../../..';
 import Option from '../../Option';
+import { debounce } from '@mui/material/utils';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
   conditionField?: keyof SelectEntry;

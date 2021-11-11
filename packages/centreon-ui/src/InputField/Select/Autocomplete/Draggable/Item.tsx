@@ -3,8 +3,9 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { DraggableSyntheticListeners } from '@dnd-kit/core';
 
-import { Chip, lighten, makeStyles } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Chip, lighten } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { ItemProps } from './SortableItem';
 

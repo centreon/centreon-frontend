@@ -3,15 +3,10 @@ import * as React from 'react';
 import { always, and, equals, ifElse, isNil } from 'ramda';
 import clsx from 'clsx';
 
-import {
-  makeStyles,
-  TableCellBaseProps,
-  TableSortLabel,
-  Theme,
-  Tooltip,
-} from '@material-ui/core';
-import DragIndicatorIcon from '@material-ui/icons/MoreVert';
-import { CreateCSSProperties } from '@material-ui/styles';
+import { TableCellBaseProps, TableSortLabel, Theme, Tooltip } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import DragIndicatorIcon from '@mui/icons-material/MoreVert';
+import { CreateCSSProperties } from '@mui/styles';
 
 import { Props as ListingProps } from '../..';
 import { Column } from '../../models';

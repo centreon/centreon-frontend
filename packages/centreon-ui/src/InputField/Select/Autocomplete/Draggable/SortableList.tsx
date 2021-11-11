@@ -5,8 +5,9 @@ import { rectIntersection, DraggableSyntheticListeners } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 import clsx from 'clsx';
 
-import { Chip, lighten, makeStyles, Typography } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Chip, lighten, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { SelectEntry } from '../..';
 import SortableItems from '../../../../SortableItems';

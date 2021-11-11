@@ -17,7 +17,7 @@ import {
   pluck,
 } from 'ramda';
 
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { ConnectedAutoCompleteFieldProps } from '../Connected';
 import { Props as SingleAutocompletefieldProps } from '..';

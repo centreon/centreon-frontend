@@ -2,16 +2,9 @@ import * as React from 'react';
 
 import { isEmpty, isNil } from 'ramda';
 
-import {
-  makeStyles,
-  Paper,
-  Slide,
-  Divider,
-  AppBar,
-  Tabs,
-  Theme,
-} from '@material-ui/core';
-import IconClose from '@material-ui/icons/Clear';
+import { Paper, Slide, Divider, AppBar, Tabs, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import IconClose from '@mui/icons-material/Clear';
 
 import IconButton from '../Button/Icon';
 
@@ -177,11 +170,7 @@ const Panel = React.forwardRef<HTMLDivElement, Props>(
               <div className={classes.header}>
                 {header}
                 {onClose && (
-                  <IconButton
-                    ariaLabel={labelClose}
-                    title={labelClose}
-                    onClick={onClose}
-                  >
+                  <IconButton ariaLabel={labelClose} title={labelClose} onClick={onClose} size="large">
                     <IconClose color="action" />
                   </IconButton>
                 )}

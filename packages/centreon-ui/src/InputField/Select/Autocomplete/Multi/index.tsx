@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import { includes, map, prop, reject } from 'ramda';
 
-import { Chip, makeStyles } from '@material-ui/core';
-import { UseAutocompleteProps } from '@material-ui/lab';
+import { Chip } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { UseAutocompleteProps } from '@mui/material/useAutocomplete';
 
 import Autocomplete, { Props as AutocompleteProps } from '..';
 import { SelectEntry } from '../..';
@@ -78,7 +79,7 @@ const MultiAutocompleteField = ({
       multiple
       getLimitTagsText={(more): JSX.Element => <Option>{`+${more}`}</Option>}
       options={autocompleteOptions}
-      renderOption={(option, { selected }): JSX.Element => (
+      renderOption={(_, option, { selected }): JSX.Element => (
         <Option checkboxSelected={selected}>{option.name}</Option>
       )}
       renderTags={renderTags}

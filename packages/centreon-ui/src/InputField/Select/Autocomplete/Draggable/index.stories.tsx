@@ -4,7 +4,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { isNil, not } from 'ramda';
 
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip, Typography } from '@mui/material';
 
 import { SelectEntry } from '../..';
 import { buildListingEndpoint } from '../../../..';
