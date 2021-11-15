@@ -13,7 +13,7 @@ module.exports = {
     delete config.resolve.alias['@emotion/styled'];
     delete config.resolve.alias['@emotion/core'];
   
-    const couscous = {
+    const configWithoutEmotionAliases = {
       ...config,
       resolve: {
         ...config.resolve,
@@ -44,6 +44,6 @@ module.exports = {
       },
     }
 
-    return couscous;
+    return configWithoutEmotionAliases;
   }
 };
