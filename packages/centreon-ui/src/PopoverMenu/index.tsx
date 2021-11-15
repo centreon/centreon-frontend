@@ -2,8 +2,13 @@ import * as React from 'react';
 
 import clsx from 'clsx';
 
-import { ClickAwayListener, Paper, Popper, PopperPlacementType, useTheme } from '@mui/material';
-
+import {
+  ClickAwayListener,
+  Paper,
+  Popper,
+  PopperPlacementType,
+  useTheme,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { IconButton } from '..';
@@ -66,9 +71,10 @@ const PopoverMenu = ({
       <IconButton
         ariaLabel={title}
         className={clsx(classes.popoverIconButton, className)}
+        size="large"
         title={title}
         onClick={toggle}
-        size="large">
+      >
         {icon}
       </IconButton>
       {isOpen && (

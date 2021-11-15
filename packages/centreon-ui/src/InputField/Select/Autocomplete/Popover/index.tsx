@@ -4,7 +4,6 @@ import { isEmpty } from 'ramda';
 
 import { UseAutocompleteProps } from '@mui/material/useAutocomplete';
 import { Avatar, Chip, useTheme } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import { Props as AutocompleteProps } from '..';

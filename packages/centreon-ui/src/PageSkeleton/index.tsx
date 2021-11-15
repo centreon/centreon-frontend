@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import clsx from 'clsx';
 
-import { useTheme } from '@mui/material';
+import { useTheme, Skeleton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { Skeleton } from '@mui/material';
 
 import BaseRectSkeleton, { useSkeletonStyles } from './BaseSkeleton';
 import ContentSkeleton from './ContentSkeleton';

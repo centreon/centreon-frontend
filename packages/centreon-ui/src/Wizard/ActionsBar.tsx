@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Grid, Button, Typography, CircularProgress } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import { ActionsBarProps } from './models';
@@ -51,7 +50,8 @@ const ActionsBar = ({
           <Button
             aria-label={labelPrevious}
             onClick={goToPreviousStep}
-            onKeyPress={preventEnterKey}>
+            onKeyPress={preventEnterKey}
+          >
             <Typography>{labelPrevious}</Typography>
           </Button>
         )}

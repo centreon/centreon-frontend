@@ -3,7 +3,6 @@ import * as React from 'react';
 import { not } from 'ramda';
 
 import { Badge, Typography } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({

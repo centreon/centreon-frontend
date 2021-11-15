@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '&:before': {
       borderBottom: 0,
+      content: 'unset',
     },
     '&:hover:before': {
       borderBottom: 0,

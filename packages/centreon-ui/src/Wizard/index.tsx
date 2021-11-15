@@ -4,7 +4,6 @@ import { equals, length, dec, pipe, inc, filter, isEmpty, not } from 'ramda';
 import { Formik } from 'formik';
 
 import { Dialog, DialogContent } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import Confirm from '../Dialog/Confirm';

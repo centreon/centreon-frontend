@@ -14,7 +14,6 @@ import {
   ListSubheader,
   Divider,
 } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import Option from './Option';

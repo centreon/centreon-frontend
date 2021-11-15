@@ -3,14 +3,14 @@ import * as React from 'react';
 import { equals, prop, last, isEmpty, map, isNil } from 'ramda';
 
 import { Typography, CircularProgress, useTheme } from '@mui/material';
-import { Props as AutocompleteFieldProps } from '..';
+import { debounce } from '@mui/material/utils';
 
+import { Props as AutocompleteFieldProps } from '..';
 import useRequest from '../../../../api/useRequest';
 import { getData } from '../../../../api';
 import useIntersectionObserver from '../../../../utils/useIntersectionObserver';
 import { ListingModel, SelectEntry } from '../../../..';
 import Option from '../../Option';
-import { debounce } from '@mui/material/utils';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
   conditionField?: keyof SelectEntry;
@@ -151,7 +151,7 @@ const ConnectedAutocompleteField = (
       setSearchValue(event.target.value);
     };
 
-    const renderOptions = (option, { selected }): JSX.Element => {
+    const renderOptions = (_, option, { selected }): JSX.Element => {
       const { value } = props;
 
       const lastValue = Array.isArray(value) ? last(value) : value;
@@ -169,14 +169,18 @@ const ConnectedAutocompleteField = (
       const optionText = getRenderedOptionText(option);
 
       return (
-        <div style={{ width: '100%' }}>
+        <div key={option.id} style={{ width: '100%' }}>
           <div>
             {multiple ? (
               <Option checkboxSelected={selected} {...ref}>
                 {optionText}
               </Option>
             ) : (
-              <Typography variant="body2" {...ref}>
+              <Typography
+                sx={{ cursor: 'pointer', margin: 0.5 }}
+                variant="body2"
+                {...ref}
+              >
                 {optionText}
               </Typography>
             )}

@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Tab as MuiTab, TabProps } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 const minTabHeight = 40;

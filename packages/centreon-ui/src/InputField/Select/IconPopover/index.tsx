@@ -89,7 +89,12 @@ const IconPopoverMultiAutocomplete = ({
   return (
     <ClickAwayListener onClickAway={close}>
       <div>
-        <IconButton ariaLabel={title} title={title} onClick={toggle} size="large">
+        <IconButton
+          ariaLabel={title}
+          size="large"
+          title={title}
+          onClick={toggle}
+        >
           {icon}
         </IconButton>
         <Popper

@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import axios from 'axios';
+
 import {
   render,
   fireEvent,
   waitFor,
   RenderResult,
-} from '@testing-library/react';
-import { act } from 'react-test-renderer';
-
+  act,
+} from '../../../../testRenderer';
 import buildListingEndpoint from '../../../../api/buildListingEndpoint';
 
 import SingleAutocompleteField from './Single';

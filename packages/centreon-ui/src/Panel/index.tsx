@@ -84,7 +84,7 @@ export interface Props {
   width?: number;
 }
 
-const Panel = React.forwardRef<HTMLDivElement, Props>(
+const Panel = React.forwardRef(
   (
     {
       header,
@@ -98,7 +98,7 @@ const Panel = React.forwardRef<HTMLDivElement, Props>(
       minWidth = 550,
       headerBackgroundColor,
       onResize,
-    }: Omit<Props, 'memoProps'>,
+    }: Props,
     ref,
   ): JSX.Element => {
     const classes = useStyles({ headerBackgroundColor, width });
@@ -170,7 +170,12 @@ const Panel = React.forwardRef<HTMLDivElement, Props>(
               <div className={classes.header}>
                 {header}
                 {onClose && (
-                  <IconButton ariaLabel={labelClose} title={labelClose} onClick={onClose} size="large">
+                  <IconButton
+                    ariaLabel={labelClose}
+                    size="large"
+                    title={labelClose}
+                    onClick={onClose}
+                  >
                     <IconClose color="action" />
                   </IconButton>
                 )}
@@ -193,7 +198,10 @@ const Panel = React.forwardRef<HTMLDivElement, Props>(
                 </Tabs>
               )}
             </AppBar>
-            <div className={classes.contentContainer} ref={ref}>
+            <div
+              className={classes.contentContainer}
+              ref={ref as React.RefObject<HTMLDivElement>}
+            >
               <div className={classes.content}>{selectedTab}</div>
             </div>
           </div>

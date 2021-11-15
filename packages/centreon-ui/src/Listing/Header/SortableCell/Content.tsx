@@ -3,7 +3,12 @@ import * as React from 'react';
 import { always, and, equals, ifElse, isNil } from 'ramda';
 import clsx from 'clsx';
 
-import { TableCellBaseProps, TableSortLabel, Theme, Tooltip } from '@mui/material';
+import {
+  TableCellBaseProps,
+  TableSortLabel,
+  Theme,
+  Tooltip,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import DragIndicatorIcon from '@mui/icons-material/MoreVert';
 import { CreateCSSProperties } from '@mui/styles';

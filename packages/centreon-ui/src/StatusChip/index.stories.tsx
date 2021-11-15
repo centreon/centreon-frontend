@@ -9,7 +9,7 @@ export const withNoneStatusCode = (): JSX.Element => (
 );
 
 export const withUpOrOkStatusCode = (): JSX.Element => (
-  <StatusChip label="Up" severityCode={SeverityCode.None} />
+  <StatusChip label="Up" severityCode={SeverityCode.Ok} />
 );
 
 export const withWarningStatusCode = (): JSX.Element => (
@@ -33,5 +33,5 @@ export const withDownOrCriticalStatusCodeAndWithoutLabel = (): JSX.Element => (
 );
 
 export const withUpOrOkStatusCodeAndWithoutLabel = (): JSX.Element => (
-  <StatusChip severityCode={SeverityCode.None} />
+  <StatusChip severityCode={SeverityCode.Ok} />
 );

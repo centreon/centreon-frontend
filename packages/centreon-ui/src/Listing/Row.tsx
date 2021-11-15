@@ -4,9 +4,14 @@ import * as React from 'react';
 
 import { equals, gte, lt, not, pluck } from 'ramda';
 
-import { TableRowProps, TableRow, Theme, useTheme } from '@mui/material';
+import {
+  TableRowProps,
+  TableRow,
+  Theme,
+  useTheme,
+  Skeleton,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { Skeleton } from '@mui/material';
 
 import { useViewportIntersection } from '../utils/useViewportIntersection';
 

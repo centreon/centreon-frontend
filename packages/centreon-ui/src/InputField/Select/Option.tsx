@@ -3,7 +3,6 @@ import * as React from 'react';
 import { isNil } from 'ramda';
 
 import { Checkbox, Typography } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     alignItems: 'center',
     display: 'flex',
+    margin: theme.spacing(0.5),
   },
 }));
 

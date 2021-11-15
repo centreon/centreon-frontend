@@ -3,7 +3,6 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { CircularProgress } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(() => ({

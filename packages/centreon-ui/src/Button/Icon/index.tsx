@@ -1,7 +1,10 @@
 import * as React from 'react';
 
-import { IconButton as MuiIconButton, IconButtonProps, Tooltip } from '@mui/material';
-
+import {
+  IconButton as MuiIconButton,
+  IconButtonProps,
+  Tooltip,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({

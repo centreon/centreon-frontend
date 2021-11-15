@@ -3,7 +3,6 @@ import * as React from 'react';
 import { equals, props } from 'ramda';
 
 import { Tooltip, Typography } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import {

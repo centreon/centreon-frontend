@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { useTheme } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 
 import BaseRectSkeleton from './BaseSkeleton';
@@ -9,7 +8,7 @@ import BaseRectSkeleton from './BaseSkeleton';
 import { PageSkeletonProps } from '.';
 
 const numberOfActionButtons = 2;
-const filterHeight = 7.4;
+const filterHeight = 6;
 const paginationHeight = 4;
 const actionBarHeight = 3.75;
 const contentHeight = 40;
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: `repeat(${numberOfActionButtons}, ${theme.spacing(
       10,
-    )}px)`,
+    )})`,
   },
   contentSkeleton: {
     marginLeft: theme.spacing(2),

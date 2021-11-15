@@ -4,7 +4,12 @@ import { equals, find, isEmpty, map, not, pick, propEq } from 'ramda';
 import { DraggableSyntheticListeners, rectIntersection } from '@dnd-kit/core';
 import { rectSortingStrategy } from '@dnd-kit/sortable';
 
-import { TableHead, TableRow, TableCell, TableCellBaseProps } from '@mui/material';
+import {
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCellBaseProps,
+} from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';

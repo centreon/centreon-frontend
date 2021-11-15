@@ -25,7 +25,6 @@ import {
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import {
   Table,
@@ -75,7 +74,7 @@ const getVisibleColumns = ({
 
 const loadingIndicatorHeight = 3;
 
-const useStyles = makeStyles<Theme>((theme) => ({
+const useStyles = makeStyles((theme) => ({
   actionBar: {
     alignItems: 'center',
     display: 'flex',
@@ -427,6 +426,10 @@ const Listing = <TRow extends { id: RowId }>({
     return `${checkbox}${columnTemplate}`;
   };
 
+  const changeLimit = (updatedLimit: string): void => {
+    onLimitChange?.(Number(updatedLimit));
+  };
+
   const visibleColumns = getVisibleColumns({
     columnConfiguration,
     columns,
@@ -465,7 +468,7 @@ const Listing = <TRow extends { id: RowId }>({
             limit={limit}
             paginated={paginated}
             totalRows={totalRows}
-            onLimitChange={onLimitChange}
+            onLimitChange={changeLimit}
             onPaginate={onPaginate}
             onResetColumns={onResetColumns}
             onSelectColumns={onSelectColumns}
