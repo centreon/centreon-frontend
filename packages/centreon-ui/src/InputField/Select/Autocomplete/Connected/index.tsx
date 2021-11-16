@@ -151,7 +151,7 @@ const ConnectedAutocompleteField = (
       setSearchValue(event.target.value);
     };
 
-    const renderOptions = (_, option, { selected }): JSX.Element => {
+    const renderOptions = (renderProps, option, { selected }): JSX.Element => {
       const { value } = props;
 
       const lastValue = Array.isArray(value) ? last(value) : value;
@@ -170,21 +170,17 @@ const ConnectedAutocompleteField = (
 
       return (
         <div key={option.id} style={{ width: '100%' }}>
-          <div>
+          <li {...renderProps}>
             {multiple ? (
               <Option checkboxSelected={selected} {...ref}>
                 {optionText}
               </Option>
             ) : (
-              <Typography
-                sx={{ cursor: 'pointer', margin: 0.5 }}
-                variant="body2"
-                {...ref}
-              >
+              <Typography variant="body2" {...ref}>
                 {optionText}
               </Typography>
             )}
-          </div>
+          </li>
 
           {(isLastValueWithoutOptions || isLastOption) && sending && (
             <div style={{ textAlign: 'center', width: '100%' }}>

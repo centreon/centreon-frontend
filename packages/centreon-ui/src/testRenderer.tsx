@@ -9,7 +9,7 @@ import {
 import ThemeProvider from './ThemeProvider';
 
 interface Props {
-  children: React.ReactChildren;
+  children: React.ReactChild;
 }
 
 const ThemeProviderWrapper = ({ children }: Props): JSX.Element => {

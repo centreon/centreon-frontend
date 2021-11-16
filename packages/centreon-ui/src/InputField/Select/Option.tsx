@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     alignItems: 'center',
     display: 'flex',
-    margin: theme.spacing(0.5),
   },
 }));
 

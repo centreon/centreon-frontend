@@ -192,15 +192,15 @@ const AutocompleteField = ({
       loadingText={<LoadingIndicator />}
       options={options}
       renderInput={renderInput}
-      renderOption={(_, option): JSX.Element => {
+      renderOption={(renderProps, option): JSX.Element => {
         return (
-          <div className={classes.options}>
+          <li className={classes.options} {...renderProps}>
             {displayOptionThumbnail && (
               <img alt={option.name} height={20} src={option.url} width={20} />
             )}
 
             <Option>{option.name}</Option>
-          </div>
+          </li>
         );
       }}
       size="small"
