@@ -80,7 +80,7 @@ const MultiAutocompleteField = ({
       getLimitTagsText={(more): JSX.Element => <Option>{`+${more}`}</Option>}
       options={autocompleteOptions}
       renderOption={(renderProps, option, { selected }): JSX.Element => (
-        <li key={option.id} {...props}>
+        <li key={option.id} {...renderProps}>
           <Option checkboxSelected={selected}>{option.name}</Option>
         </li>
       )}
