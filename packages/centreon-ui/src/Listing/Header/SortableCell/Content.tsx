@@ -26,7 +26,7 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     alignItems: 'center',
     display: 'flex',
     minHeight: theme.spacing(3),
-    paddingLeft: theme.spacing(1.5),
+    padding: theme.spacing(0, 1.5),
   },
   dragHandle: ({ isDragging }): CreateCSSProperties<StylesProps> => ({
     alignSelf: 'flex-start',
