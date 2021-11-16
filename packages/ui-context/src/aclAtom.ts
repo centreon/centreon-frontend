@@ -2,8 +2,8 @@ import { atom } from 'jotai';
 
 import { defaultAcl } from './defaults';
 
-import { Actions } from '.';
+import { Acl } from '.';
 
-const aclAtom = atom<Actions>(defaultAcl.actions);
+const aclAtom = atom<Acl>(defaultAcl);
 
 export default aclAtom;
