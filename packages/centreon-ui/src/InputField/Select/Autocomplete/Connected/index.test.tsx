@@ -17,10 +17,6 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 mockedAxios.CancelToken = jest.requireActual('axios').CancelToken;
 
-const cancelTokenRequestParam = {
-  cancelToken: { promise: Promise.resolve({}) },
-};
-
 const label = 'Connected Autocomplete';
 const placeholder = 'Type here...';
 
@@ -71,7 +67,7 @@ describe(SingleAutocompleteField, () => {
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
       `${baseEndpoint}?page=1`,
-      cancelTokenRequestParam,
+      expect.anything(),
     );
 
     await waitFor(() => {
@@ -89,7 +85,7 @@ describe(SingleAutocompleteField, () => {
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
       `${baseEndpoint}?page=1`,
-      cancelTokenRequestParam,
+      expect.anything(),
     );
 
     fireEvent.change(getByPlaceholderText(placeholder), {
@@ -102,7 +98,7 @@ describe(SingleAutocompleteField, () => {
           '{"$or":[{"host.name":{"$rg":"My Option 2"}}]}',
         )}`,
 
-        cancelTokenRequestParam,
+        expect.anything(),
       );
     });
   });
