@@ -65,7 +65,7 @@ const theme = createTheme(
 );
 
 interface Props {
-  children: React.ReactChildren;
+  children: React.ReactChild;
 }
 
 const ThemeProvider = ({ children }: Props): JSX.Element => (
