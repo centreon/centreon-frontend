@@ -3,7 +3,7 @@ import * as React from 'react';
 import { isEmpty } from 'ramda';
 
 import { UseAutocompleteProps } from '@material-ui/lab';
-import { Avatar, Chip, makeStyles, useTheme, Box } from '@material-ui/core';
+import { Avatar, Chip, makeStyles, useTheme } from '@material-ui/core';
 
 import { Props as AutocompleteProps } from '..';
 import { SelectEntry } from '../..';
