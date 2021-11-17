@@ -3,7 +3,7 @@ import * as React from 'react';
 import { isEmpty } from 'ramda';
 
 import { UseAutocompleteProps } from '@material-ui/lab';
-import { Avatar, Chip, makeStyles, useTheme } from '@material-ui/core';
+import { Avatar, Chip, makeStyles, useTheme, Box } from '@material-ui/core';
 
 import { Props as AutocompleteProps } from '..';
 import { SelectEntry } from '../..';
@@ -35,6 +35,7 @@ const PopoverAutocomplete = (
     value,
     label,
     onChange,
+    hideInput,
     ...props
   }: Props): JSX.Element => {
     const [optionsOpen, setOptionsOpen] = React.useState<boolean>(false);
@@ -68,6 +69,7 @@ const PopoverAutocomplete = (
             disableCloseOnSelect
             multiple
             displayPopupIcon={false}
+            hideInput={hideInput}
             open={optionsOpen}
             renderTags={(): null => null}
             style={{ minWidth: theme.spacing(20) }}
