@@ -50,14 +50,6 @@ stage('Sonar analysis') {
     }
     checkoutCentreonBuild(buildBranch)
     discoverGitReferenceBuild()
-    withSonarQubeEnv('SonarQubeDev') {
-      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-    }
-
-    def qualityGate = waitForQualityGate()
-    if (qualityGate.status != 'OK') {
-      currentBuild.result = 'FAIL'
-    }
 
     source = readProperties file: 'source.properties'
     env.VERSION = "${source.VERSION}"
@@ -65,6 +57,17 @@ stage('Sonar analysis') {
     sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
     stash includes: '**', name: 'centreonui-centreon-build'
     stash includes: '**', name: 'uicontext-centreon-build'
+
+    withSonarQubeEnv('SonarQubeDev') {
+      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
+    }
+
+    timeout (time:10, unit: 'MINUTES') {
+      def qualityGate = waitForQualityGate()
+      if (qualityGate.status != 'OK') {
+        currentBuild.result = 'FAIL'
+      }
+    }
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
     error('Sonar analysis stage failure');
