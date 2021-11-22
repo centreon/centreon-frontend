@@ -4,7 +4,7 @@
 import groovy.json.JsonSlurper
 
 properties([buildDiscarder(logRotator(numToKeepStr: '50'))])
-def serie = '21.10'
+def serie = '22.04'
 def maintenanceBranch = "${serie}.x"
 if (env.BRANCH_NAME.startsWith('release-')) {
   env.BUILD = 'RELEASE'
@@ -43,7 +43,7 @@ def checkoutCentreonBuild(buildBranch) {
 /*
 ** Pipeline code.
 */
-stage('Sonar analysis') {
+stage('Sources') {
   node {
     dir('centreon-frontend') {
       checkout scm
@@ -57,20 +57,6 @@ stage('Sonar analysis') {
     sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
     stash includes: '**', name: 'centreonui-centreon-build'
     stash includes: '**', name: 'uicontext-centreon-build'
-
-    withSonarQubeEnv('SonarQubeDev') {
-      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-    }
-
-    timeout (time:10, unit: 'MINUTES') {
-      def qualityGate = waitForQualityGate()
-      if (qualityGate.status != 'OK') {
-        currentBuild.result = 'FAIL'
-      }
-    }
-  }
-  if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-    error('Sonar analysis stage failure');
   }
 }
 
@@ -104,6 +90,25 @@ stage('Unit tests') {
           tool: esLint(id: 'ui-context', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
+    }
+  },
+  'Sonar analysis': {
+    node {
+      unstash name: 'centreon-frontend-centreonui-centreon-build'
+
+      withSonarQubeEnv('SonarQubeDev') {
+        sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
+      }
+
+      timeout (time:10, unit: 'MINUTES') {
+        def qualityGate = waitForQualityGate()
+        if (qualityGate.status != 'OK') {
+          currentBuild.result = 'FAIL'
+        }
+      }
+    }
+    if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
+      error('Sonar analysis stage failure');
     }
   }
 }
