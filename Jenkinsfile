@@ -94,6 +94,12 @@ stage('Unit tests') {
   },
   'Sonar analysis': {
     node {
+      // Waiting the stashed files before analyzing
+      timeout (time:10, unit: 'MINUTES') {
+        while not fileExists('centreon-frontend-centreonui-centreon-build'):
+          sleep(10)
+        }
+      }
       unstash name: 'centreon-frontend-centreonui-centreon-build'
 
       withSonarQubeEnv('SonarQubeDev') {
