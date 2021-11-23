@@ -91,31 +91,25 @@ stage('Unit tests') {
           trendChartType: 'NONE'
         )
     }
-  },
-  'Sonar analysis': {
-    node {
-      // Waiting the stashed files before analyzing
-      timeout (time:10, unit: 'MINUTES') {
-        while not fileExists('centreon-frontend-centreonui-centreon-build'):
-          sleep(10)
-        }
-      }
-      unstash name: 'centreon-frontend-centreonui-centreon-build'
+  }
+}
 
-      withSonarQubeEnv('SonarQubeDev') {
-        sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-      }
+stage('Sonar analysis') {
+  node {
+    unstash name: 'centreon-frontend-centreonui-centreon-build'
+    withSonarQubeEnv('SonarQubeDev') {
+      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
+    }
 
-      timeout (time:10, unit: 'MINUTES') {
-        def qualityGate = waitForQualityGate()
-        if (qualityGate.status != 'OK') {
-          currentBuild.result = 'FAIL'
-        }
+    timeout (time:10, unit: 'MINUTES') {
+      def qualityGate = waitForQualityGate()
+      if (qualityGate.status != 'OK') {
+        currentBuild.result = 'FAIL'
       }
     }
-    if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-      error('Sonar analysis stage failure');
-    }
+  }
+  if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
+    error('Sonar analysis stage failure');
   }
 }
 
