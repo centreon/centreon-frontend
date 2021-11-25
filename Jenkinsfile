@@ -94,6 +94,7 @@ stage('Unit tests') {
   },
   'Sonar analysis': {
     node {
+      unstash name: 'centreonui-centreon-build'
       withSonarQubeEnv('SonarQubeDev') {
         sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
       }
