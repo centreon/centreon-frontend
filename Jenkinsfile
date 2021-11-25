@@ -43,13 +43,23 @@ def checkoutCentreonBuild(buildBranch) {
 /*
 ** Pipeline code.
 */
-stage('Sources') {
+stage('Sonar analysis') {
   node {
     dir('centreon-frontend') {
       checkout scm
     }
     checkoutCentreonBuild(buildBranch)
     discoverGitReferenceBuild()
+    withSonarQubeEnv('SonarQubeDev') {
+      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
+    }
+
+    timeout (time:10, unit: 'MINUTES') {
+      def qualityGate = waitForQualityGate()
+      if (qualityGate.status != 'OK') {
+        currentBuild.result = 'FAIL'
+      }
+    }
 
     source = readProperties file: 'source.properties'
     env.VERSION = "${source.VERSION}"
@@ -57,6 +67,9 @@ stage('Sources') {
     sh "./centreon-build/jobs/frontend/${serie}/frontend-sources.sh"
     stash includes: '**', name: 'centreonui-centreon-build'
     stash includes: '**', name: 'uicontext-centreon-build'
+  }
+  if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
+    error('Sonar analysis stage failure');
   }
 }
 
@@ -90,24 +103,6 @@ stage('Unit tests') {
           tool: esLint(id: 'ui-context', pattern: 'codestyle.xml'),
           trendChartType: 'NONE'
         )
-    }
-  },
-  'Sonar analysis': {
-    node {
-      unstash name: 'centreonui-centreon-build'
-      withSonarQubeEnv('SonarQubeDev') {
-        sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-      }
-
-      timeout (time:10, unit: 'MINUTES') {
-        def qualityGate = waitForQualityGate()
-        if (qualityGate.status != 'OK') {
-          currentBuild.result = 'FAIL'
-        }
-      }
-    }
-    if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-      error('Sonar analysis stage failure');
     }
   }
 }
