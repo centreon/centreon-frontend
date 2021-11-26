@@ -4,15 +4,15 @@ import { useDeepCompare } from './useMemoComponent';
 
 interface UseDeepCallback<TParameters, TReturn, TMemoProps> {
   callback: (props: TParameters) => TReturn;
-  memoProps: Array<TMemoProps>;
+  deps: Array<TMemoProps>;
 }
 
 const useDeepCallback = <TParameters, TReturn, TMemoProps>({
-  memoProps,
+  deps,
   callback,
 }: UseDeepCallback<TParameters, TReturn, TMemoProps>): ((
   props: TParameters,
 ) => TReturn) =>
-  React.useCallback((props) => callback(props), useDeepCompare(memoProps));
+  React.useCallback((props) => callback(props), useDeepCompare(deps));
 
 export default useDeepCallback;
