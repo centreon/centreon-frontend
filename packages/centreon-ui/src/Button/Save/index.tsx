@@ -22,7 +22,7 @@ import SaveIcon from '@material-ui/icons/Save';
 interface Props extends Record<string, unknown> {
   labelLoading?: string;
   labelSave?: string;
-  labelSucceed?: string;
+  labelSucceeded?: string;
   loading?: boolean;
   size?: 'small' | 'medium' | 'large';
   succeeded?: boolean;
@@ -47,7 +47,7 @@ const SaveButton = ({
   succeeded = false,
   loading = false,
   tooltipLabel = '',
-  labelSucceed = '',
+  labelSucceeded = '',
   labelLoading = '',
   labelSave = '',
   size = 'medium',
@@ -55,7 +55,7 @@ const SaveButton = ({
 }: Props): JSX.Element => {
   const { t } = useTranslation();
 
-  const hasLabel = hasValue([labelLoading, labelSave, labelSucceed]);
+  const hasLabel = hasValue([labelLoading, labelSave, labelSucceeded]);
   const isSmall = equals('small', size);
 
   const startIconConfig = {
@@ -82,7 +82,7 @@ const SaveButton = ({
 
   const ButtonContent = (): JSX.Element | string => {
     if (succeeded) {
-      return labelSucceed ? t(labelSucceed) : <CheckIcon />;
+      return labelSucceeded ? t(labelSucceeded) : <CheckIcon />;
     }
 
     if (loading) {
