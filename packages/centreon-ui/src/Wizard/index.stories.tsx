@@ -324,8 +324,6 @@ const Form = (): JSX.Element => {
             const errors: FormikErrors<FormikValues> = {};
             if (!values.email) {
               errors.email = 'Required';
-            } else {
-              errors.email = 'Invalid email address';
             }
 
             return errors;
