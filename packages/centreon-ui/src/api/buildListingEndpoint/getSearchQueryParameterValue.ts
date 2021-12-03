@@ -122,11 +122,17 @@ const getSearchQueryParameterValue = (
   const conditionSearchesParam =
     getConditionsSearchQueryParameterValue(conditions);
 
-  const result = reject<
+  const rejectNullOrUndefinedValues = reject<
     | RegexSearchQueryParameterValue
     | GetListsSearchQueryParameterValueProps
     | GetConditionsSearchQueryParameterValueState
-  >(isNil, [regexSearchParam, listSearchesParam, conditionSearchesParam]);
+  >(isNil);
+
+  const result = rejectNullOrUndefinedValues([
+    regexSearchParam,
+    listSearchesParam,
+    conditionSearchesParam,
+  ]);
 
   if (result.length === 1) {
     return head(result);

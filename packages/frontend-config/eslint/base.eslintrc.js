@@ -41,6 +41,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/prefer-default-export': 'off',
     'newline-before-return': ['error'],
+    'no-promise-executor-return': 'off',
     'prefer-arrow-functions/prefer-arrow-functions': ['error'],
     'prettier/prettier': [
       'error',
