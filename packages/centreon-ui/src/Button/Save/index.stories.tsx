@@ -19,7 +19,7 @@ export const loadingWithText = (): JSX.Element => (
 );
 
 export const succeededWithText = (): JSX.Element => (
-  <ButtonSave succeeded labelSucceeded="Succeed" />
+  <ButtonSave succeeded labelSucceeded="Succeeded" />
 );
 
 export const normalWithTextAndSmallSize = (): JSX.Element => (
@@ -31,5 +31,5 @@ export const loadingWithTextAndSmallSize = (): JSX.Element => (
 );
 
 export const succeededWithTextAndSmallSize = (): JSX.Element => (
-  <ButtonSave succeeded labelSucceeded="Succeed" size="small" />
+  <ButtonSave succeeded labelSucceeded="Succeeded" size="small" />
 );
