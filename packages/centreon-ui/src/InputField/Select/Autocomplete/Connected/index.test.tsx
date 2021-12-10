@@ -18,6 +18,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const cancelTokenRequestParam = {
   cancelToken: {},
+  headers: undefined,
 };
 
 const label = 'Connected Autocomplete';
@@ -95,7 +96,10 @@ describe(SingleConnectedAutocompleteField, () => {
       fireEvent.click(getByLabelText('Open'));
     });
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(`${baseEndpoint}?page=1`);
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      `${baseEndpoint}?page=1`,
+      cancelTokenRequestParam,
+    );
 
     fireEvent.change(getByPlaceholderText(placeholder), {
       target: { value: 'My Option 2' },
@@ -106,7 +110,6 @@ describe(SingleConnectedAutocompleteField, () => {
         `${baseEndpoint}?page=1&search=${encodeURIComponent(
           '{"$and":[{"host.name":{"$lk":"%My Option 2%"}}]}',
         )}`,
-
         cancelTokenRequestParam,
       );
     });
@@ -133,6 +136,7 @@ describe(SingleConnectedAutocompleteField, () => {
         `${baseEndpoint}?page=1&search=${encodeURIComponent(
           '{"$and":[{"parent_name":{"$eq":"Centreon-Server"}}]}',
         )}`,
+        cancelTokenRequestParam,
       );
     });
   });
