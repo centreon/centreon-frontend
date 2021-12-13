@@ -6,7 +6,7 @@ const contentTypeHeaders = {
 
 interface GetDataParameters {
   endpoint: string;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
 }
 
 const getData =
