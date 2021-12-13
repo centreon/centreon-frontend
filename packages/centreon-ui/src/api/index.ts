@@ -1,4 +1,5 @@
 import axios, { CancelToken } from 'axios';
+import { isNil, not } from 'ramda';
 
 const contentTypeHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
@@ -11,8 +12,14 @@ interface GetDataParameters {
 
 const getData =
   <TResult>(cancelToken: CancelToken) =>
-  ({ endpoint, headers }: GetDataParameters): Promise<TResult> =>
-    axios.get(endpoint, { cancelToken, headers }).then(({ data }) => data);
+  ({ endpoint, headers }: GetDataParameters): Promise<TResult> => {
+    const baseOptions = { cancelToken };
+    const options = not(isNil(headers))
+      ? { ...baseOptions, headers }
+      : baseOptions;
+
+    return axios.get(endpoint, options).then(({ data }) => data);
+  };
 
 interface RequestWithData<TData> {
   data: TData;
