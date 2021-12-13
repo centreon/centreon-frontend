@@ -4,8 +4,6 @@ import { Paper, makeStyles } from '@material-ui/core';
 
 import { useMemoComponent } from '..';
 
-import FilterSkeleton from './FilterSkeleton';
-
 const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(1),
@@ -22,7 +20,7 @@ const Filter = React.forwardRef(
 
     return (
       <Paper square className={classes.content} ref={ref}>
-        <React.Suspense fallback={<FilterSkeleton />}>{content}</React.Suspense>
+        {content}
       </Paper>
     );
   },
