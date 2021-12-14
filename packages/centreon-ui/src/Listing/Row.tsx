@@ -4,16 +4,11 @@ import * as React from 'react';
 
 import { equals, gte, lt, not, pluck } from 'ramda';
 
-import {
-  TableRowProps,
-  TableRow,
-  Theme,
-  useTheme,
-  Skeleton,
-} from '@mui/material';
+import { TableRowProps, TableRow, Theme, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { useViewportIntersection } from '../utils/useViewportIntersection';
+import LoadingSkeleton from '../LoadingSkeleton';
 
 import { Column, ColumnConfiguration, RowColorCondition } from './models';
 
@@ -81,14 +76,14 @@ const Row = React.memo<RowProps>(
           {checkable && (
             <div className={classes.skeletonContainer}>
               <div>
-                <Skeleton className={classes.skeleton} variant="rectangular" />
+                <LoadingSkeleton className={classes.skeleton} />
               </div>
             </div>
           )}
           {visibleColumns.map(({ id }) => (
             <div className={classes.skeletonContainer} key={`loading_${id}`}>
               <div>
-                <Skeleton className={classes.skeleton} variant="rectangular" />
+                <LoadingSkeleton className={classes.skeleton} />
               </div>
             </div>
           ))}

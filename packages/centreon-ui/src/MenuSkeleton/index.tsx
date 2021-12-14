@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { useTheme, alpha, Skeleton } from '@mui/material';
+import { useTheme, alpha } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+
+import LoadingSkeleton from '../LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
@@ -20,7 +22,7 @@ const MenuLoader = ({ width = 15, animate = true }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <Skeleton
+    <LoadingSkeleton
       animation={animate ? 'wave' : false}
       className={classes.skeleton}
       height={theme.spacing(5)}
