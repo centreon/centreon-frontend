@@ -60,6 +60,8 @@ const MultiAutocompleteField = ({
       />
     ));
 
+  const getLimitTagsText = (more): JSX.Element => <Option>{`+${more}`}</Option>;
+
   const values = (value as Array<SelectEntry>) || [];
 
   const isOptionSelected = ({ id }): boolean => {
@@ -77,7 +79,7 @@ const MultiAutocompleteField = ({
       disableCloseOnSelect
       displayOptionThumbnail
       multiple
-      getLimitTagsText={(more): JSX.Element => <Option>{`+${more}`}</Option>}
+      getLimitTagsText={getLimitTagsText}
       options={autocompleteOptions}
       renderOption={(renderProps, option, { selected }): JSX.Element => (
         <li key={option.id} {...renderProps}>

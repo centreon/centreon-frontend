@@ -9,6 +9,7 @@ import {
   InputAdornment,
   Autocomplete,
   AutocompleteProps,
+  Theme,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { UseAutocompleteProps } from '@mui/material/useAutocomplete';
@@ -18,7 +19,30 @@ import TextField from '../../Text';
 import { SelectEntry } from '..';
 import { searchLabel } from '../../translatedLabels';
 
-const useStyles = makeStyles((theme) => ({
+export type Props = {
+  autoFocus?: boolean;
+  displayOptionThumbnail?: boolean;
+  displayPopupIcon?: boolean;
+  endAdornment?: React.ReactElement;
+  error?: string;
+  hideInput?: boolean;
+  label?: string;
+  loading?: boolean;
+  onTextChange?;
+  placeholder?: string;
+  required?: boolean;
+} & Omit<
+  AutocompleteProps<SelectEntry, Multiple, DisableClearable, FreeSolo>,
+  'renderInput'
+> &
+  UseAutocompleteProps<SelectEntry, Multiple, DisableClearable, FreeSolo>;
+
+type StyledProps = Partial<Pick<Props, 'hideInput'>>;
+
+const textfieldHeight = (hideInput?: boolean): string | number =>
+  hideInput ? 0 : '100%';
+
+const useStyles = makeStyles<Theme, StyledProps>((theme) => ({
   input: {
     '&:after': {
       borderBottom: 0,
@@ -30,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover:before': {
       borderBottom: 0,
     },
+    height: ({ hideInput }): string | number => textfieldHeight(hideInput),
   },
   inputEndAdornment: {
     paddingBottom: '19px',
@@ -57,9 +82,12 @@ const useStyles = makeStyles((theme) => ({
   },
   inputWithoutLabel: {
     '&[class*="MuiFilledInput-root"][class*="MuiFilledInput-marginDense"]': {
-      paddingBottom: theme.spacing(0.75),
-      paddingRight: theme.spacing(1),
-      paddingTop: theme.spacing(0.75),
+      paddingBottom: ({ hideInput }): number | string =>
+        hideInput ? 0 : theme.spacing(0.75),
+      paddingRight: ({ hideInput }): number | string =>
+        hideInput ? 0 : theme.spacing(1),
+      paddingTop: ({ hideInput }): number | string =>
+        hideInput ? 0 : theme.spacing(0.75),
     },
   },
   loadingIndicator: {
@@ -74,10 +102,15 @@ const useStyles = makeStyles((theme) => ({
   popper: {
     zIndex: theme.zIndex.tooltip + 1,
   },
+  textfield: {
+    height: ({ hideInput }): string | number => textfieldHeight(hideInput),
+    visibility: ({ hideInput }): VisibilityState =>
+      hideInput ? 'hidden' : 'visible',
+  },
 }));
 
 const LoadingIndicator = (): JSX.Element => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <div className={classes.loadingIndicator}>
@@ -89,23 +122,6 @@ const LoadingIndicator = (): JSX.Element => {
 type Multiple = boolean;
 type DisableClearable = boolean;
 type FreeSolo = boolean;
-
-export type Props = {
-  autoFocus?: boolean;
-  displayOptionThumbnail?: boolean;
-  displayPopupIcon?: boolean;
-  endAdornment?: React.ReactElement;
-  error?: string;
-  label?: string;
-  loading?: boolean;
-  onTextChange?;
-  placeholder?: string;
-  required?: boolean;
-} & Omit<
-  AutocompleteProps<SelectEntry, Multiple, DisableClearable, FreeSolo>,
-  'renderInput'
-> &
-  UseAutocompleteProps<SelectEntry, Multiple, DisableClearable, FreeSolo>;
 
 const AutocompleteField = ({
   options,
@@ -120,9 +136,10 @@ const AutocompleteField = ({
   error,
   displayPopupIcon = true,
   autoFocus = false,
+  hideInput = false,
   ...props
 }: Props): JSX.Element => {
-  const classes = useStyles();
+  const classes = useStyles({ hideInput });
   const { t } = useTranslation();
 
   const areSelectEntriesEqual = (option, value): boolean => {
@@ -161,6 +178,9 @@ const AutocompleteField = ({
         ),
       }}
       autoFocus={autoFocus}
+      classes={{
+        root: classes.textfield,
+      }}
       error={error}
       inputProps={{
         ...params.inputProps,
@@ -184,6 +204,7 @@ const AutocompleteField = ({
           label ? classes.inputWithLabel : classes.inputWithoutLabel,
         ]),
         popper: classes.popper,
+        root: classes.textfield,
       }}
       forcePopupIcon={displayPopupIcon}
       getOptionLabel={(option: SelectEntry): string => option.name}

@@ -79,7 +79,7 @@ const TextField = React.forwardRef(
       transparent = false,
       size,
       displayErrorInTooltip = false,
-      InputProps,
+      // InputProps,
       ...rest
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
@@ -94,7 +94,7 @@ const TextField = React.forwardRef(
       <Tooltip placement="top" title={tooltipTitle}>
         <MuiTextField
           InputProps={{
-            ...InputProps,
+            ...rest.InputProps,
             className: clsx({
               [classes.transparent]: transparent,
             }),

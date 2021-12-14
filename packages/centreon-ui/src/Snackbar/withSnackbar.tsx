@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { SnackbarProvider } from 'notistack';
 
-import { Fade } from '@mui/material';
+import Transition from './Transition';
 
 import Snackbar, { SnackbarProps } from '.';
 
@@ -29,11 +29,7 @@ const withSnackbar = ({
 
     return (
       <SnackbarProvider
-        TransitionComponent={({ children, ...rest }): JSX.Element => (
-          <Fade {...rest}>
-            <div>{children}</div>
-          </Fade>
-        )}
+        TransitionComponent={Transition}
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         content={snackbarContent}
         maxSnack={maxSnackbars}

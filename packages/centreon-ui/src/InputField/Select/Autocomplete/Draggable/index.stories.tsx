@@ -82,7 +82,6 @@ const MultiDraggableConnected = (): JSX.Element => (
     getEndpoint={(parameters): string => {
       return getEndpoint({ endpoint: baseEndpoint, parameters });
     }}
-    getOptionsFromResult={(result): Array<SelectEntry> => result}
     initialPage={1}
     label="Multi Draggable Connected Autocomplete"
     placeholder="Type here..."

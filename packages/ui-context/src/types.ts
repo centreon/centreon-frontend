@@ -40,10 +40,12 @@ export interface Actions {
   service: ActionAcl;
 }
 
-interface Acl {
+export interface Acl {
   actions: Actions;
 }
 
 export interface Downtime {
   default_duration: number;
+  default_fixed: boolean;
+  default_with_services: boolean;
 }

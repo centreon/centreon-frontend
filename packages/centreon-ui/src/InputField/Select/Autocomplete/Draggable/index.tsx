@@ -162,8 +162,12 @@ const DraggableAutocomplete = (
       setInputText(null);
     };
 
-    const renderOption = (option): JSX.Element => (
-      <Typography variant="body2">{option.name}</Typography>
+    const renderOption = (renderProps, option): JSX.Element => (
+      <div key={option.id} style={{ width: '100%' }}>
+        <li {...renderProps}>
+          <Typography variant="body2">{option.name}</Typography>
+        </li>
+      </div>
     );
 
     React.useEffect(() => {
@@ -190,7 +194,7 @@ const DraggableAutocomplete = (
         handleHomeEndKeys
         selectOnFocus
         disableCloseOnSelect={false}
-        getOptionSelected={F}
+        isOptionEqualToValue={F}
         renderOption={renderOption}
         renderTags={renderTags}
         value={selectedValues}

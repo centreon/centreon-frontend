@@ -36,6 +36,7 @@ const PopoverAutocomplete = (
     value,
     label,
     onChange,
+    hideInput,
     ...props
   }: Props): JSX.Element => {
     const [optionsOpen, setOptionsOpen] = React.useState<boolean>(false);
@@ -69,6 +70,7 @@ const PopoverAutocomplete = (
             disableCloseOnSelect
             multiple
             displayPopupIcon={false}
+            hideInput={hideInput}
             open={optionsOpen}
             renderTags={(): null => null}
             style={{ minWidth: theme.spacing(20) }}

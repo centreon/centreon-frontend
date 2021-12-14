@@ -54,6 +54,13 @@ module.exports = {
     ],
     'no-use-before-define': 'off',
     'prefer-arrow-functions/prefer-arrow-functions': ['error'],
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx'] }],
     'react/jsx-key': 'error',
     'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],

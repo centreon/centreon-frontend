@@ -10,8 +10,9 @@ import {
   act,
 } from '../../../../testRenderer';
 import buildListingEndpoint from '../../../../api/buildListingEndpoint';
+import { ConditionsSearchParameter } from '../../../../api/buildListingEndpoint/models';
 
-import SingleAutocompleteField from './Single';
+import SingleConnectedAutocompleteField from './Single';
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
@@ -33,21 +34,29 @@ const optionsData = {
 };
 
 const baseEndpoint = 'endpoint';
+
 const getEndpoint = (parameters): string => {
   return buildListingEndpoint({ baseEndpoint, parameters });
 };
 
-const renderSingleAutocompleteField = (): RenderResult =>
+interface Props {
+  searchConditions?: Array<ConditionsSearchParameter>;
+}
+
+const renderSingleConnectedAutocompleteField = (
+  { searchConditions }: Props = { searchConditions: undefined },
+): RenderResult =>
   render(
-    <SingleAutocompleteField
+    <SingleConnectedAutocompleteField
       field="host.name"
       getEndpoint={getEndpoint}
       label={label}
       placeholder="Type here..."
+      searchConditions={searchConditions}
     />,
   );
 
-describe(SingleAutocompleteField, () => {
+describe(SingleConnectedAutocompleteField, () => {
   beforeEach(() => {
     mockedAxios.get.mockResolvedValue({
       data: optionsData,
@@ -58,8 +67,9 @@ describe(SingleAutocompleteField, () => {
     mockedAxios.get.mockReset();
   });
 
-  it('populates options with the first page result of get call from endpoint', async () => {
-    const { getByLabelText, getByText } = renderSingleAutocompleteField();
+  it('populates options with the first page result from the endpoint request', async () => {
+    const { getByLabelText, getByText } =
+      renderSingleConnectedAutocompleteField();
 
     act(() => {
       fireEvent.click(getByLabelText('Open'));
@@ -75,9 +85,9 @@ describe(SingleAutocompleteField, () => {
     });
   });
 
-  it('populates options with the first page result of the get call from the endpoint after typing something in input field', async () => {
+  it('populates options with the first page result from the endpoint request after typing something in input field', async () => {
     const { getByLabelText, getByPlaceholderText } =
-      renderSingleAutocompleteField();
+      renderSingleConnectedAutocompleteField();
 
     act(() => {
       fireEvent.click(getByLabelText('Open'));
@@ -95,9 +105,34 @@ describe(SingleAutocompleteField, () => {
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith(
         `${baseEndpoint}?page=1&search=${encodeURIComponent(
-          '{"$or":[{"host.name":{"$rg":"My Option 2"}}]}',
+          '{"$and":[{"host.name":{"$lk":"%My Option 2%"}}]}',
         )}`,
+        expect.anything(),
+      );
+    });
+  });
 
+  it('adds search conditions to the endpoint request when the corresponding prop is passed', async () => {
+    const { getByLabelText } = renderSingleConnectedAutocompleteField({
+      searchConditions: [
+        {
+          field: 'parent_name',
+          value: {
+            $eq: 'Centreon-Server',
+          },
+        },
+      ],
+    });
+
+    act(() => {
+      fireEvent.click(getByLabelText('Open'));
+    });
+
+    await waitFor(() => {
+      expect(mockedAxios.get).toHaveBeenCalledWith(
+        `${baseEndpoint}?page=1&search=${encodeURIComponent(
+          '{"$and":[{"parent_name":{"$eq":"Centreon-Server"}}]}',
+        )}`,
         expect.anything(),
       );
     });
