@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import 'ulog';
 import axios from 'axios';
-import { pathOr, defaultTo } from 'ramda';
+import { pathOr, defaultTo, not, pathEq } from 'ramda';
 import anylogger from 'anylogger';
 import { JsonDecoder } from 'ts.data.json';
 
@@ -16,6 +16,7 @@ export interface RequestParams<TResult> {
   defaultFailureMessage?: string;
   getErrorMessage?: (error) => string;
   request: (token) => (params?) => Promise<TResult>;
+  showErrorOnPermissionDenied?: boolean;
 }
 
 export interface RequestResult<TResult> {
@@ -28,6 +29,7 @@ const useRequest = <TResult>({
   decoder,
   getErrorMessage,
   defaultFailureMessage = 'Oops, something went wrong',
+  showErrorOnPermissionDenied = true,
 }: RequestParams<TResult>): RequestResult<TResult> => {
   const { token, cancel } = useCancelTokenSource();
   const { showErrorMessage } = useSnackbar();
@@ -63,6 +65,14 @@ const useRequest = <TResult>({
         if (axios.isCancel(error)) {
           log.warn(error);
 
+          throw error;
+        }
+
+        const isPermissionDenied =
+          pathEq(['response', 'status'], 403)(error) ||
+          pathEq(['response', 'status'], 401)(error);
+
+        if (not(showErrorOnPermissionDenied) && isPermissionDenied) {
           throw error;
         }
 
