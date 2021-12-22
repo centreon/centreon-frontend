@@ -79,7 +79,6 @@ const TextField = React.forwardRef(
       transparent = false,
       size,
       displayErrorInTooltip = false,
-      // InputProps,
       ...rest
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
