@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import 'ulog';
 import axios from 'axios';
-import { pathOr, defaultTo, not, pathEq } from 'ramda';
+import { pathOr, defaultTo, not } from 'ramda';
 import anylogger from 'anylogger';
 import { JsonDecoder } from 'ts.data.json';
 
@@ -16,11 +16,11 @@ export interface RequestParams<TResult> {
   defaultFailureMessage?: string;
   getErrorMessage?: (error) => string;
   request: (token) => (params?) => Promise<TResult>;
-  showErrorOnPermissionDenied?: boolean;
+  silentError?: boolean;
 }
 
 export interface RequestResult<TResult> {
-  sendRequest: (params?) => Promise<TResult>;
+  sendRequest: (params?) => Promise<TResult | void>;
   sending: boolean;
 }
 
@@ -29,7 +29,7 @@ const useRequest = <TResult>({
   decoder,
   getErrorMessage,
   defaultFailureMessage = 'Oops, something went wrong',
-  showErrorOnPermissionDenied = true,
+  silentError = true,
 }: RequestParams<TResult>): RequestResult<TResult> => {
   const { token, cancel } = useCancelTokenSource();
   const { showErrorMessage } = useSnackbar();
@@ -50,7 +50,7 @@ const useRequest = <TResult>({
     showErrorMessage(message);
   };
 
-  const sendRequest = (params): Promise<TResult> => {
+  const sendRequest = (params): Promise<TResult | void> => {
     setSending(true);
 
     return request(token)(params)
@@ -68,17 +68,11 @@ const useRequest = <TResult>({
           throw error;
         }
 
-        const isPermissionDenied =
-          pathEq(['response', 'status'], 403)(error) ||
-          pathEq(['response', 'status'], 401)(error);
-
-        if (not(showErrorOnPermissionDenied) && isPermissionDenied) {
-          throw error;
-        }
-
         showRequestErrorMessage(error);
 
-        throw error;
+        if (not(silentError)) {
+          throw error;
+        }
       })
       .finally(() => setSending(false));
   };
