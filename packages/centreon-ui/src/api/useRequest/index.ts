@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import 'ulog';
 import axios from 'axios';
-import { pathOr, defaultTo, not } from 'ramda';
+import { pathOr, defaultTo, path } from 'ramda';
 import anylogger from 'anylogger';
 import { JsonDecoder } from 'ts.data.json';
 
@@ -15,12 +15,12 @@ export interface RequestParams<TResult> {
   decoder?: JsonDecoder.Decoder<TResult>;
   defaultFailureMessage?: string;
   getErrorMessage?: (error) => string;
+  httpCodesForBypassShowErrorMessage?: Array<number>;
   request: (token) => (params?) => Promise<TResult>;
-  silentError?: boolean;
 }
 
 export interface RequestResult<TResult> {
-  sendRequest: (params?) => Promise<TResult | void>;
+  sendRequest: (params?) => Promise<TResult>;
   sending: boolean;
 }
 
@@ -29,7 +29,7 @@ const useRequest = <TResult>({
   decoder,
   getErrorMessage,
   defaultFailureMessage = 'Oops, something went wrong',
-  silentError = true,
+  httpCodesForBypassShowErrorMessage = [],
 }: RequestParams<TResult>): RequestResult<TResult> => {
   const { token, cancel } = useCancelTokenSource();
   const { showErrorMessage } = useSnackbar();
@@ -50,7 +50,7 @@ const useRequest = <TResult>({
     showErrorMessage(message);
   };
 
-  const sendRequest = (params): Promise<TResult | void> => {
+  const sendRequest = (params): Promise<TResult> => {
     setSending(true);
 
     return request(token)(params)
@@ -68,11 +68,18 @@ const useRequest = <TResult>({
           throw error;
         }
 
-        showRequestErrorMessage(error);
+        const hasACorrespondingHttpCode =
+          httpCodesForBypassShowErrorMessage.includes(
+            path<number>(['response', 'status'], error) as number,
+          );
 
-        if (not(silentError)) {
+        if (hasACorrespondingHttpCode) {
           throw error;
         }
+
+        showRequestErrorMessage(error);
+
+        throw error;
       })
       .finally(() => setSending(false));
   };
