@@ -6,9 +6,6 @@ import { Badge, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
-  badge: {
-    backgroundColor: '#29d1d3',
-  },
   iconName: {
     color: theme.palette.background.paper,
     display: 'block',
@@ -43,7 +40,7 @@ const IconHeader = ({
     <span className={classes.iconWrap}>
       <Badge
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        classes={{ badge: classes.badge }}
+        color="info"
         invisible={not(pending)}
         overlap="circular"
         variant="dot"
