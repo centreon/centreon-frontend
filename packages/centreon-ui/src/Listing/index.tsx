@@ -594,7 +594,9 @@ const Listing = <TRow extends { id: RowId }>({
                     disableRowCondition={(): boolean => false}
                     isRowHovered={false}
                     style={{
-                      gridColumn: `auto / span ${columns.length + 1}`,
+                      gridColumn: `auto / span ${
+                        checkable ? columns.length + 1 : columns.length
+                      }`,
                     }}
                   >
                     {loading ? (
