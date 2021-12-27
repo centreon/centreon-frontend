@@ -21,6 +21,7 @@ import { Typography } from '@mui/material';
 
 import { ConnectedAutoCompleteFieldProps } from '../Connected';
 import { Props as SingleAutocompletefieldProps } from '..';
+import TextField from '../../../Text';
 
 import SortableList, { DraggableSelectEntry } from './SortableList';
 
@@ -31,13 +32,16 @@ export interface ItemActionProps {
 }
 
 interface Props {
+  error?: string;
   initialValues?: Array<DraggableSelectEntry>;
   itemClick?: (item: ItemActionProps) => void;
   itemHover?: (item: ItemActionProps | null) => void;
+  label: string;
   onSelectedValuesChange?: (
     values: Array<DraggableSelectEntry>,
     valueAddedOrDeleted?: DraggableSelectEntry,
   ) => Array<DraggableSelectEntry>;
+  required?: boolean;
 }
 
 const DraggableAutocomplete = (
@@ -48,6 +52,9 @@ const DraggableAutocomplete = (
     initialValues,
     itemClick,
     itemHover,
+    label,
+    required,
+    error,
     ...props
   }: Props &
     (
@@ -170,6 +177,22 @@ const DraggableAutocomplete = (
       </div>
     );
 
+    const renderInput = (renderProps): JSX.Element => (
+      <TextField
+        {...renderProps}
+        error={error}
+        helperText={error}
+        inputProps={{
+          ...renderProps.inputProps,
+          value: inputText || '',
+        }}
+        label={label}
+        required={required}
+        onBlur={blurInput}
+        onChange={changeInput}
+      />
+    );
+
     React.useEffect(() => {
       if (isNil(initialValues)) {
         return;
@@ -195,12 +218,11 @@ const DraggableAutocomplete = (
         selectOnFocus
         disableCloseOnSelect={false}
         isOptionEqualToValue={F}
+        renderInput={renderInput}
         renderOption={renderOption}
         renderTags={renderTags}
         value={selectedValues}
-        onBlur={blurInput}
         onChange={onChange}
-        onInputChange={changeInput}
         {...props}
       />
     );
