@@ -69,7 +69,7 @@ const useRequest = <TResult>({
         }
 
         const hasACorrespondingHttpCode =
-          httpCodesForBypassShowErrorMessage.includes(
+          httpCodesBypassErrorSnackbar.includes(
             path<number>(['response', 'status'], error) as number,
           );
 
