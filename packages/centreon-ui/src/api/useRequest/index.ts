@@ -15,7 +15,7 @@ export interface RequestParams<TResult> {
   decoder?: JsonDecoder.Decoder<TResult>;
   defaultFailureMessage?: string;
   getErrorMessage?: (error) => string;
-  httpCodesForBypassShowErrorMessage?: Array<number>;
+  httpCodesBypassErrorSnackbar?: Array<number>;
   request: (token) => (params?) => Promise<TResult>;
 }
 
