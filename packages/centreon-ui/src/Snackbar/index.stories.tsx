@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
-
 import SnackbarProvider from './SnackbarProvider';
 import useSnackbar from './useSnackbar';
 
