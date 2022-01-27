@@ -14,5 +14,4 @@ export type {
   CloudServices,
   Acknowledgement,
   Acl,
-  Theme,
 } from './types';
