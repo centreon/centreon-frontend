@@ -4,6 +4,6 @@ import { defaultUser } from './defaults';
 
 import { User } from '.';
 
-const userAtom = atom<User>(defaultUser as User);
+const userAtom = atom<User>(defaultUser);
 
 export default userAtom;
