@@ -12,8 +12,8 @@ export interface User {
 }
 
 export enum Theme {
-  light,
-  dark,
+  light = 'light',
+  dark = 'dark',
 }
 
 export interface CloudServices {
