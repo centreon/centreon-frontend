@@ -9,7 +9,7 @@ import { render, RenderResult } from '@testing-library/react';
 import { Provider } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 
-import {  userAtom } from '@centreon/ui-context';
+import {  userAtom, Theme } from '@centreon/ui-context';
 
 import useLocaleDateTimeFormat from '.';
 import { Theme } from '@centreon/ui-context/src/types';
