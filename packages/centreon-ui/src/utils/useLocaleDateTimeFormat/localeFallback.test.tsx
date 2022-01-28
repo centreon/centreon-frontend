@@ -12,7 +12,6 @@ import { Provider } from 'jotai';
 import { userAtom } from '@centreon/ui-context';
 
 import useLocaleDateTimeFormat from '.';
-import { Theme } from '@centreon/ui-context/src/types';
 
 dayjs.extend(timezonePlugin);
 dayjs.extend(utcPlugin);
