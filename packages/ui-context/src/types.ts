@@ -6,12 +6,12 @@ export interface User {
   isExportButtonEnabled: boolean;
   locale: string;
   name: string;
-  theme: Theme;
+  theme: UserTheme;
   timezone: string;
   use_deprecated_pages: boolean;
 }
 
-export enum Theme {
+export enum UserTheme {
   dark = 'dark',
   light = 'light',
 }
