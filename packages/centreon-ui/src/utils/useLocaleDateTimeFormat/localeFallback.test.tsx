@@ -32,7 +32,7 @@ const TestComponent = (): JSX.Element => {
       name: 'admin',
       timezone: 'Europe/Paris',
       use_deprecated_pages: false,
-      theme:UserTheme.light
+      theme: UserTheme.light
     });
   }, []);
 
