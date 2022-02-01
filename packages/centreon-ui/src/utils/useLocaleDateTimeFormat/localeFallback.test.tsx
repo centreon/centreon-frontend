@@ -9,7 +9,7 @@ import { useUpdateAtom } from 'jotai/utils';
 import { render, RenderResult } from '@testing-library/react';
 import { Provider } from 'jotai';
 
-import { userAtom, UserTheme} from '@centreon/ui-context';
+import { userAtom, UserTheme } from '@centreon/ui-context';
 
 import useLocaleDateTimeFormat from '.';
 
@@ -30,9 +30,9 @@ const TestComponent = (): JSX.Element => {
       isExportButtonEnabled: false,
       locale: 'unsupported_locale',
       name: 'admin',
+      theme: UserTheme.light,
       timezone: 'Europe/Paris',
       use_deprecated_pages: false,
-      theme: UserTheme.light
     });
   }, []);
 
