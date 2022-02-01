@@ -30,9 +30,9 @@ const TestComponent = (): JSX.Element => {
       isExportButtonEnabled: false,
       locale: 'en',
       name: 'admin',
+      theme: ThemeMode.light,
       timezone: 'Europe/Paris',
       use_deprecated_pages: false,
-      theme: ThemeMode.light
     });
   }, []);
 
