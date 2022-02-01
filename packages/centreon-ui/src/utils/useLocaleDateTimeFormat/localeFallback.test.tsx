@@ -9,7 +9,7 @@ import { useUpdateAtom } from 'jotai/utils';
 import { render, RenderResult } from '@testing-library/react';
 import { Provider } from 'jotai';
 
-import { userAtom, UserTheme} from '@centreon/ui-context';
+import { userAtom, ThemeMode} from '@centreon/ui-context';
 
 import useLocaleDateTimeFormat from '.';
 
@@ -32,7 +32,7 @@ const TestComponent = (): JSX.Element => {
       name: 'admin',
       timezone: 'Europe/Paris',
       use_deprecated_pages: false,
-      theme: UserTheme.light
+      theme: ThemeMode.light
     });
   }, []);
 

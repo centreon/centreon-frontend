@@ -1,4 +1,4 @@
-import { User, UserTheme } from './types';
+import { User, ThemeMode } from './types';
 
 const defaultUser: User = {
   alias: '',
@@ -6,7 +6,7 @@ const defaultUser: User = {
   isExportButtonEnabled: false,
   locale: navigator.language,
   name: '',
-  theme: UserTheme.light,
+  theme: ThemeMode.light,
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   use_deprecated_pages: false,
 };
