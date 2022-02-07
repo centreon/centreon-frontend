@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.disabled,
   },
 
-  textColor: {
+  text: {
     color: theme.palette.text.primary,
   },
 }));
