@@ -78,7 +78,7 @@ const Caption = ({ children }): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <Typography className={classes.textColor} variant="caption">
+    <Typography className={classes.text} variant="caption">
       {children}
     </Typography>
   );
