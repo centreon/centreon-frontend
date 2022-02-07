@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   hovered: {
     backgroundColor: theme.palette.action.hover,
   },
-  iconColer: {
+  icon: {
     color: theme.palette.action.active,
   },
   labelChip: {
