@@ -134,7 +134,7 @@ const MultiSelectEntries = ({
           <IconCreate
             className={clsx(
               { [classes.hidden]: !isHovered && !highlight },
-              classes.iconColer,
+              classes.icon,
             )}
             fontSize="small"
           />
