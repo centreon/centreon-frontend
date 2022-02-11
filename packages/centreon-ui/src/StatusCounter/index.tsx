@@ -45,18 +45,17 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => {
 interface Props {
   count: number | JSX.Element;
   severityCode: SeverityCode;
-  dataTestid:string;
 }
 
-const StatusCounter = ({ severityCode, count,dataTestid }: Props): JSX.Element => {
+const StatusCounter = ({ severityCode, count }: Props): JSX.Element => {
   const classes = useStyles({ severityCode });
 
   const avatarClass = count > 0 ? classes.colored : classes.bordered;
 
   return (
-      <Avatar data-testid={dataTestid} className={clsx(avatarClass, classes.icon)}>
-        {numeral(count).format('0a')}
-      </Avatar>
+    <Avatar className={clsx(avatarClass, classes.icon)}>
+      {numeral(count).format('0a')}
+    </Avatar>
   );
 };
 
