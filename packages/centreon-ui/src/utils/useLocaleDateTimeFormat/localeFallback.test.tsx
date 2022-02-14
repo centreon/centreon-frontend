@@ -30,6 +30,7 @@ const TestComponent = (): JSX.Element => {
       isExportButtonEnabled: false,
       locale: 'unsupported_locale',
       name: 'admin',
+      password_remaining_time: false,
       timezone: 'Europe/Paris',
       use_deprecated_pages: false,
     });

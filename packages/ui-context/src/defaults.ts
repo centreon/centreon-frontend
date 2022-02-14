@@ -4,6 +4,7 @@ const defaultUser = {
   isExportButtonEnabled: false,
   locale: navigator.language,
   name: '',
+  password_remaining_time: null,
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   use_deprecated_pages: false,
 };

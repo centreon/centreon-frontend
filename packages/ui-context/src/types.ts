@@ -6,6 +6,7 @@ export interface User {
   isExportButtonEnabled: boolean;
   locale: string;
   name: string;
+  password_remaining_time: number | null;
   timezone: string;
   use_deprecated_pages: boolean;
 }
