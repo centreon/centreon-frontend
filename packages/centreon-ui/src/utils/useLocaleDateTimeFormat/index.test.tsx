@@ -26,13 +26,13 @@ const TestComponent = (): JSX.Element => {
   React.useEffect(() => {
     setUser({
       alias: 'admin',
-      default_page: '/monitoring/resources',
+      defaultPage: '/monitoring/resources',
       isExportButtonEnabled: false,
       locale: 'en',
       name: 'admin',
-      password_remaining_time: null,
+      passwordRemainingTime: null,
       timezone: 'Europe/Paris',
-      use_deprecated_pages: false,
+      useDeprecatedPages: false,
     });
   }, []);
 
