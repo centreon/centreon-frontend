@@ -74,6 +74,7 @@ const PopoverMenu = ({
         size="large"
         title={title}
         onClick={toggle}
+        data-testid={title}
       >
         {icon}
       </IconButton>
