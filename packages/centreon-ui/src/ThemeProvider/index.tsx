@@ -49,10 +49,10 @@ export const getTheme = (mode: ThemeMode): ThemeOptions => ({
           },
         }),
     action: {
-      acknowledged: '#AA9C24',
-      acknowledgedBackground: '#F7F4E5',
-      inDowntime: '#9C27B0',
-      inDowntimeBackground: '#F9E7FF',
+      acknowledged: mode === ThemeMode.light ? '#635a15' : '#F7F4E5',
+      acknowledgedBackground: mode === ThemeMode.light ? '#F7F4E5' : '#635a15',
+      inDowntime: mode === ThemeMode.light ? '#4e1358' : '#F9E7FF',
+      inDowntimeBackground: mode === ThemeMode.light ? '#F9E7FF' : '#4e1358',
     },
     error: {
       main: '#f90026',
