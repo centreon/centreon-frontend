@@ -67,8 +67,8 @@ interface Props {
   dotColored?: string;
   submenuCount: string | number;
   submenuTitle: string;
-  testIdCount: string;
-  testIdTitle: string;
+  testIdCount?: string;
+  testIdTitle?: string;
 }
 
 const SubmenuItem = ({
