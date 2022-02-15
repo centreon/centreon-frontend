@@ -71,10 +71,10 @@ const PopoverMenu = ({
       <IconButton
         ariaLabel={title}
         className={clsx(classes.popoverIconButton, className)}
+        data-testid={title}
         size="large"
         title={title}
         onClick={toggle}
-        data-testid={title}
       >
         {icon}
       </IconButton>
