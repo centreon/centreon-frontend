@@ -80,14 +80,6 @@ const SubmenuItem = ({
 }: Props): JSX.Element => {
   const classes = useStyles();
 
-  const label = (): string => {
-    return `${submenuTitle}`;
-  };
-
-  const type = (): string => {
-    return `${submenuCount}`;
-  };
-
   return (
     <li className={classes.submenuItem}>
       <span
