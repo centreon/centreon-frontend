@@ -67,12 +67,16 @@ interface Props {
   dotColored?: string;
   submenuCount: string | number;
   submenuTitle: string;
+  testIdCount?: string;
+  testIdTitle?: string;
 }
 
 const SubmenuItem = ({
   dotColored,
   submenuTitle,
   submenuCount,
+  testIdTitle,
+  testIdCount,
 }: Props): JSX.Element => {
   const classes = useStyles();
 
@@ -90,14 +94,14 @@ const SubmenuItem = ({
         className={clsx(classes.title, {
           [classes.dotted]: !!dotColored,
         })}
-        data-testid={label}
+        data-testid={testIdTitle}
       >
         <span className={clsx(classes.dot, classes[dotColored || ''])} />
         <Typography className={classes.titleContent} variant="body2">
           {submenuTitle}
         </Typography>
       </span>
-      <span className={classes.count} data-testid={type}>
+      <span className={classes.count} data-testid={testIdCount}>
         <Typography variant="body2">{submenuCount}</Typography>
       </span>
     </li>
