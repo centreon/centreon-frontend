@@ -68,6 +68,10 @@ const ListingActionBar = ({
     onPaginate?.(value);
   };
 
+  const dataTestid = (): string => {
+    return 'Rows per page';
+  };
+
   const labelDisplayedRows = ({ from, to, count }): string =>
     `${from}-${to} ${t(labelOf)} ${count}`;
 
@@ -94,7 +98,7 @@ const ListingActionBar = ({
         <StyledPagination
           ActionsComponent={PaginationActions}
           SelectProps={{
-            id: 'Rows per page',
+            id: dataTestid,
             native: true,
           }}
           className={classes.pagination}
