@@ -6,7 +6,6 @@ import makeStyles from '@mui/styles/makeStyles';
 
 interface Props {
   active: boolean;
-  ariaLabel?: string;
   children: React.ReactChildren | Array<React.ReactElement>;
 }
 
