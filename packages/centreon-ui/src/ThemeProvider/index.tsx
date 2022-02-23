@@ -54,10 +54,10 @@ export const getTheme = (mode: ThemeMode): ThemeOptions => ({
             inDowntimeBackground: '#4e1358',
           },
           background: {
-            default: grey[800],
+            default: grey[900],
           },
           primary: {
-            main: blue[500],
+            main: blue[300],
           },
         }),
     error: {
@@ -97,6 +97,8 @@ const ThemeProvider = ({ children }: Props): JSX.Element => {
     () => createTheme(getTheme(themeMode || ThemeMode.light)),
     [themeMode],
   );
+
+  console.log(getTheme(themeMode || ThemeMode.light));
 
   return (
     <StyledEngineProvider injectFirst>
