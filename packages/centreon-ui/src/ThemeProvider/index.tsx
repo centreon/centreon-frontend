@@ -98,8 +98,6 @@ const ThemeProvider = ({ children }: Props): JSX.Element => {
     [themeMode],
   );
 
-  console.log(getTheme(themeMode || ThemeMode.light));
-
   return (
     <StyledEngineProvider injectFirst>
       <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
