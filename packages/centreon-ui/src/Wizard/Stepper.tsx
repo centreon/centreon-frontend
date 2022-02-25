@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   stepper: {
-    backgroundColor: theme.palette.grey[200],
+    // backgroundColor: theme.palette.grey[200],
     padding: theme.spacing(2),
   },
 }));
