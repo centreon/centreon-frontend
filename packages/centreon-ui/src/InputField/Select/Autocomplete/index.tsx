@@ -104,7 +104,7 @@ const useStyles = makeStyles<Theme, StyledProps>((theme) => ({
   },
   textfield: {
     height: ({ hideInput }): string | number => textfieldHeight(hideInput),
-    visibility: ({ hideInput }): VisibilityState =>
+    visibility: ({ hideInput }): DocumentVisibilityState =>
       hideInput ? 'hidden' : 'visible',
   },
 }));
