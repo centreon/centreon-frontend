@@ -39,6 +39,8 @@ export type Props = {
 
 type StyledProps = Partial<Pick<Props, 'hideInput'>>;
 
+type VisibilityState = 'visible' | 'hidden';
+
 const textfieldHeight = (hideInput?: boolean): string | number =>
   hideInput ? 0 : '100%';
 
@@ -104,7 +106,7 @@ const useStyles = makeStyles<Theme, StyledProps>((theme) => ({
   },
   textfield: {
     height: ({ hideInput }): string | number => textfieldHeight(hideInput),
-    visibility: ({ hideInput }): DocumentVisibilityState =>
+    visibility: ({ hideInput }): VisibilityState =>
       hideInput ? 'hidden' : 'visible',
   },
 }));
