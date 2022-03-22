@@ -82,7 +82,7 @@ interface Props<T> {
 
 const propertyToFilterItemsOn = 'id';
 
-const SortableItems = <T extends { [propertyToFilterItemsOn]: string }>({
+const SortableItems = <T extends { [propertyToFilterItemsOn]: unknown }>({
   items,
   onDragEnd,
   onDragOver,
