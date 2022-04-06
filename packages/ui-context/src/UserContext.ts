@@ -43,8 +43,11 @@ const defaultRefreshInterval = 15;
 const defaultCloudServices = undefined;
 
 const defaultAcknowledgement = {
-  persistent: false,
-  sticky: false,
+  persistent: true,
+  sticky: true,
+  notify: true,
+  with_services: true,
+  force_active_checks: true,
 };
 const defaultContext: UserContext = {
   ...defaultUser,
