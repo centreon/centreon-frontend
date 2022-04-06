@@ -38,11 +38,11 @@ const defaultDowntime = {
 const defaultRefreshInterval = 15;
 
 const defaultAcknowledgement = {
-  persistent: true,
-  sticky: true,
-  notify: true,
-  force_active_checks: true,
-  with_services: true,
+  default_acknowledgement_persistent: true,
+  default_acknowledgement_sticky: true,
+  default_acknowledgement_notify: true,
+  default_acknowledgement_force_active_checks: true,
+  default_acknowledgement_with_services :true,
 };
 
 export {
