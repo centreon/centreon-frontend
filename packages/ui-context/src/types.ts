@@ -49,7 +49,7 @@ export interface Acl {
 }
 
 export interface Downtime {
-  default_duration: number;
-  default_fixed: boolean;
-  default_with_services: boolean;
+  default_downtime_duration: number;
+  default_downtime_fixed: boolean;
+  default_downtime_with_services: boolean;
 }
