@@ -30,7 +30,7 @@ const defaultAcl = {
 };
 
 const defaultDowntime = {
-  default_downtime_duration: 600,
+  default_downtime_duration: '600',
   default_downtime_fixed: true,
   default_downtime_with_services: false,
 };
@@ -38,11 +38,11 @@ const defaultDowntime = {
 const defaultRefreshInterval = 15;
 
 const defaultAcknowledgement = {
+  default_acknowledge_force_active_checks: false,
+  default_acknowledge_notify: true,
   default_acknowledge_persistent: false,
   default_acknowledge_sticky: false,
-  default_acknowledge_notify: true,
-  default_acknowledge_force_active_checks: false,
-  default_acknowledge_with_services :true,
+  default_acknowledge_with_services: true,
 };
 
 export {
