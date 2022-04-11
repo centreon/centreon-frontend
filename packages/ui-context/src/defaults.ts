@@ -30,7 +30,7 @@ const defaultAcl = {
 };
 
 const defaultDowntime = {
-  duration: 600,
+  duration: 7200,
   fixed: true,
   with_services: false,
 };
