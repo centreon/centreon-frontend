@@ -16,11 +16,11 @@ export interface CloudServices {
 }
 
 export interface Acknowledgement {
-  default_acknowledgement_force_active_checks: boolean;
-  default_acknowledgement_notify: boolean;
-  default_acknowledgement_persistent: boolean;
-  default_acknowledgement_sticky: boolean;
-  default_acknowledgement_with_services: boolean;
+  force_active_checks: boolean;
+  notify: boolean;
+  persistent: boolean;
+  sticky: boolean;
+  with_services: boolean;
 }
 
 export type UserContext = {
