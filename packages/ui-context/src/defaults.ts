@@ -38,6 +38,7 @@ const defaultDowntime = {
 const defaultRefreshInterval = 15;
 
 const defaultAcknowledgement = {
+  force_active_check: true,
   notify: true,
   persistent: false,
   sticky: false,
