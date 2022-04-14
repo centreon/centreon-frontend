@@ -15,8 +15,11 @@ export interface CloudServices {
 }
 
 export interface Acknowledgement {
+  force_active_checks: boolean;
+  notify: boolean;
   persistent: boolean;
   sticky: boolean;
+  with_services: boolean;
 }
 
 export type UserContext = {
@@ -45,7 +48,7 @@ interface Acl {
 }
 
 export interface Downtime {
-  default_duration: number;
-  default_fixed: boolean;
-  default_with_services: boolean;
+  duration: number;
+  fixed: boolean;
+  with_services: boolean;
 }

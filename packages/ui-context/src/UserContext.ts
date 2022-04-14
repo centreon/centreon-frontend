@@ -33,9 +33,9 @@ const defaultAcl = {
 };
 
 const defaultDowntime = {
-  default_duration: 7200,
-  default_fixed: true,
-  default_with_services: true,
+  duration: 7200,
+  fixed: true,
+  with_services: true,
 };
 
 const defaultRefreshInterval = 15;
@@ -43,9 +43,13 @@ const defaultRefreshInterval = 15;
 const defaultCloudServices = undefined;
 
 const defaultAcknowledgement = {
+  force_active_checks: false,
+  notify: true,
   persistent: false,
   sticky: false,
+  with_services: true,
 };
+
 const defaultContext: UserContext = {
   ...defaultUser,
   acknowledgement: defaultAcknowledgement,
