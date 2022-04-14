@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 export type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   confirmDisabled?: boolean;
   contentWidth?: number;
   labelCancel?: string;
@@ -19,7 +19,7 @@ export type Props = {
   labelTitle?: string;
   onCancel?: () => void;
   onClose?: () => void;
-  onConfirm: () => void;
+  onConfirm: (event, value) => void;
   open: boolean;
   submitting?: boolean;
 } & DialogProps;
@@ -29,7 +29,7 @@ const Dialog = ({
   onClose,
   onCancel,
   onConfirm,
-  labelTitle,
+  labelTitle = 'Are you sure?',
   labelCancel = 'Cancel',
   labelConfirm = 'Confirm',
   children,

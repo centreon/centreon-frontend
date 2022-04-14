@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { prop } from 'ramda';
 
@@ -38,6 +38,7 @@ describe('Listing', () => {
     { description: 'third row description', id: 2, name: 'My Third Row' },
     { description: 'fourth row description', id: 3, name: 'My Fourth Row' },
   ];
+
   const onSelectRows = jest.fn();
   const onSort = jest.fn();
 

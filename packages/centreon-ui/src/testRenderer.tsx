@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
 
 import {
   render as rtlRender,
@@ -23,7 +23,7 @@ const render = (
   options?: RenderOptions,
 ): RenderResult =>
   rtlRender(ui, {
-    wrapper: ThemeProviderWrapper as (props) => ReactElement | null,
+    wrapper: ThemeProviderWrapper as (props) => React.ReactElement | null,
     ...options,
   });
 

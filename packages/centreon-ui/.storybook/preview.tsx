@@ -9,7 +9,7 @@ import { ThemeMode } from '@centreon/ui-context';
 import { StoryBookThemeProvider } from '../src';
 
 
-const withThemeProvider = (story) => (
+const withThemeProvider = (story): JSX.Element => (
   <StoryBookThemeProvider themeMode={useDarkMode() ? ThemeMode.dark :  ThemeMode.light}>{story()}</StoryBookThemeProvider>
 );
 

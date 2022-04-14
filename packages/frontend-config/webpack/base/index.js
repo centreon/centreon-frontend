@@ -1,6 +1,8 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
+
+const excludeNodeModulesExceptCentreonUi =
+  /node_modules(\\|\/)(?!(centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/;
 
 module.exports = {
   cache: false,
@@ -11,19 +13,25 @@ module.exports = {
         test: /\.[cm]?(j|t)sx?$/,
       },
       {
-        exclude:
-          /node_modules(\\|\/)(?!(centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/,
-        test: /\.(j|t)sx?$/,
-        use: [
-          'babel-loader',
-          {
-            loader: 'ts-loader',
-            options: {
-              allowTsInNodeModules: true,
-              transpileOnly: true,
+        exclude: excludeNodeModulesExceptCentreonUi,
+        test: /\.jsx?$/,
+        use: {
+          loader: 'swc-loader',
+        },
+      },
+      {
+        exclude: excludeNodeModulesExceptCentreonUi,
+        test: /\.tsx?$/,
+        use: {
+          loader: 'swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+              },
             },
           },
-        ],
+        },
       },
     ],
   },
@@ -54,7 +62,7 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
-  plugins: [new CleanWebpackPlugin(), new ForkTsCheckerWebpackPlugin()],
+  plugins: [new CleanWebpackPlugin()],
   resolve: {
     alias: {
       '@centreon/ui': path.resolve(

@@ -11,7 +11,7 @@ import { ThemeMode } from '@centreon/ui-context';
 import { getTheme } from '../ThemeProvider';
 
 interface Props {
-  children: React.ReactChild;
+  children: React.ReactElement;
   themeMode: ThemeMode;
 }
 

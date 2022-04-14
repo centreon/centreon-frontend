@@ -1,7 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/prop-types */
-
 import React from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
@@ -45,6 +43,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+interface Props {
+  defaultImage: string;
+  imgSource: string;
+  labelNoIcon?: string;
+  onClick: () => void;
+  title: string;
+  uploadedImage: string;
+}
+
 const IconAttach = ({
   onClick,
   defaultImage,
@@ -52,7 +59,7 @@ const IconAttach = ({
   imgSource,
   title,
   labelNoIcon = 'NO ICON',
-}) => {
+}: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
