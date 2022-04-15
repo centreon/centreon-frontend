@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import 'dayjs/plugin/timezone';
 import 'dayjs/plugin/utc';
 import humanizeDuration from 'humanize-duration';
-import { equals } from 'ramda';
 import { useAtomValue } from 'jotai/utils';
 
 import { userAtom } from '@centreon/ui-context';
@@ -30,12 +29,12 @@ const dateTimeFormat = `${dateFormat} ${timeFormat}`;
 const useLocaleDateTimeFormat = (): LocaleDateTimeFormat => {
   const { locale, timezone } = useAtomValue(userAtom);
 
-  const format = ({ date, formatString }: FormatParameters): string => {
+  const format = ({ formatString }: FormatParameters): string => {
     const normalizedLocale = locale.substring(0, 2);
 
-    const timezoneDate = equals(timezone, 'UTC')
-      ? dayjs(date).locale(normalizedLocale).utc()
-      : dayjs(date).tz(timezone).locale(normalizedLocale);
+    const timezoneDate = dayjs(
+      new Date().toLocaleString('en', { timeZone: timezone }),
+    ).locale(normalizedLocale);
 
     return timezoneDate.format(formatString);
   };
