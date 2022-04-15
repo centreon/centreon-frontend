@@ -16,7 +16,7 @@ export interface CloudServices {
 }
 
 export interface Acknowledgement {
-  force_active_check: boolean;
+  force_active_checks: boolean;
   notify: boolean;
   persistent: boolean;
   sticky: boolean;
