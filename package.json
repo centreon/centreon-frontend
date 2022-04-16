@@ -59,7 +59,7 @@
   },
   "peerDependencies": {
     "@swc/core": "1.x",
-    "@swc/ject": "0.x",
+    "@swc/jest": "0.x",
     "@testing-library/jest-dom": "5.x",
     "@testing-library/react": "12.x",
     "@types/ramda": "0.28.x",
