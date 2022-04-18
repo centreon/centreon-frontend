@@ -160,6 +160,10 @@ describe(Wizard, () => {
       expect(screen.getByText('Step 1')).toBeInTheDocument();
     });
 
+    await waitFor(() => {
+      expect(screen.getByText('Next').parentElement).not.toBeDisabled();
+    });
+
     fireEvent.click(screen.getByText('Next'));
 
     await waitFor(() => {
