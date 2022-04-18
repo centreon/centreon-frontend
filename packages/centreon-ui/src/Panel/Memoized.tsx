@@ -9,7 +9,6 @@ import Panel, { Props } from '.';
 const MemoizedPanel = React.forwardRef<HTMLDivElement, Props>(
   (
     {
-      memoProps = [],
       tabs,
       selectedTabId,
       labelClose,
@@ -34,7 +33,6 @@ const MemoizedPanel = React.forwardRef<HTMLDivElement, Props>(
         />
       ),
       memoProps: [
-        ...memoProps,
         selectedTabId,
         labelClose,
         width,
