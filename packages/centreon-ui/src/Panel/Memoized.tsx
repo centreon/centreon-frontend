@@ -6,9 +6,14 @@ import useMemoComponent from '../utils/useMemoComponent';
 
 import Panel, { Props } from '.';
 
-const MemoizedPanel = React.forwardRef<HTMLDivElement, Props>(
+interface MemoizedPanelProps extends Props {
+  memoProps?: Array<unknown>;
+}
+
+const MemoizedPanel = React.forwardRef<HTMLDivElement, MemoizedPanelProps>(
   (
     {
+      memoProps = [],
       tabs,
       selectedTabId,
       labelClose,
@@ -16,7 +21,7 @@ const MemoizedPanel = React.forwardRef<HTMLDivElement, Props>(
       minWidth,
       headerBackgroundColor,
       ...props
-    }: Props,
+    }: MemoizedPanelProps,
     ref,
   ): JSX.Element => {
     return useMemoComponent({
@@ -33,6 +38,7 @@ const MemoizedPanel = React.forwardRef<HTMLDivElement, Props>(
         />
       ),
       memoProps: [
+        ...memoProps,
         selectedTabId,
         labelClose,
         width,
