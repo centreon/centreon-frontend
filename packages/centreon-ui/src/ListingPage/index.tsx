@@ -57,9 +57,7 @@ const ListingPage = ({
 
       <WithPanel fixed={panelFixed} open={panelOpen} panel={panel}>
         <div className={classes.listing}>
-          <Suspense fallback={<ListingSkeleton />}>
-            {listing}
-          </Suspense>
+          <Suspense fallback={<ListingSkeleton />}>{listing}</Suspense>
         </div>
       </WithPanel>
     </div>

@@ -72,7 +72,9 @@ module.exports = {
         shorthandFirst: true,
       },
     ],
+    'react/jsx-uses-react': 'off',
     'react/jsx-wrap-multilines': ['error', { prop: false }],
+    'react/react-in-jsx-scope': 'off',
     'react/state-in-constructor': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'react-hooks/rules-of-hooks': 'error',
@@ -83,10 +85,7 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         map: [
           ['@centreon/ui', 'centreon-frontend/packages/centreon-ui'],
-          [
-            '@centreon/ui-context',
-            'centreon-frontend/packages/ui-context',
-          ],
+          ['@centreon/ui-context', 'centreon-frontend/packages/ui-context'],
         ],
       },
     },
