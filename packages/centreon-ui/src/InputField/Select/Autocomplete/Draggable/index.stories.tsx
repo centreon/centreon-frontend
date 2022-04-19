@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -130,10 +130,10 @@ export const draggableWithInitialValues = (): JSX.Element => (
 );
 
 const MultiDraggableClickAndHoverItem = (): JSX.Element => {
-  const [clickedItem, setClickedItem] = React.useState<ItemActionProps | null>(
+  const [clickedItem, setClickedItem] = useState<ItemActionProps | null>(
     null,
   );
-  const [hoveredItem, setHoveredItem] = React.useState<ItemActionProps | null>(
+  const [hoveredItem, setHoveredItem] = useState<ItemActionProps | null>(
     null,
   );
 

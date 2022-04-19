@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import * as React from 'react';
+import { forwardRef } from 'react';
 
 import useMemoComponent from '../utils/useMemoComponent';
 
@@ -10,7 +10,7 @@ interface MemoizedPanelProps extends Props {
   memoProps?: Array<unknown>;
 }
 
-const MemoizedPanel = React.forwardRef<HTMLDivElement, MemoizedPanelProps>(
+const MemoizedPanel = forwardRef<HTMLDivElement, MemoizedPanelProps>(
   (
     {
       memoProps = [],

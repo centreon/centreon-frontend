@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 
 import * as Yup from 'yup';
 
@@ -84,7 +84,7 @@ const SecondStep = ({
     disableNextOnSendingRequests([false, false, false]);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     disableNextOnSendingRequests([true, false, true]);
   }, []);
 
