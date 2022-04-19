@@ -32,6 +32,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => {
     }),
 
     icon: {
+      color: theme.palette.common.white,
       cursor: 'pointer',
       fontSize: theme.typography.body1.fontSize,
       height: theme.spacing(3.5),
