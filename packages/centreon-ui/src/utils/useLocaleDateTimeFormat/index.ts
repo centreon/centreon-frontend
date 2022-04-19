@@ -33,7 +33,7 @@ const useLocaleDateTimeFormat = (): LocaleDateTimeFormat => {
     const normalizedLocale = locale.substring(0, 2);
 
     const timezoneDate = dayjs(
-      new Date().toLocaleString('en', { timeZone: timezone }),
+      new Date(date).toLocaleString('en', { timeZone: timezone }),
     ).locale(normalizedLocale);
 
     return timezoneDate.format(formatString);
