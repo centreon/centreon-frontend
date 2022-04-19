@@ -31,13 +31,23 @@ const defaultAcl = {
 };
 
 const defaultDowntime = {
-  default_duration: 7200,
+  duration: 3600,
+  fixed: true,
+  with_services: false,
 };
 
 const defaultRefreshInterval = 15;
 
+const defaultAcknowledgement = {
+  notify: true,
+  persistent: false,
+  sticky: false,
+  with_services: true,
+};
+
 const defaultContext: UserContext = {
   ...defaultUser,
+  acknowledgement: defaultAcknowledgement,
   acl: defaultAcl,
   downtime: defaultDowntime,
   refreshInterval: defaultRefreshInterval,
@@ -55,4 +65,5 @@ export {
   defaultAcl,
   defaultDowntime,
   defaultRefreshInterval,
+  defaultAcknowledgement,
 };
