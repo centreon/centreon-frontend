@@ -5,8 +5,15 @@ export interface User {
   timezone: string;
   use_deprecated_pages: boolean;
 }
+export interface Acknowledgement {
+  notify: boolean;
+  persistent: boolean;
+  sticky: boolean;
+  with_services: boolean;
+}
 
 export type UserContext = {
+  acknowledgement: Acknowledgement;
   acl: Acl;
   downtime: Downtime;
   refreshInterval: number;
@@ -30,5 +37,7 @@ interface Acl {
 }
 
 export interface Downtime {
-  default_duration: number;
+  duration: number;
+  fixed: boolean;
+  with_services: boolean;
 }
