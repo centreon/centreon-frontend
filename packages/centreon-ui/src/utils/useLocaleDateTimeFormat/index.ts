@@ -29,7 +29,7 @@ const dateTimeFormat = `${dateFormat} ${timeFormat}`;
 const useLocaleDateTimeFormat = (): LocaleDateTimeFormat => {
   const { locale, timezone } = useAtomValue(userAtom);
 
-  const format = ({ formatString }: FormatParameters): string => {
+  const format = ({ date, formatString }: FormatParameters): string => {
     const normalizedLocale = locale.substring(0, 2);
 
     const timezoneDate = dayjs(
