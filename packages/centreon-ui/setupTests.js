@@ -29,17 +29,17 @@ global.IntersectionObserver = class IntersectionObserver {
 };
 
 Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
+    addEventListener: jest.fn(),
+    addListener: jest.fn(),
+    dispatchEvent: jest.fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    removeListener: jest.fn(),
   })),
+  writable: true,
 });
 
 i18n.use(initReactI18next).init({
