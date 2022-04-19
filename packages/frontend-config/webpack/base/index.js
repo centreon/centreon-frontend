@@ -1,8 +1,6 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
-
-const excludeNodeModulesExceptCentreonUi =
-  /node_modules(\\|\/)(?!(centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/;
+const getSwcLoaderRule = require('../getSwcLoaderRule');
 
 module.exports = {
   cache: false,
@@ -12,27 +10,14 @@ module.exports = {
         parser: { system: false },
         test: /\.[cm]?(j|t)sx?$/,
       },
-      {
-        exclude: excludeNodeModulesExceptCentreonUi,
-        test: /\.jsx?$/,
-        use: {
-          loader: 'swc-loader',
-        },
-      },
-      {
-        exclude: excludeNodeModulesExceptCentreonUi,
-        test: /\.tsx?$/,
-        use: {
-          loader: 'swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-              },
-            },
-          },
-        },
-      },
+      // {
+      //   exclude: excludeNodeModulesExceptCentreonUi,
+      //   test: /\.jsx?$/,
+      //   use: {
+      //     loader: 'swc-loader',
+      //   },
+      // },
+      getSwcLoaderRule(),
     ],
   },
   optimization: {
