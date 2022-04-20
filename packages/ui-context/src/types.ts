@@ -6,6 +6,7 @@ export interface User {
   use_deprecated_pages: boolean;
 }
 export interface Acknowledgement {
+  force_active_checks: boolean;
   notify: boolean;
   persistent: boolean;
   sticky: boolean;
