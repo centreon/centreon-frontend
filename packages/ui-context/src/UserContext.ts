@@ -7,6 +7,7 @@ const defaultUser = {
   locale: navigator.language,
   name: '',
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  use_deprecated_pages: false,
 };
 
 const defaultAcl = {
@@ -39,6 +40,7 @@ const defaultDowntime = {
 const defaultRefreshInterval = 15;
 
 const defaultAcknowledgement = {
+  force_active_checks: false,
   notify: true,
   persistent: false,
   sticky: false,
