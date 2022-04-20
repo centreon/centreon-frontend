@@ -3,8 +3,10 @@ export interface User {
   locale: string;
   name: string;
   timezone: string;
+  use_deprecated_pages: boolean;
 }
 export interface Acknowledgement {
+  force_active_checks: boolean;
   notify: boolean;
   persistent: boolean;
   sticky: boolean;
