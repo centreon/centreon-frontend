@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { equals, pick } from 'ramda';
+import { equals, pick, is } from 'ramda';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -210,7 +210,7 @@ const AutocompleteField = ({
       }}
       forcePopupIcon={displayPopupIcon}
       getOptionLabel={(option: string | SelectEntry): string =>
-        typeof option === 'string' ? option : option.name
+        is(String, option) ? option : option.name
       }
       isOptionEqualToValue={areSelectEntriesEqual}
       loading={loading}
