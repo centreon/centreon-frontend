@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { equals, pick, is } from 'ramda';
+import { equals, pick } from 'ramda';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
