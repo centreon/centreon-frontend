@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 
 export type Props = {
+  cancelDisabled?: boolean;
   children: React.ReactNode;
   confirmDisabled?: boolean;
   contentWidth?: number;
@@ -35,23 +36,23 @@ const Dialog = ({
   children,
   contentWidth,
   confirmDisabled = false,
+  cancelDisabled = false,
   submitting = false,
   ...rest
 }: Props): JSX.Element => (
-  <MuiDialog open={open} onClose={onClose} {...rest}>
+  <MuiDialog open={open} scroll="paper" onClose={onClose} {...rest}>
     {labelTitle && <DialogTitle>{labelTitle}</DialogTitle>}
     {children && (
-      <DialogContent style={{ overflowY: 'visible', width: contentWidth }}>
-        {children}
-      </DialogContent>
+      <DialogContent style={{ width: contentWidth }}>{children}</DialogContent>
     )}
     <DialogActions>
       {onCancel && (
-        <Button color="primary" onClick={onCancel}>
+        <Button color="primary" disabled={cancelDisabled} onClick={onCancel}>
           {labelCancel}
         </Button>
       )}
       <Button
+        aria-label={labelConfirm}
         color="primary"
         disabled={confirmDisabled}
         endIcon={submitting && <CircularProgress size={15} />}

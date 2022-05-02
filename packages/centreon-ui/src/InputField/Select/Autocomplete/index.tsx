@@ -39,6 +39,8 @@ export type Props = {
 
 type StyledProps = Partial<Pick<Props, 'hideInput'>>;
 
+type VisibilityState = 'visible' | 'hidden';
+
 const textfieldHeight = (hideInput?: boolean): string | number =>
   hideInput ? 0 : '100%';
 
@@ -207,7 +209,7 @@ const AutocompleteField = ({
         root: classes.textfield,
       }}
       forcePopupIcon={displayPopupIcon}
-      getOptionLabel={(option: SelectEntry): string => option.name}
+      getOptionLabel={(option): string => (option as SelectEntry)?.name || ''}
       isOptionEqualToValue={areSelectEntriesEqual}
       loading={loading}
       loadingText={<LoadingIndicator />}
@@ -216,11 +218,11 @@ const AutocompleteField = ({
       renderOption={(renderProps, option): JSX.Element => {
         return (
           <li className={classes.options} {...renderProps}>
-            {displayOptionThumbnail && (
-              <img alt={option.name} height={20} src={option.url} width={20} />
-            )}
-
-            <Option>{option.name}</Option>
+            <Option
+              thumbnailUrl={displayOptionThumbnail ? option.url : undefined}
+            >
+              {option.name}
+            </Option>
           </li>
         );
       }}

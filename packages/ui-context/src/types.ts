@@ -6,8 +6,14 @@ export interface User {
   isExportButtonEnabled: boolean;
   locale: string;
   name: string;
+  themeMode?: ThemeMode;
   timezone: string;
   use_deprecated_pages: boolean;
+}
+
+export enum ThemeMode {
+  dark = 'dark',
+  light = 'light',
 }
 
 export interface CloudServices {
@@ -16,8 +22,11 @@ export interface CloudServices {
 }
 
 export interface Acknowledgement {
+  force_active_checks: boolean;
+  notify: boolean;
   persistent: boolean;
   sticky: boolean;
+  with_services: boolean;
 }
 
 export type UserContext = {
@@ -46,7 +55,7 @@ export interface Acl {
 }
 
 export interface Downtime {
-  default_duration: number;
-  default_fixed: boolean;
-  default_with_services: boolean;
+  duration: number;
+  fixed: boolean;
+  with_services: boolean;
 }

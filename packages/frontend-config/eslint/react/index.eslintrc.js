@@ -13,10 +13,27 @@ module.exports = {
     sourceType: 'module',
   },
 
-  plugins: ['react', 'react-hooks', 'babel'],
+  plugins: ['react', 'hooks', 'react-hooks', 'babel'],
   root: true,
   rules: {
     camelcase: ['error', { ignoreDestructuring: true, properties: 'never' }],
+    'hooks/sort': [
+      2,
+      {
+        groups: [
+          'useStyles',
+          'useTranslation',
+          'useState',
+          'useRequest',
+          'useUserContext',
+          'useAtom',
+          'useAtomValue',
+          'useUpdateAtom',
+          'useCallback',
+          'useEffect',
+        ],
+      },
+    ],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -83,10 +100,7 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         map: [
           ['@centreon/ui', 'centreon-frontend/packages/centreon-ui'],
-          [
-            '@centreon/ui-context',
-            'centreon-frontend/packages/ui-context',
-          ],
+          ['@centreon/ui-context', 'centreon-frontend/packages/ui-context'],
         ],
       },
     },
