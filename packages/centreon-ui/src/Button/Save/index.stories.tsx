@@ -1,33 +1,68 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import ButtonSave from '.';
 
-export default { title: 'Button/Save' };
+export default {
+  argTypes: {
+    iconSize: {
+      control: { type: 'select' },
+      options: ['medium', 'large', 'small'],
+    },
+    isSmall: { control: 'boolean' },
+    labelLoading: { control: 'text' },
+    labelSave: { control: 'text' },
+    labelSucceeded: { control: 'text' },
+    loading: { control: 'boolean' },
+    smallIconSize: {
+      control: { max: 30, min: 1, step: 2, type: 'number' },
+      succeeded: { control: 'boolean' },
+    },
+  },
+  component: ButtonSave,
 
-export const normal = (): JSX.Element => <ButtonSave />;
+  title: 'Button/Save',
+} as ComponentMeta<typeof ButtonSave>;
 
-export const loading = (): JSX.Element => <ButtonSave loading />;
-
-export const succeeded = (): JSX.Element => <ButtonSave succeeded />;
-
-export const normalWithText = (): JSX.Element => (
-  <ButtonSave labelSave="Save" />
+const TemplateButtonSave: ComponentStory<typeof ButtonSave> = (args) => (
+  <ButtonSave {...args} />
 );
 
-export const loadingWithText = (): JSX.Element => (
-  <ButtonSave loading labelLoading="Loading" />
-);
+export const normal = TemplateButtonSave.bind({});
+normal.args = { iconSize: 'medium' };
 
-export const succeededWithText = (): JSX.Element => (
-  <ButtonSave succeeded labelSucceeded="Succeeded" />
-);
+export const loading = TemplateButtonSave.bind({});
+loading.args = { loading: false };
 
-export const normalWithTextAndSmallSize = (): JSX.Element => (
-  <ButtonSave labelSave="Save" size="small" />
-);
+export const succeeded = TemplateButtonSave.bind({});
+succeeded.args = {
+  smallIconSize: {
+    control: { max: 30, min: 1, step: 2, type: 'number' },
+    succeeded: { control: true },
+  },
+};
 
-export const loadingWithTextAndSmallSize = (): JSX.Element => (
-  <ButtonSave loading labelLoading="Loading" size="small" />
-);
+export const normalWithText = TemplateButtonSave.bind({});
+normalWithText.args = { iconSize: 'medium', labelSave: 'Save' };
 
-export const succeededWithTextAndSmallSize = (): JSX.Element => (
-  <ButtonSave succeeded labelSucceeded="Succeeded" size="small" />
-);
+export const loadingWithText = TemplateButtonSave.bind({});
+loadingWithText.args = { labelLoading: 'Loading', loading: true };
+
+export const succeededWithText = TemplateButtonSave.bind({});
+succeededWithText.args = { labelSucceeded: 'Succeeded', succeeded: true };
+
+export const normalWithTextAndSmallSize = TemplateButtonSave.bind({});
+normalWithTextAndSmallSize.args = { isSmall: true, labelSave: 'Save' };
+
+export const loadingWithTextAndSmallSize = TemplateButtonSave.bind({});
+loadingWithTextAndSmallSize.args = {
+  isSmall: true,
+  labelLoading: 'Loading',
+  loading: true,
+};
+
+export const succeededWithTextAndSmallSize = TemplateButtonSave.bind({});
+succeededWithTextAndSmallSize.args = {
+  isSmall: true,
+  labelSucceeded: 'Succeeded',
+  succeeded: true,
+};
