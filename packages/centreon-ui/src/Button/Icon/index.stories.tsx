@@ -1,11 +1,27 @@
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 
 import IconButton from '.';
 
-export default { title: 'Button/Icon' };
+export default {
+  argTypes: {
+    size: {
+      control: { type: 'select' },
+      options: ['medium', 'large', 'small'],
+    },
+    title: { control: 'text' },
+  },
 
-export const normal = (): JSX.Element => (
-  <IconButton size="large" title="Icon" onClick={(): undefined => undefined}>
+  component: IconButton,
+  title: 'Button/Icon',
+} as ComponentMeta<typeof IconButton>;
+
+const TemplateIconButton: ComponentStory<typeof IconButton> = (args) => (
+  <IconButton {...args}>
     <AccessibilityIcon />
   </IconButton>
 );
+
+export const normal = TemplateIconButton.bind({});
+normal.args = { size: 'medium', title: 'ICON' };
