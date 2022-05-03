@@ -8,9 +8,14 @@ import { ThemeMode } from '@centreon/ui-context';
 
 import { StoryBookThemeProvider } from '../src';
 
+export const parameters = {
+  controls: { expanded: true },
+};
 
 const withThemeProvider = (story) => (
   <StoryBookThemeProvider themeMode={useDarkMode() ? ThemeMode.dark :  ThemeMode.light}>{story()}</StoryBookThemeProvider>
 );
 
 addDecorator(withThemeProvider);
+
+
