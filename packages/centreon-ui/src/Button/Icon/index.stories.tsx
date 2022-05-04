@@ -6,10 +6,7 @@ import IconButton from '.';
 
 export default {
   argTypes: {
-    size: {
-      control: { type: 'select' },
-      options: ['medium', 'large', 'small'],
-    },
+    ariaLabel: { control: 'text' },
     title: { control: 'text' },
   },
 
@@ -24,4 +21,4 @@ const TemplateIconButton: ComponentStory<typeof IconButton> = (args) => (
 );
 
 export const normal = TemplateIconButton.bind({});
-normal.args = { size: 'medium', title: 'ICON' };
+normal.args = { ariaLabel: 'aria-label', title: 'Icon' };

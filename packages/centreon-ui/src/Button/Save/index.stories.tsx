@@ -4,20 +4,15 @@ import ButtonSave from '.';
 
 export default {
   argTypes: {
-    iconSize: {
-      control: { type: 'select' },
-      options: ['medium', 'large', 'small'],
-    },
-    isSmall: { control: 'boolean' },
     labelLoading: { control: 'text' },
     labelSave: { control: 'text' },
     labelSucceeded: { control: 'text' },
     loading: { control: 'boolean' },
-    smallIconSize: {
-      control: { max: 30, min: 1, step: 2, type: 'number' },
-      succeeded: { control: 'boolean' },
-    },
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    succeeded: { control: 'boolean' },
+    tooltipLabel: { control: 'text' },
   },
+
   component: ButtonSave,
 
   title: 'Button/Save',
@@ -28,21 +23,15 @@ const TemplateButtonSave: ComponentStory<typeof ButtonSave> = (args) => (
 );
 
 export const normal = TemplateButtonSave.bind({});
-normal.args = { iconSize: 'medium' };
 
 export const loading = TemplateButtonSave.bind({});
-loading.args = { loading: false };
+loading.args = { loading: true };
 
 export const succeeded = TemplateButtonSave.bind({});
-succeeded.args = {
-  smallIconSize: {
-    control: { max: 30, min: 1, step: 2, type: 'number' },
-    succeeded: { control: true },
-  },
-};
+succeeded.args = { succeeded: true };
 
 export const normalWithText = TemplateButtonSave.bind({});
-normalWithText.args = { iconSize: 'medium', labelSave: 'Save' };
+normalWithText.args = { labelSave: 'Save' };
 
 export const loadingWithText = TemplateButtonSave.bind({});
 loadingWithText.args = { labelLoading: 'Loading', loading: true };
@@ -51,18 +40,18 @@ export const succeededWithText = TemplateButtonSave.bind({});
 succeededWithText.args = { labelSucceeded: 'Succeeded', succeeded: true };
 
 export const normalWithTextAndSmallSize = TemplateButtonSave.bind({});
-normalWithTextAndSmallSize.args = { isSmall: true, labelSave: 'Save' };
+normalWithTextAndSmallSize.args = { labelSave: 'Save', size: 'small' };
 
 export const loadingWithTextAndSmallSize = TemplateButtonSave.bind({});
 loadingWithTextAndSmallSize.args = {
-  isSmall: true,
   labelLoading: 'Loading',
   loading: true,
+  size: 'small',
 };
 
 export const succeededWithTextAndSmallSize = TemplateButtonSave.bind({});
 succeededWithTextAndSmallSize.args = {
-  isSmall: true,
   labelSucceeded: 'Succeeded',
+  size: 'small',
   succeeded: true,
 };
