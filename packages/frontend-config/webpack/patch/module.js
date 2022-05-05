@@ -1,4 +1,5 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = ({ assetPublicPath, outputPath }) => ({
   output: {
@@ -11,6 +12,9 @@ module.exports = ({ assetPublicPath, outputPath }) => ({
       cleanOnceBeforeBuildPatterns: [`${outputPath}/**/*.js`],
       dangerouslyAllowCleanPatternsOutsideProject: true,
       dry: false,
+    }),
+    new CopyPlugin({
+      patterns: [{ from: './moduleFederation.json', to: '.' }],
     }),
   ],
 });
