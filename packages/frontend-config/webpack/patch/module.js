@@ -1,5 +1,27 @@
+const fs = require('fs');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+
+class CentreonModulePlugin {
+  constructor(federatedComponentConfiguration) {
+    this.federatedComponentConfiguration = federatedComponentConfiguration;
+  }
+
+  apply(compiler) {
+    compiler.hooks.done.tap('CentreonModulePlugin', (stats) => {
+      const newFederatedComponentConfiguration = {
+        ...this.federatedComponentConfiguration,
+        remoteEntry: Object.keys(stats.compilation.assets).find((assetName) =>
+          assetName.match(/(^remoteEntry)\S+.js$/),
+        ),
+      };
+
+      fs.writeFileSync(
+        `${compiler.options.output.path}/moduleFederation.json`,
+        JSON.stringify(newFederatedComponentConfiguration, null, 2),
+      );
+    });
+  }
+}
 
 module.exports = ({ assetPublicPath, outputPath }) => ({
   output: {
@@ -13,8 +35,6 @@ module.exports = ({ assetPublicPath, outputPath }) => ({
       dangerouslyAllowCleanPatternsOutsideProject: true,
       dry: false,
     }),
-    new CopyPlugin({
-      patterns: [{ from: './moduleFederation.json', to: '.' }],
-    }),
+    new CentreonModulePlugin(),
   ],
 });

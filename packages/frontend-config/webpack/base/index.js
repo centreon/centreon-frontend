@@ -30,22 +30,6 @@ const getBasicConfig = ({ moduleName, moduleFederationConfig }) => ({
   },
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        commons: {
-          chunks: 'initial',
-          filename: '[name].[chunkhash:8].js',
-          minChunks: 2,
-          name: 'commons',
-        },
-        vendor: {
-          chunks: 'initial',
-          enforce: true,
-          filename: '[name].[chunkhash:8].js',
-          name: 'vendor',
-          priority: 10,
-          test: /node_modules/,
-        },
-      },
       chunks: 'all',
     },
   },
