@@ -23,7 +23,11 @@ class CentreonModulePlugin {
   }
 }
 
-module.exports = ({ assetPublicPath, outputPath }) => ({
+module.exports = ({
+  assetPublicPath,
+  outputPath,
+  federatedComponentConfiguration,
+}) => ({
   output: {
     library: '[chunkhash:8]',
     path: outputPath,
@@ -35,6 +39,6 @@ module.exports = ({ assetPublicPath, outputPath }) => ({
       dangerouslyAllowCleanPatternsOutsideProject: true,
       dry: false,
     }),
-    new CentreonModulePlugin(),
+    new CentreonModulePlugin(federatedComponentConfiguration),
   ],
 });
