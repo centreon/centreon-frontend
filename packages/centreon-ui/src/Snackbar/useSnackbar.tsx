@@ -1,10 +1,10 @@
-import * as React from 'react';
-
 import { useSnackbar as useNotistackSnackbar } from 'notistack';
 
 import { Typography } from '@mui/material';
 
 import Severity from './Severity';
+
+import Snackbar from '.';
 
 interface ShowMessageProps {
   message: string | JSX.Element;
@@ -33,8 +33,17 @@ interface UseSnackbar {
 const useSnackbar = (): UseSnackbar => {
   const notistackHookProps = useNotistackSnackbar();
 
+  const snackbarContent =
+    (severity) =>
+    (key: string | number, message): JSX.Element => {
+      return <Snackbar id={key} message={message} severity={severity} />;
+    };
+
   const showMessage = ({ message, severity }: ShowMessageProps): void => {
-    notistackHookProps?.enqueueSnackbar({ message, severity });
+    notistackHookProps?.enqueueSnackbar(message, {
+      content: snackbarContent(severity),
+      variant: severity,
+    });
   };
 
   const showMessages = ({ messages, severity }: ShowMessagesProps): void => {

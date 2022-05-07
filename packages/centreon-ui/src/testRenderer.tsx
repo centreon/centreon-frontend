@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactElement } from 'react';
 
 import {
   render as rtlRender,
@@ -11,7 +11,7 @@ import { ThemeMode } from '@centreon/ui-context';
 import ThemeProvider from './StoryBookThemeProvider';
 
 interface Props {
-  children: React.ReactChild;
+  children: ReactElement;
 }
 
 const ThemeProviderWrapper = ({ children }: Props): JSX.Element => {
@@ -19,11 +19,11 @@ const ThemeProviderWrapper = ({ children }: Props): JSX.Element => {
 };
 
 const render = (
-  ui: React.ReactElement,
+  ui: ReactElement,
   options?: RenderOptions,
 ): RenderResult =>
   rtlRender(ui, {
-    wrapper: ThemeProviderWrapper as (props) => React.ReactElement | null,
+    wrapper: ThemeProviderWrapper as (props) => ReactElement | null,
     ...options,
   });
 

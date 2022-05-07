@@ -13,10 +13,27 @@ module.exports = {
     sourceType: 'module',
   },
 
-  plugins: ['react', 'react-hooks'],
+  plugins: ['react', 'hooks', 'react-hooks'],
   root: true,
   rules: {
     camelcase: ['error', { ignoreDestructuring: true, properties: 'never' }],
+    'hooks/sort': [
+      2,
+      {
+        groups: [
+          'useStyles',
+          'useTranslation',
+          'useState',
+          'useRequest',
+          'useUserContext',
+          'useAtom',
+          'useAtomValue',
+          'useUpdateAtom',
+          'useCallback',
+          'useEffect',
+        ],
+      },
+    ],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -72,7 +89,9 @@ module.exports = {
         shorthandFirst: true,
       },
     ],
+    'react/jsx-uses-react': 'off',
     'react/jsx-wrap-multilines': ['error', { prop: false }],
+    'react/react-in-jsx-scope': 'off',
     'react/state-in-constructor': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'react-hooks/rules-of-hooks': 'error',

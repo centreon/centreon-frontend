@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 import {
   Button,
@@ -11,7 +11,8 @@ import {
 } from '@mui/material';
 
 export type Props = {
-  children?: React.ReactNode;
+  cancelDisabled?: boolean;
+  children: ReactNode;
   confirmDisabled?: boolean;
   contentWidth?: number;
   labelCancel?: string;
@@ -19,7 +20,7 @@ export type Props = {
   labelTitle?: string;
   onCancel?: () => void;
   onClose?: () => void;
-  onConfirm: (event, value) => void;
+  onConfirm: (event) => void;
   open: boolean;
   submitting?: boolean;
 } & DialogProps;
@@ -35,6 +36,7 @@ const Dialog = ({
   children,
   contentWidth,
   confirmDisabled = false,
+  cancelDisabled = false,
   submitting = false,
   ...rest
 }: Props): JSX.Element => (
@@ -45,11 +47,12 @@ const Dialog = ({
     )}
     <DialogActions>
       {onCancel && (
-        <Button color="primary" onClick={onCancel}>
+        <Button color="primary" disabled={cancelDisabled} onClick={onCancel}>
           {labelCancel}
         </Button>
       )}
       <Button
+        aria-label={labelConfirm}
         color="primary"
         disabled={confirmDisabled}
         endIcon={submitting && <CircularProgress size={15} />}

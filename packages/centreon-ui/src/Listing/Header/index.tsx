@@ -34,7 +34,7 @@ const HeaderCell = withStyles((theme) => ({
 
 const CheckboxHeaderCell = withStyles((theme) => ({
   root: {
-    backgroundColor: 'unset',
+    backgroundColor: theme.palette.background.paper,
     display: 'grid',
     gridTemplateColumns: 'repeat(2, min-content)',
     height,
@@ -184,7 +184,9 @@ const ListingHeader = ({
           items={visibleColumns}
           memoProps={memoProps}
           sortingStrategy={rectSortingStrategy}
-          onDragOver={(newItems): void => onSelectColumns?.(newItems)}
+          onDragEnd={({ items }): void => {
+            onSelectColumns?.(items);
+          }}
         />
       </TableRow>
     </TableHead>

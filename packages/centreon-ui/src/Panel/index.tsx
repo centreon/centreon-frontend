@@ -76,7 +76,6 @@ export interface Props {
   header: React.ReactElement;
   headerBackgroundColor?: string;
   labelClose?: string;
-  memoProps?: Array<unknown>;
   minWidth?: number;
   onClose?: () => void;
   onResize?: (newWidth: number) => void;

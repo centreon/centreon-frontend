@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 
 import { prop } from 'ramda';
 
@@ -54,8 +54,8 @@ describe('Listing', () => {
   }));
 
   const PaginationTable = (): JSX.Element => {
-    const [limit, setLimit] = React.useState(10);
-    const [page, setPage] = React.useState(4);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(4);
 
     return (
       <Listing
