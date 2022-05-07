@@ -1,5 +1,3 @@
-import React from 'react';
-
 import DialogContentText from '@mui/material/DialogContentText';
 
 import Dialog, { Props as DialogProps } from '..';

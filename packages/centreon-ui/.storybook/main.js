@@ -29,6 +29,11 @@ module.exports = {
               loader: 'swc-loader',
               options: {
                 jsc: {
+                  transform: {
+                    react: {
+                      runtime: 'automatic',
+                    },
+                  },
                   parser: {
                     syntax: 'typescript',
                   },

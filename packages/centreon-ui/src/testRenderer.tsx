@@ -18,10 +18,7 @@ const ThemeProviderWrapper = ({ children }: Props): JSX.Element => {
   return <ThemeProvider themeMode={ThemeMode.light}>{children}</ThemeProvider>;
 };
 
-const render = (
-  ui: ReactElement,
-  options?: RenderOptions,
-): RenderResult =>
+const render = (ui: ReactElement, options?: RenderOptions): RenderResult =>
   rtlRender(ui, {
     wrapper: ThemeProviderWrapper as (props) => ReactElement | null,
     ...options,

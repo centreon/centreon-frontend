@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { addDecorator } from '@storybook/react';
 
 import { useDarkMode } from 'storybook-dark-mode';
