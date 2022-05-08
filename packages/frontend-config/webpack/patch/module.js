@@ -15,6 +15,10 @@ class CentreonModulePlugin {
         ),
       };
 
+      if (!fs.existsSync(compiler.options.output.path)) {
+        fs.mkdirSync(compiler.options.output.path);
+      }
+
       fs.writeFileSync(
         `${compiler.options.output.path}/moduleFederation.json`,
         JSON.stringify(newFederatedComponentConfiguration, null, 2),
