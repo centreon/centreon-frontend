@@ -15,6 +15,8 @@ class CentreonModulePlugin {
         ),
       };
 
+      console.log(compiler.options.output.path);
+
       if (!fs.existsSync(compiler.options.output.path)) {
         fs.mkdirSync(compiler.options.output.path);
       }
