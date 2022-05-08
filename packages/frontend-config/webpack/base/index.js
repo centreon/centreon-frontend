@@ -43,6 +43,8 @@ const getBasicConfig = ({ moduleName, moduleFederationConfig }) => ({
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new ModuleFederationPlugin({
+      filename: 'remoteEntry.[chunkhash:8].js',
+      library: { name: moduleName, type: 'var' },
       name: moduleName,
       shared: [
         {
