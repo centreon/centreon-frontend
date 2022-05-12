@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { isNil, not } from 'ramda';
+import { isNil } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Alert, AlertTitle, Container } from '@mui/material';
