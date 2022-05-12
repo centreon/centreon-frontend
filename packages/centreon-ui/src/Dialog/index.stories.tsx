@@ -1,10 +1,19 @@
 import * as React from 'react';
 
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { Typography } from '@mui/material';
 
 import Dialog from '.';
 
-export default { title: 'Dialog' };
+export default {
+  component: Dialog,
+  title: 'Dialog',
+} as ComponentMeta<typeof Dialog>;
+
+const TemplateDialog: ComponentStory<typeof Dialog> = (args) => (
+  <Dialog {...args} />
+);
 
 interface Props {
   children: React.ReactNode;
@@ -22,11 +31,8 @@ const Story = ({ children, ...props }: Props): JSX.Element => (
   </Dialog>
 );
 
-export const normal = (): JSX.Element => (
-  <Story>
-    <Typography>Dialog</Typography>
-  </Story>
-);
+export const normal = TemplateDialog.bind({});
+normal.args = { open: true };
 
 export const confirmDisabled = (): JSX.Element => (
   <Story confirmDisabled>

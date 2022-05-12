@@ -11,23 +11,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type Props = {
+export type Props = {
   ariaLabel?: string;
-  onClick: (event) => void;
   title?: string;
 } & IconButtonProps;
 
 const IconButton = ({
-  title = '',
+  title = 'TOTO',
   ariaLabel,
-  ...props
+  ...rest
 }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
     <Tooltip aria-label={ariaLabel} title={title}>
       <span>
-        <MuiIconButton className={classes.button} color="primary" {...props} />
+        <MuiIconButton className={classes.button} color="primary" {...rest} />
       </span>
     </Tooltip>
   );

@@ -1,10 +1,24 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import TextField from '.';
 
-export default { title: 'InputField/Text' };
+export default {
+  component: TextField,
+  title: 'InputField/Text',
+} as ComponentMeta<typeof TextField>;
 
-export const withLabelAndHelperText = (): JSX.Element => (
-  <TextField helperText="choose a name for current object" label="name" />
+const TemplateTextField: ComponentStory<typeof TextField> = (args) => (
+  <TextField {...args} />
 );
+
+export const small = TemplateTextField.bind({});
+small.args = { placeholder: 'Name', size: 'small' };
+
+export const withLabelAndHelperText = TemplateTextField.bind({});
+withLabelAndHelperText.args = {
+  helperText: 'choose a name for current object',
+  label: 'name',
+};
 
 export const withPlaceholderOnly = (): JSX.Element => (
   <TextField placeholder="name" />
@@ -20,10 +34,6 @@ export const fullWidth = (): JSX.Element => (
 
 export const compact = (): JSX.Element => (
   <TextField placeholder="Compact" size="compact" />
-);
-
-export const small = (): JSX.Element => (
-  <TextField placeholder="Small" size="small" />
 );
 
 export const transparent = (): JSX.Element => (
