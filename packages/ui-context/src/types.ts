@@ -7,9 +7,9 @@ export interface User {
 }
 export interface Acknowledgement {
   force_active_checks: boolean;
-  notify: boolean;
-  persistent: boolean;
-  sticky: boolean;
+  is_notify_contacts: boolean;
+  is_persistent_comment: boolean;
+  is_sticky: boolean;
   with_services: boolean;
 }
 
