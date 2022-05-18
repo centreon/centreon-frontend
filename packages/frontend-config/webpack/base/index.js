@@ -19,12 +19,18 @@ module.exports = (jscTransformConfiguration) => ({
           loader: 'swc-loader',
           options: {
             jsc: {
-              minify: true,
+              minify: {
+                compress: {
+                  unused: true,
+                },
+                mangle: true,
+              },
               parser: {
                 syntax: 'typescript',
               },
               transform: jscTransformConfiguration,
             },
+            minify: true,
           },
         },
       },
