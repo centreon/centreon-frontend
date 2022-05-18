@@ -1,10 +1,18 @@
 module.exports = {
-  cache: true,
-  devtool: 'eval-cheap-module-source-map',
-  optimization: {
-    splitChunks: false,
+  devJscTransformConfiguration: {
+    react: {
+      development: true,
+      refresh: true,
+    },
   },
-  output: {
-    filename: '[name].js',
-  },
+  getDevConfiguration: () => ({
+    cache: true,
+    devtool: 'eval-cheap-module-source-map',
+    optimization: {
+      splitChunks: false,
+    },
+    output: {
+      filename: '[name].js',
+    },
+  }),
 };
