@@ -27,6 +27,7 @@ module.exports = (jscTransformConfiguration) => ({
               },
               parser: {
                 syntax: 'typescript',
+                tsx: true,
               },
               transform: jscTransformConfiguration,
             },
