@@ -2,6 +2,12 @@ module.exports = {
   devJscTransformConfiguration: {
     react: {
       development: true,
+      refresh: false,
+    },
+  },
+  devRefreshJscTransformConfiguration: {
+    react: {
+      development: true,
       refresh: true,
     },
   },
