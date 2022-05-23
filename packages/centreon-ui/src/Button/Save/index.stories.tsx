@@ -1,8 +1,28 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import ButtonSave from '.';
 
-export default { title: 'Button/Save' };
+export default {
+  argTypes: {
+    labelLoading: { control: 'text' },
+    labelSave: { control: 'text' },
+    labelSucceeded: { control: 'text' },
+    loading: { control: 'boolean' },
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    succeeded: { control: 'boolean' },
+    tooltipLabel: { control: 'text' },
+  },
 
-export const normal = (): JSX.Element => <ButtonSave />;
+  component: ButtonSave,
+
+  title: 'Button/Save',
+} as ComponentMeta<typeof ButtonSave>;
+
+const TemplateButtonSave: ComponentStory<typeof ButtonSave> = (args) => (
+  <ButtonSave {...args} />
+);
+
+export const normal = TemplateButtonSave.bind({});
 
 export const loading = (): JSX.Element => <ButtonSave loading />;
 
