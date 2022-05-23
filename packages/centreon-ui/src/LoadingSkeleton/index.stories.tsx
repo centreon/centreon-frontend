@@ -1,7 +1,14 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import LoadingSkeleton from '.';
 
-export default { title: 'Loading Skeleton' };
+export default {
+  component: LoadingSkeleton,
+  title: 'Loading Skeleton',
+} as ComponentMeta<typeof LoadingSkeleton>;
 
-export const normal = (): JSX.Element => (
-  <LoadingSkeleton height={50} width={400} />
-);
+const TemplateLoadingSkeleton: ComponentStory<typeof LoadingSkeleton> = (
+  args,
+) => <LoadingSkeleton {...args} />;
+
+export const normal = TemplateLoadingSkeleton.bind({});
