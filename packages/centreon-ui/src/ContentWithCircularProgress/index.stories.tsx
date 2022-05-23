@@ -1,8 +1,29 @@
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+
 import { Typography } from '@mui/material';
 
 import ContentWithCircularLoading from '.';
 
-export default { title: 'ContentWithCircularLoading' };
+export default {
+  argTypes: {
+    alignCenter: { control: 'boolean' },
+    children: { control: 'React.ReactElement' },
+    loading: { control: 'boolean' },
+    loadingIndicatorSize: { control: 'number' },
+  },
+
+  component: ContentWithCircularLoading,
+  title: 'ContentWithCircularLoading',
+} as ComponentMeta<typeof ContentWithCircularLoading>;
+
+const TemplateContentWithCircularLoading: ComponentStory<
+  typeof ContentWithCircularLoading
+> = (args) => (
+  <ContentWithCircularLoading {...args}>
+    <Content />
+  </ContentWithCircularLoading>
+);
+export const normal = TemplateContentWithCircularLoading.bind({});
 
 const Content = (): JSX.Element => <Typography>Loaded</Typography>;
 
