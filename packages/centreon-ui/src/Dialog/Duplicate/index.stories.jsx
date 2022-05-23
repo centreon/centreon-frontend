@@ -1,5 +1,20 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import DuplicateDialog from '.';
+export default { 
+    argTypes: {
+      labelCancel: { control: 'text' },
+      labelConfirm: { control: 'text' },
+      labelMessage: { control: 'text' },
+      labelTitle: { control: 'text' },
+      open: { control: 'boolean' },
+    },
+    component: ConfirmDialog,
+    title: 'Dialog/Duplicate',
+  } as ComponentMeta<typeof DuplicateDialog>;
 
-export default { title: 'Dialog/Duplicate' };
+  const TemplateDuplicateDialog: ComponentStory<typeof DuplicateDialog> = (args) => (
+    <ConfirmDialog {...args} />
+  );
 
-export const normal = () => <DuplicateDialog open onCancel={() => {}} />;
+export const normal = () =>TemplateDuplicateDialog.bind({});
