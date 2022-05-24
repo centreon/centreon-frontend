@@ -1,8 +1,12 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { Typography } from '@mui/material';
 
 import Panel from '.';
 
-export default { title: 'Panel' };
+export default { component: Panel, title: 'Panel' } as ComponentMeta<
+  typeof Panel
+>;
 
 const header = <Typography>Header</Typography>;
 const tab = <Typography>Tab</Typography>;
@@ -16,5 +20,9 @@ const Story = (props): JSX.Element => {
     </div>
   );
 };
+
+const TemplatePanel: ComponentStory<typeof Panel> = (args) => (
+  <Story {...args} />
+);
 
 export const normal = (): JSX.Element => <Story />;
