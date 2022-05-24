@@ -31,6 +31,7 @@ const getBasicConfig = ({ moduleName, moduleFederationConfig }) => ({
   optimization: {
     splitChunks: {
       chunks: 'all',
+      maxSize: 800 * 1024,
     },
   },
   output: {
