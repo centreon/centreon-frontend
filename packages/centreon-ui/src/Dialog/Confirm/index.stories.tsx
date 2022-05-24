@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import ConfirmDialog from '.';
 
-export default { 
+export default {
   argTypes: {
     labelCancel: { control: 'text' },
     labelConfirm: { control: 'text' },
@@ -17,6 +17,9 @@ export default {
 const TemplateConfirmDialog: ComponentStory<typeof ConfirmDialog> = (args) => (
   <ConfirmDialog {...args} />
 );
-export const Normal = TemplateConfirmDialog.bind({});
-small.args = { labelMessage: 'Your progress will not be saved.' ,labelTitle:'Do you want to confirm action ?',open: 'true' };
-
+export const standard = TemplateConfirmDialog.bind({});
+standard.args = {
+  labelMessage: 'Your progress will not be saved.',
+  labelTitle: 'Do you want to confirm action ?',
+  open: 'true',
+};

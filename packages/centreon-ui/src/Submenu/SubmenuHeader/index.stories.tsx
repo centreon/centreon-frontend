@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-
 import HostIcon from '@mui/icons-material/Dns';
 
 import { IconHeader, StatusCounter, IconToggleSubmenu } from '../..';
@@ -12,7 +10,7 @@ import SubmenuItem from './SubmenuItem';
 
 import SubmenuHeader from '.';
 
-export default { component: SubmenuHeader, title: 'SubemnuHeader' };
+export default { title: 'SubemnuHeader' };
 
 const Submenu = (): JSX.Element => {
   const [active, setActive] = useState(false);
@@ -76,7 +74,4 @@ const Submenu = (): JSX.Element => {
   );
 };
 
-const TemplateSubmenu: ComponentStory<typeof Submenu> = (args) => (
-  <Submenu {...args} />
-);
-export const hostSubmenu = TemplateSubmenu.bind({});
+export const hostSubmenu = (): JSX.Element => <Submenu />;
