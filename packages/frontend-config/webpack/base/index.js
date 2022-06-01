@@ -3,7 +3,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container;
 
-const getBasicConfig = ({ moduleName, moduleFederationConfig }) => ({
+const getBaseConfiguration = ({ moduleName, moduleFederationConfig }) => ({
   cache: false,
   module: {
     rules: [
@@ -102,6 +102,4 @@ const getBasicConfig = ({ moduleName, moduleFederationConfig }) => ({
   },
 });
 
-module.exports = {
-  getBasicConfig,
-};
+module.exports = getBaseConfiguration;
