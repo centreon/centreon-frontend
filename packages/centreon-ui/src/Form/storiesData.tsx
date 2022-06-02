@@ -3,25 +3,60 @@ import * as Yup from 'yup';
 
 import { Typography } from '@mui/material';
 
+import { SelectEntry } from '../InputField/Select';
+
 import { Category, InputProps, InputType } from './Inputs/models';
 
 export interface BasicForm {
   active: boolean;
+  class: { id: number; name: string } | null;
   email: string;
+  isForced: boolean;
+  language: string;
   name: string;
+  password: string;
+  scopes: Array<string>;
+  sports: Array<SelectEntry>;
 }
+
+const selectEntryValidationSchema = Yup.object().shape({
+  id: Yup.number().required('Required'),
+  name: Yup.string().required('Required'),
+});
 
 export const basicFormValidationSchema = Yup.object().shape({
   active: Yup.boolean().required('Active is required'),
+  class: selectEntryValidationSchema.nullable().required('Required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
+  isForced: Yup.boolean().required('Is forced is required'),
+  language: Yup.string().required('Language is required'),
   name: Yup.string().required('Name is required'),
+  password: Yup.string().required('Password is required'),
+  scopes: Yup.array().of(Yup.string().required('Required')),
+  sports: Yup.array().of(selectEntryValidationSchema.required('Required')),
 });
 
 export const basicFormInitialValues = {
   active: false,
+  class: null,
   email: '',
+  isForced: false,
+  language: 'French',
   name: '',
+  password: '',
+  scopes: [],
+  sports: [],
 };
+
+export const classOptions = [...Array(10).keys()].map((idx) => ({
+  id: idx,
+  name: `Class ${idx}`,
+}));
+
+export const sportOptions = [...Array(10).keys()].map((idx) => ({
+  id: idx,
+  name: `Sport ${idx}`,
+}));
 
 export const basicFormCategories: Array<Category> = [
   {
@@ -52,6 +87,76 @@ export const basicFormInputs: Array<InputProps> = [
     fieldName: 'active',
     label: 'Active',
     type: InputType.Switch,
+  },
+  {
+    category: 'First category',
+    fieldName: 'password',
+    label: 'Password',
+    type: InputType.Password,
+  },
+  {
+    category: 'First category',
+    fieldName: 'language',
+    label: 'Language',
+    radioConfiguration: {
+      options: [
+        {
+          label: 'French',
+          value: 'French',
+        },
+        {
+          label: 'English',
+          value: 'English',
+        },
+      ],
+    },
+    type: InputType.Radio,
+  },
+  {
+    category: 'First category',
+    fieldName: 'isForced',
+    label: 'Is Forced?',
+    radioConfiguration: {
+      options: [
+        {
+          label: 'Is not forced',
+          value: false,
+        },
+        {
+          label: 'Is forced',
+          value: true,
+        },
+      ],
+    },
+    type: InputType.Radio,
+  },
+  {
+    autocompleteConfiguration: {
+      options: classOptions,
+    },
+    category: 'First category',
+    fieldName: 'class',
+    label: 'Class',
+    type: InputType.SingleAutocomplete,
+  },
+  {
+    autocompleteConfiguration: {
+      options: sportOptions,
+    },
+    category: 'First category',
+    fieldName: 'sports',
+    label: 'Sports',
+    type: InputType.MultiAutocomplete,
+  },
+  {
+    autocompleteConfiguration: {
+      creatable: true,
+      options: [],
+    },
+    category: 'First category',
+    fieldName: 'scopes',
+    label: 'Scopes',
+    type: InputType.MultiAutocomplete,
   },
 ];
 

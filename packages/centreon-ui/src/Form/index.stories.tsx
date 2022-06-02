@@ -1,3 +1,5 @@
+import { Paper } from '@mui/material';
+
 import {
   BasicForm,
   basicFormCategories,
@@ -26,13 +28,19 @@ const mandatoryProps = {
 };
 
 export const basicForm = (): JSX.Element => (
-  <Form<BasicForm> {...mandatoryProps} />
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm> {...mandatoryProps} />
+  </Paper>
 );
 
 export const basicFormWithCategories = (): JSX.Element => (
-  <Form<BasicForm> {...mandatoryProps} categories={basicFormCategories} />
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm> {...mandatoryProps} categories={basicFormCategories} />
+  </Paper>
 );
 
 export const basicFormWithCustomButton = (): JSX.Element => (
-  <Form<BasicForm> {...mandatoryProps} Buttons={CustomButton} />
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm> {...mandatoryProps} Buttons={CustomButton} />
+  </Paper>
 );

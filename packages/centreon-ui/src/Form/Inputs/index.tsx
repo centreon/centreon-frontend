@@ -32,7 +32,7 @@ import {
   InputPropsWithoutCategory,
   InputType,
 } from './models';
-import MultipleInput from './Multiple';
+import Autocomplete from './Autocomplete';
 import SwitchInput from './Switch';
 import RadioInput from './Radio';
 import TextInput from './Text';
@@ -47,8 +47,12 @@ export const getInput = cond<
   [equals(InputType.Radio) as (b: InputType) => boolean, always(RadioInput)],
   [equals(InputType.Text) as (b: InputType) => boolean, always(TextInput)],
   [
-    equals(InputType.Multiple) as (b: InputType) => boolean,
-    always(MultipleInput),
+    equals(InputType.SingleAutocomplete) as (b: InputType) => boolean,
+    always(Autocomplete),
+  ],
+  [
+    equals(InputType.MultiAutocomplete) as (b: InputType) => boolean,
+    always(Autocomplete),
   ],
   [equals(InputType.Password) as (b: InputType) => boolean, always(TextInput)],
   [

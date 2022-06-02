@@ -2,11 +2,14 @@ import { FormikValues } from 'formik';
 
 import { SvgIconProps } from '@mui/material';
 
+import { SelectEntry } from '../../InputField/Select';
+
 export enum InputType {
   Switch,
   Radio,
   Text,
-  Multiple,
+  SingleAutocomplete,
+  MultiAutocomplete,
   Password,
   ConnectedAutocomplete,
   FieldsTable,
@@ -18,30 +21,39 @@ interface FieldsTableGetRequiredProps {
 }
 
 export interface InputProps {
-  additionalFieldsToMemoize?: Array<string>;
   additionalLabel?: string;
   additionalMemoProps?: Array<unknown>;
+  autocompleteConfiguration?: {
+    creatable?: boolean;
+    options: Array<SelectEntry>;
+  };
   category: string;
   change?: ({ setFieldValue, value }) => void;
-  endpoint?: string;
+  connectedAutocompleteConfiguration?: {
+    endpoint?: string;
+    filterKey?: string;
+  };
   fieldName: string;
   fieldsTableConfiguration?: {
+    additionalFieldsToMemoize?: Array<string>;
     columns: Array<Omit<InputProps, 'category'>>;
     defaultRowValue: object;
     deleteLabel: string;
     getRequired?: ({ values, index }: FieldsTableGetRequiredProps) => boolean;
   };
-  filterKey?: string;
-  getChecked?: (value) => boolean;
   getDisabled?: (values: FormikValues) => boolean;
   getRequired?: (values: FormikValues) => boolean;
   label: string;
-  options?: Array<{
-    isChecked: (value) => boolean;
-    label: string;
-    value: boolean;
-  }>;
+  radioConfiguration?: {
+    options?: Array<{
+      label: string;
+      value: boolean | string;
+    }>;
+  };
   required?: boolean;
+  switchConfiguration?: {
+    getChecked?: (value) => boolean;
+  };
   type: InputType;
 }
 

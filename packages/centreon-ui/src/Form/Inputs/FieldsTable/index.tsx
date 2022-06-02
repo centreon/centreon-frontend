@@ -38,7 +38,6 @@ const FieldsTable = ({
   fieldsTableConfiguration,
   fieldName,
   label,
-  additionalFieldsToMemoize,
 }: InputPropsWithoutCategory): JSX.Element => {
   const classes = useStyles({
     columns: fieldsTableConfiguration?.columns.length,
@@ -53,8 +52,10 @@ const FieldsTable = ({
 
   const fieldsTableError = prop(fieldName, errors) as string | undefined;
 
-  const fieldsToMemoize =
-    additionalFieldsToMemoize && pick(additionalFieldsToMemoize, values);
+  const fieldsToMemoize = pick(
+    fieldsTableConfiguration?.additionalFieldsToMemoize || [],
+    values,
+  );
 
   return useMemoComponent({
     Component: (

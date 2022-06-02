@@ -10,14 +10,15 @@ import {
 
 import { InputPropsWithoutCategory } from './models';
 
+const defaultFilterKey = 'name';
+
 const ConnectedAutocomplete = ({
   getDisabled,
   required,
   getRequired,
   fieldName,
   label,
-  filterKey = 'name',
-  endpoint,
+  connectedAutocompleteConfiguration,
   change,
   additionalMemoProps,
 }: InputPropsWithoutCategory): JSX.Element => {
@@ -26,9 +27,12 @@ const ConnectedAutocomplete = ({
   const { values, touched, errors, setFieldValue, setFieldTouched } =
     useFormikContext<FormikValues>();
 
+  const filterKey =
+    connectedAutocompleteConfiguration?.filterKey || defaultFilterKey;
+
   const getEndpoint = (parameters): string =>
     buildListingEndpoint({
-      baseEndpoint: endpoint,
+      baseEndpoint: connectedAutocompleteConfiguration?.endpoint,
       parameters: {
         ...parameters,
         sort: { [filterKey]: 'ASC' },
@@ -86,7 +90,14 @@ const ConnectedAutocomplete = ({
         onChange={changeAutocomplete}
       />
     ),
-    memoProps: [value, error, disabled, isRequired, additionalMemoProps],
+    memoProps: [
+      value,
+      error,
+      disabled,
+      isRequired,
+      additionalMemoProps,
+      connectedAutocompleteConfiguration,
+    ],
   });
 };
 

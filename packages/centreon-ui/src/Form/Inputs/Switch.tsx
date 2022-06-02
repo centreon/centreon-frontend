@@ -14,7 +14,7 @@ const Switch = ({
   fieldName,
   change,
   label,
-  getChecked,
+  switchConfiguration,
   getDisabled,
   additionalMemoProps,
 }: InputPropsWithoutCategory): JSX.Element => {
@@ -33,7 +33,8 @@ const Switch = ({
   };
 
   const value =
-    getChecked?.(prop(fieldName, values)) ?? prop(fieldName, values);
+    switchConfiguration?.getChecked?.(prop(fieldName, values)) ??
+    prop(fieldName, values);
   const disabled = getDisabled?.(values) || false;
 
   return useMemoComponent({
