@@ -47,6 +47,10 @@ const getSkeleton = cond<InputType, JSX.Element>([
     equals(InputType.Grid) as (b: InputType) => boolean,
     always(<LoadingSkeleton height={52} />),
   ],
+  [
+    equals(InputType.Custom) as (b: InputType) => boolean,
+    always(<LoadingSkeleton height={52} />),
+  ],
 ]);
 
 const useStyles = makeStyles((theme) => ({

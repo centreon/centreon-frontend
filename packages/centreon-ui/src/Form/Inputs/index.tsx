@@ -39,6 +39,7 @@ import TextInput from './Text';
 import ConnectedAutocomplete from './ConnectedAutocomplete';
 import FieldsTable from './FieldsTable';
 import Grid from './Grid';
+import Custom from './Custom';
 
 export const getInput = cond<
   InputType,
@@ -69,6 +70,7 @@ export const getInput = cond<
     always(FieldsTable),
   ],
   [equals(InputType.Grid) as (b: InputType) => boolean, always(Grid)],
+  [equals(InputType.Custom) as (b: InputType) => boolean, always(Custom)],
 ]);
 
 const useStyles = makeStyles((theme) => ({

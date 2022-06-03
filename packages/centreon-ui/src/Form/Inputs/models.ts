@@ -15,6 +15,7 @@ export enum InputType {
   MultiConnectedAutocomplete,
   FieldsTable,
   Grid,
+  Custom,
 }
 
 interface FieldsTableGetRequiredProps {
@@ -34,6 +35,9 @@ export interface InputProps {
   connectedAutocompleteConfiguration?: {
     endpoint?: string;
     filterKey?: string;
+  };
+  custom?: {
+    Component: React.ComponentType<InputPropsWithoutCategory>;
   };
   fieldName: string;
   fieldsTableConfiguration?: {

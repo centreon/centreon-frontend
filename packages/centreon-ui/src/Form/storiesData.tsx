@@ -6,12 +6,18 @@ import { Typography } from '@mui/material';
 import { SelectEntry } from '../InputField/Select';
 import { Listing } from '../api/models';
 
-import { Category, InputProps, InputType } from './Inputs/models';
+import {
+  Category,
+  InputProps,
+  InputPropsWithoutCategory,
+  InputType,
+} from './Inputs/models';
 
 export interface BasicForm {
   active: boolean;
   animals: Array<SelectEntry>;
   class: { id: number; name: string } | null;
+  custom: string;
   email: string;
   group: { id: number; name: string } | null;
   isForced: boolean;
@@ -31,6 +37,7 @@ export const basicFormValidationSchema = Yup.object().shape({
   active: Yup.boolean().required('Active is required'),
   animals: Yup.array().of(selectEntryValidationSchema.required('Required')),
   class: selectEntryValidationSchema.nullable().required('Required'),
+  custom: Yup.string().required('Custom is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   group: selectEntryValidationSchema.nullable().required('Required'),
   isForced: Yup.boolean().required('Is forced is required'),
@@ -45,6 +52,7 @@ export const basicFormInitialValues = {
   active: false,
   animals: [],
   class: null,
+  custom: '',
   email: '',
   group: null,
   isForced: false,
@@ -200,6 +208,17 @@ export const basicFormInputs: Array<InputProps> = [
     },
     label: '',
     type: InputType.Grid,
+  },
+  {
+    category: 'Second category',
+    custom: {
+      Component: ({ label }: InputPropsWithoutCategory): JSX.Element => (
+        <Typography>This is a {label} component</Typography>
+      ),
+    },
+    fieldName: 'custom',
+    label: 'Custom',
+    type: InputType.Custom,
   },
 ];
 
