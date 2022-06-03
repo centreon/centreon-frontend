@@ -11,7 +11,8 @@ export enum InputType {
   SingleAutocomplete,
   MultiAutocomplete,
   Password,
-  ConnectedAutocomplete,
+  SingleConnectedAutocomplete,
+  MultiConnectedAutocomplete,
   FieldsTable,
 }
 

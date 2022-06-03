@@ -56,7 +56,11 @@ export const getInput = cond<
   ],
   [equals(InputType.Password) as (b: InputType) => boolean, always(TextInput)],
   [
-    equals(InputType.ConnectedAutocomplete) as (b: InputType) => boolean,
+    equals(InputType.MultiConnectedAutocomplete) as (b: InputType) => boolean,
+    always(ConnectedAutocomplete),
+  ],
+  [
+    equals(InputType.SingleConnectedAutocomplete) as (b: InputType) => boolean,
     always(ConnectedAutocomplete),
   ],
   [

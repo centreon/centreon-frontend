@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { FormikValues, useFormikContext } from 'formik';
-import { equals, isNil, map, prop, type } from 'ramda';
+import { equals, isNil, map, not, prop, type } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { FormHelperText, Stack } from '@mui/material';
@@ -13,6 +13,30 @@ import useMemoComponent from '../../utils/useMemoComponent';
 import { SelectEntry } from '../../InputField/Select';
 
 import { InputPropsWithoutCategory, InputType } from './models';
+
+const normalizeNewValues = ({
+  newValues,
+  isMultiple,
+  isCreatable,
+}): SelectEntry | Array<string | SelectEntry> => {
+  const isSingle = not(isMultiple);
+  if (isSingle) {
+    return newValues;
+  }
+
+  return map((newValue: SelectEntry | string) => {
+    const isManualValue = equals(type(newValue), 'String');
+    if (isCreatable && isManualValue) {
+      return newValue;
+    }
+
+    if (isCreatable) {
+      return prop('name', newValue as SelectEntry);
+    }
+
+    return newValue;
+  }, newValues);
+};
 
 const Autocomplete = ({
   fieldName,
@@ -34,19 +58,11 @@ const Autocomplete = ({
   const isMultiple = equals(inputType, InputType.MultiAutocomplete);
 
   const changeValues = (_, newValues): void => {
-    const normalizedNewValues = isMultiple
-      ? map((newValue: SelectEntry | string) => {
-          if (isCreatable && equals(type(newValue), 'String')) {
-            return newValue;
-          }
-
-          if (isCreatable) {
-            return prop('name', newValue as SelectEntry);
-          }
-
-          return newValue;
-        }, newValues)
-      : newValues;
+    const normalizedNewValues = normalizeNewValues({
+      isCreatable,
+      isMultiple,
+      newValues,
+    });
 
     if (change) {
       change({ setFieldValue, value: normalizedNewValues });
@@ -61,7 +77,7 @@ const Autocomplete = ({
 
   const selectedValues = prop(fieldName, values);
 
-  const getError = (): Array<string> | undefined => {
+  const getError = useCallback((): Array<string> | undefined => {
     const error = prop(fieldName, errors) as Array<string> | string | undefined;
 
     const normalizedError = isMultiple
@@ -77,11 +93,14 @@ const Autocomplete = ({
       : [error as string];
 
     return normalizedError || undefined;
-  };
+  }, [errors, fieldName, isMultiple, selectedValues]);
 
-  const textChange = (event): void => setInputText(event.target.value);
+  const textChange = useCallback(
+    (event): void => setInputText(event.target.value),
+    [],
+  );
 
-  const getValues = (): SelectEntry | Array<SelectEntry> => {
+  const getValues = useCallback((): SelectEntry | Array<SelectEntry> => {
     if (isMultiple && isCreatable) {
       return selectedValues.map((value) => ({
         id: value,
@@ -89,15 +108,8 @@ const Autocomplete = ({
       }));
     }
 
-    if (isCreatable) {
-      return {
-        id: selectedValues,
-        name: selectedValues,
-      };
-    }
-
     return selectedValues;
-  };
+  }, [isMultiple, isCreatable, selectedValues]);
 
   const inputErrors = getError();
 

@@ -4,13 +4,16 @@ import * as Yup from 'yup';
 import { Typography } from '@mui/material';
 
 import { SelectEntry } from '../InputField/Select';
+import { Listing } from '../api/models';
 
 import { Category, InputProps, InputType } from './Inputs/models';
 
 export interface BasicForm {
   active: boolean;
+  animals: Array<SelectEntry>;
   class: { id: number; name: string } | null;
   email: string;
+  group: SelectEntry;
   isForced: boolean;
   language: string;
   name: string;
@@ -26,8 +29,10 @@ const selectEntryValidationSchema = Yup.object().shape({
 
 export const basicFormValidationSchema = Yup.object().shape({
   active: Yup.boolean().required('Active is required'),
+  animals: Yup.array().of(selectEntryValidationSchema.required('Required')),
   class: selectEntryValidationSchema.nullable().required('Required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
+  group: selectEntryValidationSchema.nullable().required('Required'),
   isForced: Yup.boolean().required('Is forced is required'),
   language: Yup.string().required('Language is required'),
   name: Yup.string().required('Name is required'),
@@ -38,8 +43,10 @@ export const basicFormValidationSchema = Yup.object().shape({
 
 export const basicFormInitialValues = {
   active: false,
+  animals: [],
   class: null,
   email: '',
+  group: [],
   isForced: false,
   language: 'French',
   name: '',
@@ -136,7 +143,7 @@ export const basicFormInputs: Array<InputProps> = [
     },
     category: 'First category',
     fieldName: 'class',
-    label: 'Class',
+    label: 'Class (Single autocomplete)',
     type: InputType.SingleAutocomplete,
   },
   {
@@ -145,7 +152,7 @@ export const basicFormInputs: Array<InputProps> = [
     },
     category: 'First category',
     fieldName: 'sports',
-    label: 'Sports',
+    label: 'Sports (Multi autocomplete)',
     type: InputType.MultiAutocomplete,
   },
   {
@@ -155,8 +162,26 @@ export const basicFormInputs: Array<InputProps> = [
     },
     category: 'First category',
     fieldName: 'scopes',
-    label: 'Scopes',
+    label: 'Scopes (Multi autocomplete that allows value creation)',
     type: InputType.MultiAutocomplete,
+  },
+  {
+    category: 'First category',
+    connectedAutocompleteConfiguration: {
+      endpoint: 'endpoint',
+    },
+    fieldName: 'group',
+    label: 'Group (Single connected autocomplete)',
+    type: InputType.SingleConnectedAutocomplete,
+  },
+  {
+    category: 'First category',
+    connectedAutocompleteConfiguration: {
+      endpoint: 'endpoint',
+    },
+    fieldName: 'animals',
+    label: 'Animals (Multi connected autocomplete)',
+    type: InputType.MultiConnectedAutocomplete,
   },
 ];
 
@@ -170,3 +195,21 @@ export const CustomButton = (): JSX.Element => {
     </div>
   );
 };
+
+const buildEntities = (from): Array<SelectEntry> => {
+  return Array(10)
+    .fill(0)
+    .map((_, index) => ({
+      id: from + index,
+      name: `Entity ${from + index}`,
+    }));
+};
+
+export const buildResult = (page): Listing<SelectEntry> => ({
+  meta: {
+    limit: 10,
+    page,
+    total: 40,
+  },
+  result: buildEntities((page - 1) * 10),
+});

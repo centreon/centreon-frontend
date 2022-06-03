@@ -1,3 +1,5 @@
+import { useCallback, useMemo } from 'react';
+
 import { FormikValues, useFormikContext } from 'formik';
 import { equals, isEmpty, path, split } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +10,9 @@ import {
   useMemoComponent,
 } from '@centreon/ui';
 
-import { InputPropsWithoutCategory } from './models';
+import MultiConnectedAutocompleteField from '../../InputField/Select/Autocomplete/Connected/Multi';
+
+import { InputPropsWithoutCategory, InputType } from './models';
 
 const defaultFilterKey = 'name';
 
@@ -21,6 +25,7 @@ const ConnectedAutocomplete = ({
   connectedAutocompleteConfiguration,
   change,
   additionalMemoProps,
+  type,
 }: InputPropsWithoutCategory): JSX.Element => {
   const { t } = useTranslation();
 
@@ -29,6 +34,8 @@ const ConnectedAutocomplete = ({
 
   const filterKey =
     connectedAutocompleteConfiguration?.filterKey || defaultFilterKey;
+
+  const isMultiple = equals(type, InputType.MultiConnectedAutocomplete);
 
   const getEndpoint = (parameters): string =>
     buildListingEndpoint({
@@ -41,27 +48,35 @@ const ConnectedAutocomplete = ({
 
   const fieldNamePath = split('.', fieldName);
 
-  const changeAutocomplete = (_, value): void => {
-    if (change) {
-      change({ setFieldValue, value });
+  const changeAutocomplete = useCallback(
+    (_, value): void => {
+      if (change) {
+        change({ setFieldValue, value });
 
-      return;
-    }
+        return;
+      }
 
-    setFieldValue(fieldName, value);
+      setFieldValue(fieldName, value);
 
-    if (path(fieldNamePath, touched)) {
-      return;
-    }
+      if (path(fieldNamePath, touched)) {
+        return;
+      }
 
-    setFieldTouched(fieldName, true);
-  };
+      setFieldTouched(fieldName, true);
+    },
+    [fieldName, touched],
+  );
 
   const blur = (): void => setFieldTouched(fieldName, true);
 
-  const isOptionEqualToValue = (option, value): boolean => {
-    return isEmpty(value) ? false : equals(option[filterKey], value[filterKey]);
-  };
+  const isOptionEqualToValue = useCallback(
+    (option, value): boolean => {
+      return isEmpty(value)
+        ? false
+        : equals(option[filterKey], value[filterKey]);
+    },
+    [filterKey],
+  );
 
   const value = path(fieldNamePath, values);
 
@@ -72,9 +87,17 @@ const ConnectedAutocomplete = ({
   const disabled = getDisabled?.(values) || false;
   const isRequired = required || getRequired?.(values) || false;
 
+  const AutocompleteField = useMemo(
+    () =>
+      isMultiple
+        ? MultiConnectedAutocompleteField
+        : SingleConnectedAutocompleteField,
+    [isMultiple],
+  );
+
   return useMemoComponent({
     Component: (
-      <SingleConnectedAutocompleteField
+      <AutocompleteField
         disableClearable={false}
         disabled={disabled}
         error={error}
