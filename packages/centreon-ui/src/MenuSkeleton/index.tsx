@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { equals } from 'ramda';
 
 import { SkeletonProps, useTheme, alpha } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
@@ -17,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   animate?: boolean;
   className?: string;
-  height?: number | string;
+  height?: number;
   variant?: SkeletonProps['variant'];
-  width?: number | string;
+  width?: number;
 }
 
 const MenuLoader = ({
@@ -36,15 +35,9 @@ const MenuLoader = ({
     <LoadingSkeleton
       animation={animate ? 'wave' : false}
       className={clsx(classes.skeleton, className)}
-      height={
-        equals(typeof height, 'string')
-          ? height
-          : theme.spacing(height as number)
-      }
+      height={theme.spacing(height)}
       variant={variant}
-      width={
-        equals(typeof width, 'string') ? width : theme.spacing(width as number)
-      }
+      width={theme.spacing(width)}
     />
   );
 };
