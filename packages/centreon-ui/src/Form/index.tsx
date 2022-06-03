@@ -18,6 +18,7 @@ interface Props<T> {
   categories?: Array<Category>;
   initialValues: T;
   inputs: Array<InputProps>;
+  isLoading?: boolean;
   submit: (values: T, bag: FormikHelpers<T>) => void | Promise<void>;
   validate?: (values: FormikValues) => void;
   validationSchema: Yup.SchemaOf<T>;
@@ -31,8 +32,13 @@ const Form = <T extends object>({
   categories,
   inputs,
   Buttons = FormButtons,
+  isLoading = false,
 }: Props<T>): JSX.Element => {
   const classes = useStyles();
+
+  if (isLoading) {
+    return <Inputs isLoading categories={categories} inputs={inputs} />;
+  }
 
   return (
     <Formik<T>

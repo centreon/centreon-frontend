@@ -53,38 +53,12 @@ const getSkeleton = cond<InputType, JSX.Element>([
   ],
 ]);
 
-const useStyles = makeStyles((theme) => ({
-  buttons: {
-    columnGap: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  skeletonInputs: {
-    display: 'flex',
-    flexDirection: 'column',
-    rowGap: theme.spacing(2),
-  },
-}));
-
 interface Props {
-  inputs: Array<InputProps>;
+  input: InputProps;
 }
 
-const LoadingSkeletonForm = ({ inputs }: Props): JSX.Element => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.skeletonInputs}>
-      {inputs.map(({ type, label }) => (
-        <div key={label}>{getSkeleton(type)}</div>
-      ))}
-      <div className={classes.buttons}>
-        <LoadingSkeleton height={32} width="18%" />
-        <LoadingSkeleton height={32} width="14%" />
-      </div>
-    </div>
-  );
+const LoadingSkeletonInput = ({ input }: Props): JSX.Element => {
+  return <div>{getSkeleton(input.type)}</div>;
 };
 
-export default LoadingSkeletonForm;
+export default LoadingSkeletonInput;

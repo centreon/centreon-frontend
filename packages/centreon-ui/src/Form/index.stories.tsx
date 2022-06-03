@@ -61,3 +61,19 @@ export const basicFormWithCustomButton = (): JSX.Element => (
     <Form<BasicForm> {...mandatoryProps} Buttons={CustomButton} />
   </Paper>
 );
+
+export const loadingForm = (): JSX.Element => (
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm> {...mandatoryProps} isLoading />
+  </Paper>
+);
+
+export const loadingFormWithCategories = (): JSX.Element => (
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm>
+      {...mandatoryProps}
+      isLoading
+      categories={basicFormCategories}
+    />
+  </Paper>
+);

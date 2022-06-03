@@ -40,6 +40,7 @@ import ConnectedAutocomplete from './ConnectedAutocomplete';
 import FieldsTable from './FieldsTable';
 import Grid from './Grid';
 import Custom from './Custom';
+import LoadingSkeleton from './LoadingSkeleton';
 
 export const getInput = cond<
   InputType,
@@ -77,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
   additionalLabel: {
     marginBottom: theme.spacing(0.5),
   },
+  buttons: {
+    columnGap: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
   category: {
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2),
@@ -102,9 +109,14 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   categories?: Array<Category>;
   inputs: Array<InputProps>;
+  isLoading?: boolean;
 }
 
-const Inputs = ({ inputs, categories = [] }: Props): JSX.Element => {
+const Inputs = ({
+  inputs,
+  categories = [],
+  isLoading = false,
+}: Props): JSX.Element => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -148,7 +160,7 @@ const Inputs = ({ inputs, categories = [] }: Props): JSX.Element => {
 
   const lastCategory = useMemo(() => last(sortedCategoryNames), []);
 
-  const truc = (
+  const normalizedInputsByCategory = (
     isEmpty(sortedInputsByCategory)
       ? [[null, inputs]]
       : toPairs(sortedInputsByCategory)
@@ -156,7 +168,7 @@ const Inputs = ({ inputs, categories = [] }: Props): JSX.Element => {
 
   return (
     <div>
-      {truc.map(([categoryName, categorizedInputs]) => {
+      {normalizedInputsByCategory.map(([categoryName, categorizedInputs]) => {
         const hasCategoryTitle = not(isNil(categoryName));
 
         const categoryProps = hasCategoryTitle
@@ -194,6 +206,15 @@ const Inputs = ({ inputs, categories = [] }: Props): JSX.Element => {
               )}
               <div className={classes.inputs}>
                 {categorizedInputs.map((inputProps) => {
+                  if (isLoading) {
+                    return (
+                      <LoadingSkeleton
+                        input={inputProps}
+                        key={inputProps.label}
+                      />
+                    );
+                  }
+
                   const Input = getInput(inputProps.type);
 
                   return (
