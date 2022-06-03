@@ -17,7 +17,7 @@ import { InputPropsWithoutCategory } from './models';
 const Radio = ({
   fieldName,
   label,
-  radioConfiguration,
+  radio,
   getDisabled,
   change,
   additionalMemoProps,
@@ -57,21 +57,19 @@ const Radio = ({
       <FormGroup>
         <FormLabel>{t(label)}</FormLabel>
         <RadioGroup value={value} onChange={changeRadio}>
-          {radioConfiguration?.options?.map(
-            ({ value: optionValue, label: optionLabel }) => (
-              <FormControlLabel
-                control={
-                  <MUIRadio
-                    disabled={disabled}
-                    inputProps={{ 'aria-label': t(optionLabel) }}
-                  />
-                }
-                key={optionLabel}
-                label={t(optionLabel) as string}
-                value={optionValue}
-              />
-            ),
-          )}
+          {radio?.options?.map(({ value: optionValue, label: optionLabel }) => (
+            <FormControlLabel
+              control={
+                <MUIRadio
+                  disabled={disabled}
+                  inputProps={{ 'aria-label': t(optionLabel) }}
+                />
+              }
+              key={optionLabel}
+              label={t(optionLabel) as string}
+              value={optionValue}
+            />
+          ))}
         </RadioGroup>
       </FormGroup>
     ),

@@ -22,7 +22,7 @@ const ConnectedAutocomplete = ({
   getRequired,
   fieldName,
   label,
-  connectedAutocompleteConfiguration,
+  connectedAutocomplete,
   change,
   additionalMemoProps,
   type,
@@ -32,14 +32,13 @@ const ConnectedAutocomplete = ({
   const { values, touched, errors, setFieldValue, setFieldTouched } =
     useFormikContext<FormikValues>();
 
-  const filterKey =
-    connectedAutocompleteConfiguration?.filterKey || defaultFilterKey;
+  const filterKey = connectedAutocomplete?.filterKey || defaultFilterKey;
 
   const isMultiple = equals(type, InputType.MultiConnectedAutocomplete);
 
   const getEndpoint = (parameters): string =>
     buildListingEndpoint({
-      baseEndpoint: connectedAutocompleteConfiguration?.endpoint,
+      baseEndpoint: connectedAutocomplete?.endpoint,
       parameters: {
         ...parameters,
         sort: { [filterKey]: 'ASC' },
@@ -119,7 +118,7 @@ const ConnectedAutocomplete = ({
       disabled,
       isRequired,
       additionalMemoProps,
-      connectedAutocompleteConfiguration,
+      connectedAutocomplete,
     ],
   });
 };

@@ -46,7 +46,7 @@ const Autocomplete = ({
   getRequired,
   change,
   additionalMemoProps,
-  autocompleteConfiguration,
+  autocomplete,
   type: inputType,
 }: InputPropsWithoutCategory): JSX.Element => {
   const { t } = useTranslation();
@@ -73,7 +73,7 @@ const Autocomplete = ({
     setFieldValue(fieldName, normalizedNewValues);
   };
 
-  const isCreatable = autocompleteConfiguration?.creatable;
+  const isCreatable = autocomplete?.creatable;
 
   const selectedValues = prop(fieldName, values);
 
@@ -81,18 +81,16 @@ const Autocomplete = ({
     const error = prop(fieldName, errors) as Array<string> | string | undefined;
 
     const normalizedError = isMultiple
-      ? ((error as Array<string> | undefined)
-          ?.map((errorText, index) => {
-            if (isNil(errorText)) {
-              return undefined;
-            }
+      ? (error as Array<string> | undefined)?.map((errorText, index) => {
+          if (isNil(errorText)) {
+            return undefined;
+          }
 
-            return `${selectedValues[index]}: ${errorText}`;
-          })
-          .filter(Boolean) as Array<string>)
-      : [error as string];
+          return `${selectedValues[index]}: ${errorText}`;
+        })
+      : [error];
 
-    return normalizedError || undefined;
+    return (normalizedError?.filter(Boolean) as Array<string>) || undefined;
   }, [errors, fieldName, isMultiple, selectedValues]);
 
   const textChange = useCallback(
@@ -123,6 +121,8 @@ const Autocomplete = ({
     [isMultiple],
   );
 
+  console.log(inputErrors);
+
   return useMemoComponent({
     Component: (
       <div>
@@ -135,7 +135,7 @@ const Autocomplete = ({
           }
           label={`${t(label)}${additionalLabel}`}
           open={isCreatable ? false : undefined}
-          options={autocompleteConfiguration?.options || []}
+          options={autocomplete?.options || []}
           popupIcon={isCreatable ? null : undefined}
           required={isRequired}
           value={getValues()}
@@ -160,7 +160,7 @@ const Autocomplete = ({
       disabled,
       additionalMemoProps,
       isMultiple,
-      autocompleteConfiguration?.options,
+      autocomplete?.options,
       isCreatable,
     ],
   });

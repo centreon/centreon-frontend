@@ -43,7 +43,7 @@ import Custom from './Custom';
 
 export const getInput = cond<
   InputType,
-  (props: InputPropsWithoutCategory) => JSX.Element
+  (props: InputPropsWithoutCategory) => JSX.Element | null
 >([
   [equals(InputType.Switch) as (b: InputType) => boolean, always(SwitchInput)],
   [equals(InputType.Radio) as (b: InputType) => boolean, always(RadioInput)],

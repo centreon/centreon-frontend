@@ -114,7 +114,7 @@ export const basicFormInputs: Array<InputProps> = [
     category: 'First category',
     fieldName: 'language',
     label: 'Language',
-    radioConfiguration: {
+    radio: {
       options: [
         {
           label: 'French',
@@ -132,7 +132,7 @@ export const basicFormInputs: Array<InputProps> = [
     category: 'First category',
     fieldName: 'isForced',
     label: 'Is Forced?',
-    radioConfiguration: {
+    radio: {
       options: [
         {
           label: 'Is not forced',
@@ -152,7 +152,7 @@ export const basicFormInputs: Array<InputProps> = [
     grid: {
       columns: [
         {
-          autocompleteConfiguration: {
+          autocomplete: {
             options: classOptions,
           },
           fieldName: 'class',
@@ -160,7 +160,7 @@ export const basicFormInputs: Array<InputProps> = [
           type: InputType.SingleAutocomplete,
         },
         {
-          autocompleteConfiguration: {
+          autocomplete: {
             options: sportOptions,
           },
           fieldName: 'sports',
@@ -169,11 +169,11 @@ export const basicFormInputs: Array<InputProps> = [
         },
       ],
     },
-    label: '',
+    label: 'autocompletes',
     type: InputType.Grid,
   },
   {
-    autocompleteConfiguration: {
+    autocomplete: {
       creatable: true,
       options: [],
     },
@@ -188,7 +188,7 @@ export const basicFormInputs: Array<InputProps> = [
     grid: {
       columns: [
         {
-          connectedAutocompleteConfiguration: {
+          connectedAutocomplete: {
             endpoint: 'endpoint',
           },
           fieldName: 'group',
@@ -196,7 +196,7 @@ export const basicFormInputs: Array<InputProps> = [
           type: InputType.SingleConnectedAutocomplete,
         },
         {
-          connectedAutocompleteConfiguration: {
+          connectedAutocomplete: {
             endpoint: 'endpoint',
           },
           fieldName: 'animals',
@@ -206,7 +206,7 @@ export const basicFormInputs: Array<InputProps> = [
       ],
       gridTemplateColumns: '400px 1fr',
     },
-    label: '',
+    label: 'connected autocompletes',
     type: InputType.Grid,
   },
   {

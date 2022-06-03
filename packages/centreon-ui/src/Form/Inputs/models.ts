@@ -26,13 +26,13 @@ interface FieldsTableGetRequiredProps {
 export interface InputProps {
   additionalLabel?: string;
   additionalMemoProps?: Array<unknown>;
-  autocompleteConfiguration?: {
+  autocomplete?: {
     creatable?: boolean;
     options: Array<SelectEntry>;
   };
   category: string;
   change?: ({ setFieldValue, value }) => void;
-  connectedAutocompleteConfiguration?: {
+  connectedAutocomplete?: {
     endpoint?: string;
     filterKey?: string;
   };
@@ -40,7 +40,7 @@ export interface InputProps {
     Component: React.ComponentType<InputPropsWithoutCategory>;
   };
   fieldName: string;
-  fieldsTableConfiguration?: {
+  fieldsTable?: {
     additionalFieldsToMemoize?: Array<string>;
     columns: Array<Omit<InputProps, 'category'>>;
     defaultRowValue: object;
@@ -54,14 +54,14 @@ export interface InputProps {
     gridTemplateColumns?: string;
   };
   label: string;
-  radioConfiguration?: {
+  radio?: {
     options?: Array<{
       label: string;
       value: boolean | string;
     }>;
   };
   required?: boolean;
-  switchConfiguration?: {
+  switchInput?: {
     getChecked?: (value) => boolean;
   };
   type: InputType;

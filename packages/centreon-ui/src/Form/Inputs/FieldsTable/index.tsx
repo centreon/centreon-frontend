@@ -35,12 +35,12 @@ const useStyles = makeStyles<Theme, { columns }, string>((theme) => ({
 }));
 
 const FieldsTable = ({
-  fieldsTableConfiguration,
+  fieldsTable,
   fieldName,
   label,
 }: InputPropsWithoutCategory): JSX.Element => {
   const classes = useStyles({
-    columns: fieldsTableConfiguration?.columns.length,
+    columns: fieldsTable?.columns.length,
   });
   const { t } = useTranslation();
 
@@ -53,7 +53,7 @@ const FieldsTable = ({
   const fieldsTableError = prop(fieldName, errors) as string | undefined;
 
   const fieldsToMemoize = pick(
-    fieldsTableConfiguration?.additionalFieldsToMemoize || [],
+    fieldsTable?.additionalFieldsToMemoize || [],
     values,
   );
 
@@ -64,8 +64,7 @@ const FieldsTable = ({
         <div className={classes.table}>
           {[...Array(tableValues.length + 1).keys()].map((idx): JSX.Element => {
             const getRequired = (): boolean =>
-              fieldsTableConfiguration?.getRequired?.({ index: idx, values }) ||
-              false;
+              fieldsTable?.getRequired?.({ index: idx, values }) || false;
 
             const isLastElement = pipe(
               length as (list) => number,
@@ -74,9 +73,9 @@ const FieldsTable = ({
 
             return (
               <Row
-                columns={fieldsTableConfiguration?.columns}
-                defaultRowValue={fieldsTableConfiguration?.defaultRowValue}
-                deleteLabel={fieldsTableConfiguration?.deleteLabel}
+                columns={fieldsTable?.columns}
+                defaultRowValue={fieldsTable?.defaultRowValue}
+                deleteLabel={fieldsTable?.deleteLabel}
                 getRequired={getRequired}
                 index={idx}
                 isLastElement={isLastElement}
