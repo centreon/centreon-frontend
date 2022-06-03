@@ -121,8 +121,6 @@ const Autocomplete = ({
     [isMultiple],
   );
 
-  console.log(inputErrors);
-
   return useMemoComponent({
     Component: (
       <div>
