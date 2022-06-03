@@ -1,7 +1,5 @@
 import { always, cond, equals } from 'ramda';
 
-import { makeStyles } from '@mui/styles';
-
 import { LoadingSkeleton } from '@centreon/ui';
 
 import { InputProps, InputType } from './models';
