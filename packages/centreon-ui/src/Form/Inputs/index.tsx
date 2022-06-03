@@ -38,6 +38,7 @@ import RadioInput from './Radio';
 import TextInput from './Text';
 import ConnectedAutocomplete from './ConnectedAutocomplete';
 import FieldsTable from './FieldsTable';
+import Grid from './Grid';
 
 export const getInput = cond<
   InputType,
@@ -67,6 +68,7 @@ export const getInput = cond<
     equals(InputType.FieldsTable) as (b: InputType) => boolean,
     always(FieldsTable),
   ],
+  [equals(InputType.Grid) as (b: InputType) => boolean, always(Grid)],
 ]);
 
 const useStyles = makeStyles((theme) => ({

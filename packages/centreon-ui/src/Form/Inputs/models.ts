@@ -14,6 +14,7 @@ export enum InputType {
   SingleConnectedAutocomplete,
   MultiConnectedAutocomplete,
   FieldsTable,
+  Grid,
 }
 
 interface FieldsTableGetRequiredProps {
@@ -44,6 +45,10 @@ export interface InputProps {
   };
   getDisabled?: (values: FormikValues) => boolean;
   getRequired?: (values: FormikValues) => boolean;
+  grid?: {
+    columns: Array<Omit<InputProps, 'category'>>;
+    gridTemplateColumns?: string;
+  };
   label: string;
   radioConfiguration?: {
     options?: Array<{

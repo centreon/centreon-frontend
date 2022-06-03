@@ -32,11 +32,19 @@ const getSkeleton = cond<InputType, JSX.Element>([
     always(<LoadingSkeleton height={52} />),
   ],
   [
-    equals(InputType.ConnectedAutocomplete) as (b: InputType) => boolean,
+    equals(InputType.MultiConnectedAutocomplete) as (b: InputType) => boolean,
+    always(<LoadingSkeleton height={52} />),
+  ],
+  [
+    equals(InputType.SingleConnectedAutocomplete) as (b: InputType) => boolean,
     always(<LoadingSkeleton height={52} />),
   ],
   [
     equals(InputType.FieldsTable) as (b: InputType) => boolean,
+    always(<LoadingSkeleton height={52} />),
+  ],
+  [
+    equals(InputType.Grid) as (b: InputType) => boolean,
     always(<LoadingSkeleton height={52} />),
   ],
 ]);

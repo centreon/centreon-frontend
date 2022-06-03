@@ -13,7 +13,7 @@ export interface BasicForm {
   animals: Array<SelectEntry>;
   class: { id: number; name: string } | null;
   email: string;
-  group: SelectEntry;
+  group: { id: number; name: string } | null;
   isForced: boolean;
   language: string;
   name: string;
@@ -46,7 +46,7 @@ export const basicFormInitialValues = {
   animals: [],
   class: null,
   email: '',
-  group: [],
+  group: null,
   isForced: false,
   language: 'French',
   name: '',
@@ -96,6 +96,7 @@ export const basicFormInputs: Array<InputProps> = [
     type: InputType.Switch,
   },
   {
+    additionalLabel: 'This a very special label',
     category: 'First category',
     fieldName: 'password',
     label: 'Password',
@@ -138,22 +139,30 @@ export const basicFormInputs: Array<InputProps> = [
     type: InputType.Radio,
   },
   {
-    autocompleteConfiguration: {
-      options: classOptions,
-    },
     category: 'First category',
-    fieldName: 'class',
-    label: 'Class (Single autocomplete)',
-    type: InputType.SingleAutocomplete,
-  },
-  {
-    autocompleteConfiguration: {
-      options: sportOptions,
+    fieldName: '',
+    grid: {
+      columns: [
+        {
+          autocompleteConfiguration: {
+            options: classOptions,
+          },
+          fieldName: 'class',
+          label: 'Class (Single autocomplete)',
+          type: InputType.SingleAutocomplete,
+        },
+        {
+          autocompleteConfiguration: {
+            options: sportOptions,
+          },
+          fieldName: 'sports',
+          label: 'Sports (Multi autocomplete)',
+          type: InputType.MultiAutocomplete,
+        },
+      ],
     },
-    category: 'First category',
-    fieldName: 'sports',
-    label: 'Sports (Multi autocomplete)',
-    type: InputType.MultiAutocomplete,
+    label: '',
+    type: InputType.Grid,
   },
   {
     autocompleteConfiguration: {
@@ -167,21 +176,30 @@ export const basicFormInputs: Array<InputProps> = [
   },
   {
     category: 'First category',
-    connectedAutocompleteConfiguration: {
-      endpoint: 'endpoint',
+    fieldName: '',
+    grid: {
+      columns: [
+        {
+          connectedAutocompleteConfiguration: {
+            endpoint: 'endpoint',
+          },
+          fieldName: 'group',
+          label: 'Group (Single connected autocomplete)',
+          type: InputType.SingleConnectedAutocomplete,
+        },
+        {
+          connectedAutocompleteConfiguration: {
+            endpoint: 'endpoint',
+          },
+          fieldName: 'animals',
+          label: 'Animals (Multi connected autocomplete)',
+          type: InputType.MultiConnectedAutocomplete,
+        },
+      ],
+      gridTemplateColumns: '400px 1fr',
     },
-    fieldName: 'group',
-    label: 'Group (Single connected autocomplete)',
-    type: InputType.SingleConnectedAutocomplete,
-  },
-  {
-    category: 'First category',
-    connectedAutocompleteConfiguration: {
-      endpoint: 'endpoint',
-    },
-    fieldName: 'animals',
-    label: 'Animals (Multi connected autocomplete)',
-    type: InputType.MultiConnectedAutocomplete,
+    label: '',
+    type: InputType.Grid,
   },
 ];
 
