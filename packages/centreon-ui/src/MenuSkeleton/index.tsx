@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { SkeletonProps, useTheme, alpha } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { LoadingSkeleton } from '@centreon/ui';
+import LoadingSkeleton from '../LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
