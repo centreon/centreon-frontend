@@ -11,7 +11,7 @@ const defaultUser: User = {
   use_deprecated_pages: false,
 };
 
-const defaultStatusOptimizedMode = false;
+const defaultResourceStorageOptimizationMode = false;
 
 const defaultAcl = {
   actions: {
@@ -56,5 +56,5 @@ export {
   defaultDowntime,
   defaultRefreshInterval,
   defaultAcknowledgement,
-  defaultStatusOptimizedMode,
+  defaultResourceStorageOptimizationMode,
 };

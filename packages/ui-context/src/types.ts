@@ -33,9 +33,9 @@ export type UserContext = {
   acknowledgement: Acknowledgement;
   acl: Acl;
   cloudServices: CloudServices | undefined;
+  defaultResourceStorageOptimizationMode: boolean;
   downtime: Downtime;
   refreshInterval: number;
-  statusOptimizedMode: boolean;
 } & User;
 
 export interface ActionAcl {
