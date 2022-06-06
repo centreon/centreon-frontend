@@ -1,26 +1,6 @@
 import { useMemo } from 'react';
 
-import {
-  always,
-  any,
-  ascend,
-  cond,
-  equals,
-  filter,
-  find,
-  groupBy,
-  isEmpty,
-  isNil,
-  keys,
-  last,
-  not,
-  pluck,
-  prop,
-  propEq,
-  reduce,
-  sort,
-  toPairs,
-} from 'ramda';
+import * as R from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { makeStyles } from '@mui/styles';
@@ -42,36 +22,47 @@ import Grid from './Grid';
 import Custom from './Custom';
 import LoadingSkeleton from './LoadingSkeleton';
 
-export const getInput = cond<
+export const getInput = R.cond<
   InputType,
   (props: InputPropsWithoutCategory) => JSX.Element | null
 >([
-  [equals(InputType.Switch) as (b: InputType) => boolean, always(SwitchInput)],
-  [equals(InputType.Radio) as (b: InputType) => boolean, always(RadioInput)],
-  [equals(InputType.Text) as (b: InputType) => boolean, always(TextInput)],
   [
-    equals(InputType.SingleAutocomplete) as (b: InputType) => boolean,
-    always(Autocomplete),
+    R.equals(InputType.Switch) as (b: InputType) => boolean,
+    R.always(SwitchInput),
   ],
   [
-    equals(InputType.MultiAutocomplete) as (b: InputType) => boolean,
-    always(Autocomplete),
+    R.equals(InputType.Radio) as (b: InputType) => boolean,
+    R.always(RadioInput),
   ],
-  [equals(InputType.Password) as (b: InputType) => boolean, always(TextInput)],
+  [R.equals(InputType.Text) as (b: InputType) => boolean, R.always(TextInput)],
   [
-    equals(InputType.MultiConnectedAutocomplete) as (b: InputType) => boolean,
-    always(ConnectedAutocomplete),
-  ],
-  [
-    equals(InputType.SingleConnectedAutocomplete) as (b: InputType) => boolean,
-    always(ConnectedAutocomplete),
+    R.equals(InputType.SingleAutocomplete) as (b: InputType) => boolean,
+    R.always(Autocomplete),
   ],
   [
-    equals(InputType.FieldsTable) as (b: InputType) => boolean,
-    always(FieldsTable),
+    R.equals(InputType.MultiAutocomplete) as (b: InputType) => boolean,
+    R.always(Autocomplete),
   ],
-  [equals(InputType.Grid) as (b: InputType) => boolean, always(Grid)],
-  [equals(InputType.Custom) as (b: InputType) => boolean, always(Custom)],
+  [
+    R.equals(InputType.Password) as (b: InputType) => boolean,
+    R.always(TextInput),
+  ],
+  [
+    R.equals(InputType.MultiConnectedAutocomplete) as (b: InputType) => boolean,
+    R.always(ConnectedAutocomplete),
+  ],
+  [
+    R.equals(InputType.SingleConnectedAutocomplete) as (
+      b: InputType,
+    ) => boolean,
+    R.always(ConnectedAutocomplete),
+  ],
+  [
+    R.equals(InputType.FieldsTable) as (b: InputType) => boolean,
+    R.always(FieldsTable),
+  ],
+  [R.equals(InputType.Grid) as (b: InputType) => boolean, R.always(Grid)],
+  [R.equals(InputType.Custom) as (b: InputType) => boolean, R.always(Custom)],
 ]);
 
 const useStyles = makeStyles((theme) => ({
@@ -120,34 +111,34 @@ const Inputs = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const categoriesName = pluck('name', categories);
+  const categoriesName = R.pluck('name', categories);
 
   const inputsByCategory = useMemo(
     () =>
-      groupBy(
-        ({ category }) => find(equals(category), categoriesName) as string,
+      R.groupBy(
+        ({ category }) => R.find(R.equals(category), categoriesName) as string,
         inputs,
       ),
     [inputs],
   );
 
   const sortedCategoryNames = useMemo(() => {
-    const sortedCategories = sort(ascend(prop('order')), categories);
+    const sortedCategories = R.sort(R.ascend(R.prop('order')), categories);
 
-    const usedCategories = filter(
-      ({ name }) => any(equals(name), keys(inputsByCategory)),
+    const usedCategories = R.filter(
+      ({ name }) => R.any(R.equals(name), R.keys(inputsByCategory)),
       sortedCategories,
     );
 
-    return pluck('name', usedCategories);
+    return R.pluck('name', usedCategories);
   }, []);
 
   const sortedInputsByCategory = useMemo(
     () =>
-      reduce<string, Record<string, Array<InputProps>>>(
+      R.reduce<string, Record<string, Array<InputProps>>>(
         (acc, value) => ({
           ...acc,
-          [value]: sort(
+          [value]: R.sort(
             (a, b) => (b?.required ? 1 : 0) - (a?.required ? 1 : 0),
             inputsByCategory[value],
           ),
@@ -158,21 +149,21 @@ const Inputs = ({
     [inputs],
   );
 
-  const lastCategory = useMemo(() => last(sortedCategoryNames), []);
+  const lastCategory = useMemo(() => R.last(sortedCategoryNames), []);
 
   const normalizedInputsByCategory = (
-    isEmpty(sortedInputsByCategory)
+    R.isEmpty(sortedInputsByCategory)
       ? [[null, inputs]]
-      : toPairs(sortedInputsByCategory)
+      : R.toPairs(sortedInputsByCategory)
   ) as Array<[string | null, Array<InputProps>]>;
 
   return (
     <div>
       {normalizedInputsByCategory.map(([categoryName, categorizedInputs]) => {
-        const hasCategoryTitle = not(isNil(categoryName));
+        const hasCategoryTitle = R.not(R.isNil(categoryName));
 
         const categoryProps = hasCategoryTitle
-          ? find(propEq('name', categoryName), categories)
+          ? R.find(R.propEq('name', categoryName), categories)
           : ({} as Category);
 
         return (
@@ -237,7 +228,9 @@ const Inputs = ({
               </div>
             </div>
             {hasCategoryTitle &&
-              not(equals(lastCategory, categoryName as string)) && <Divider />}
+              R.not(R.equals(lastCategory, categoryName as string)) && (
+                <Divider />
+              )}
           </div>
         );
       })}
