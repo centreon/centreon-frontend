@@ -4,7 +4,7 @@ export { default as downtimeAtom } from './downtimeAtom';
 export { default as refreshIntervalAtom } from './refreshIntervalAtom';
 export { default as cloudServicesAtom } from './cloudServicesAtom';
 export { default as acknowledgementAtom } from './acknowledgementAtom';
-export { default as statusOptimizedModeAtom } from './statusOptimizedModeAtom';
+export { default as defaultResourceStorageOptimizationMode } from './resourceStorageOptimizationMode';
 export { ThemeMode } from './types';
 
 export type {
