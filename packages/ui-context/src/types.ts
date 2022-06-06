@@ -35,6 +35,7 @@ export type UserContext = {
   cloudServices: CloudServices | undefined;
   downtime: Downtime;
   refreshInterval: number;
+  statusOptimizedMode: boolean;
 } & User;
 
 export interface ActionAcl {
