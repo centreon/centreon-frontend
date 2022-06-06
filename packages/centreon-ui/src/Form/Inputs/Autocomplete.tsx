@@ -80,17 +80,26 @@ const Autocomplete = ({
   const getError = useCallback((): Array<string> | undefined => {
     const error = prop(fieldName, errors) as Array<string> | string | undefined;
 
-    const normalizedError = isMultiple
-      ? (error as Array<string> | undefined)?.map((errorText, index) => {
-          if (isNil(errorText)) {
-            return undefined;
-          }
+    if (isMultiple) {
+      const multipleErrors = error as Array<string> | undefined;
+      const formattedErrors = multipleErrors?.map((errorText, index) => {
+        if (isNil(errorText)) {
+          return undefined;
+        }
 
-          return `${selectedValues[index]}: ${errorText}`;
-        })
-      : [error];
+        return `${selectedValues[index]}: ${errorText}`;
+      });
 
-    return (normalizedError?.filter(Boolean) as Array<string>) || undefined;
+      const filteredErrors = formattedErrors?.filter(Boolean);
+
+      return (filteredErrors as Array<string>) || undefined;
+    }
+
+    const formattedError = [error];
+
+    const filteredError = formattedError?.filter(Boolean);
+
+    return (filteredError as Array<string>) || undefined;
   }, [errors, fieldName, isMultiple, selectedValues]);
 
   const textChange = useCallback(
