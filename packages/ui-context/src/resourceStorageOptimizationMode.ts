@@ -2,8 +2,8 @@ import { atom } from 'jotai';
 
 import { defaultResourceStorageOptimizationMode } from './defaults';
 
-const statusResourceStorageOptimizationAtom = atom(
+const resourceStorageOptimizationModeAtom = atom(
   defaultResourceStorageOptimizationMode,
 );
 
-export default statusResourceStorageOptimizationAtom;
+export default resourceStorageOptimizationModeAtom;

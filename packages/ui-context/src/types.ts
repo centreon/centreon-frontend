@@ -30,12 +30,12 @@ export interface Acknowledgement {
 }
 
 export type UserContext = {
-  ResourceStorageOptimizationMode: boolean;
   acknowledgement: Acknowledgement;
   acl: Acl;
   cloudServices: CloudServices | undefined;
   downtime: Downtime;
   refreshInterval: number;
+  resourceStorageOptimizationMode: boolean;
 } & User;
 
 export interface ActionAcl {
