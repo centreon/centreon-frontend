@@ -149,17 +149,20 @@ const Inputs = ({
 
   return (
     <div>
-      {normalizedInputsByGroup.map(([groupName, groupedInputs]) => {
+      {normalizedInputsByGroup.map(([groupName, groupedInputs], index) => {
         const hasGroupTitle = R.not(R.isNil(groupName));
 
         const groupProps = hasGroupTitle
           ? R.find(R.propEq('name', groupName), groups)
           : ({} as Group);
 
+        const isFirstElement = R.equals(index, 0);
+
         return (
           <div key={groupName}>
             <div className={classes.group}>
               <CollapsibleGroup
+                defaultIsOpen={isFirstElement}
                 group={groupProps}
                 hasGroupTitle={hasGroupTitle}
                 isCollapsible={isCollapsible}

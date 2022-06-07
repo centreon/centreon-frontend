@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { not } from 'ramda';
 
 import {
   Collapse,
@@ -19,6 +18,7 @@ import { Group } from './Inputs/models';
 
 interface Props {
   children: React.ReactNode;
+  defaultIsOpen?: boolean;
   group?: Group;
   hasGroupTitle: boolean;
   isCollapsible: boolean;
@@ -50,11 +50,12 @@ const CollapsibleGroup = ({
   isCollapsible,
   group,
   hasGroupTitle,
+  defaultIsOpen = false,
 }: Props): JSX.Element => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [isOpen, setIsOpen] = useState(isCollapsible);
+  const [isOpen, setIsOpen] = useState(isCollapsible && defaultIsOpen);
 
   const toggle = (): void => {
     setIsOpen((currentIsOpen) => !currentIsOpen);
