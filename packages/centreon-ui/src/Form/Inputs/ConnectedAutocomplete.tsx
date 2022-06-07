@@ -12,7 +12,7 @@ import {
 
 import MultiConnectedAutocompleteField from '../../InputField/Select/Autocomplete/Connected/Multi';
 
-import { InputPropsWithoutCategory, InputType } from './models';
+import { InputPropsWithoutGroup, InputType } from './models';
 
 const defaultFilterKey = 'name';
 
@@ -26,7 +26,7 @@ const ConnectedAutocomplete = ({
   change,
   additionalMemoProps,
   type,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
   const { values, touched, errors, setFieldValue, setFieldTouched } =

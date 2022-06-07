@@ -9,7 +9,7 @@ import { CreateCSSProperties, makeStyles } from '@mui/styles';
 import { useMemoComponent } from '@centreon/ui';
 import { userAtom } from '@centreon/ui-context';
 
-import { InputPropsWithoutCategory } from '../models';
+import { InputPropsWithoutGroup } from '../models';
 
 import Row from './Row';
 
@@ -38,7 +38,7 @@ const FieldsTable = ({
   fieldsTable,
   fieldName,
   label,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const classes = useStyles({
     columns: fieldsTable?.columns.length,
   });

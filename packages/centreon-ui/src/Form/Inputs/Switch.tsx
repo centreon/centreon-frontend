@@ -8,7 +8,7 @@ import { FormControlLabel, Switch as MUISwitch } from '@mui/material';
 
 import { useMemoComponent } from '@centreon/ui';
 
-import { InputPropsWithoutCategory } from './models';
+import { InputPropsWithoutGroup } from './models';
 
 const Switch = ({
   fieldName,
@@ -17,7 +17,7 @@ const Switch = ({
   switchInput,
   getDisabled,
   additionalMemoProps,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
   const { values, setFieldValue } = useFormikContext<FormikValues>();

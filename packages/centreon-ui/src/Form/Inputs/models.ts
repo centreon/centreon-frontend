@@ -30,19 +30,18 @@ export interface InputProps {
     creatable?: boolean;
     options: Array<SelectEntry>;
   };
-  category: string;
   change?: ({ setFieldValue, value }) => void;
   connectedAutocomplete?: {
     endpoint?: string;
     filterKey?: string;
   };
   custom?: {
-    Component: React.ComponentType<InputPropsWithoutCategory>;
+    Component: React.ComponentType<InputPropsWithoutGroup>;
   };
   fieldName: string;
   fieldsTable?: {
     additionalFieldsToMemoize?: Array<string>;
-    columns: Array<Omit<InputProps, 'category'>>;
+    columns: Array<Omit<InputProps, 'group'>>;
     defaultRowValue: object;
     deleteLabel: string;
     getRequired?: ({ values, index }: FieldsTableGetRequiredProps) => boolean;
@@ -50,9 +49,10 @@ export interface InputProps {
   getDisabled?: (values: FormikValues) => boolean;
   getRequired?: (values: FormikValues) => boolean;
   grid?: {
-    columns: Array<Omit<InputProps, 'category'>>;
+    columns: Array<Omit<InputProps, 'group'>>;
     gridTemplateColumns?: string;
   };
+  group: string;
   label: string;
   radio?: {
     options?: Array<{
@@ -67,9 +67,9 @@ export interface InputProps {
   type: InputType;
 }
 
-export type InputPropsWithoutCategory = Omit<InputProps, 'category'>;
+export type InputPropsWithoutGroup = Omit<InputProps, 'group'>;
 
-export interface Category {
+export interface Group {
   EndIcon?: (props: SvgIconProps) => JSX.Element;
   TooltipContent?: () => JSX.Element;
   name: string;

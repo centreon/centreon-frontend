@@ -5,7 +5,7 @@ import { Paper } from '@mui/material';
 
 import {
   BasicForm,
-  basicFormCategories,
+  basicFormGroups,
   basicFormInitialValues,
   basicFormInputs,
   basicFormValidationSchema,
@@ -50,9 +50,9 @@ export const basicForm = (): JSX.Element => (
   </Paper>
 );
 
-export const basicFormWithCategories = (): JSX.Element => (
+export const basicFormWithGroups = (): JSX.Element => (
   <Paper elevation={0} sx={{ p: 1 }}>
-    <Form<BasicForm> {...mandatoryProps} categories={basicFormCategories} />
+    <Form<BasicForm> {...mandatoryProps} groups={basicFormGroups} />
   </Paper>
 );
 
@@ -68,12 +68,8 @@ export const loadingForm = (): JSX.Element => (
   </Paper>
 );
 
-export const loadingFormWithCategories = (): JSX.Element => (
+export const loadingFormWithGroups = (): JSX.Element => (
   <Paper elevation={0} sx={{ p: 1 }}>
-    <Form<BasicForm>
-      {...mandatoryProps}
-      isLoading
-      categories={basicFormCategories}
-    />
+    <Form<BasicForm> {...mandatoryProps} isLoading groups={basicFormGroups} />
   </Paper>
 );

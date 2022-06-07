@@ -7,7 +7,7 @@ import { equals, not, path, split } from 'ramda';
 import { TextField, useMemoComponent } from '@centreon/ui';
 
 import PasswordEndAdornment from './PasswordEndAdornment';
-import { InputPropsWithoutCategory, InputType } from './models';
+import { InputPropsWithoutGroup, InputType } from './models';
 
 const Text = ({
   label,
@@ -18,7 +18,7 @@ const Text = ({
   getRequired,
   change,
   additionalMemoProps,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
   const [isVisible, setIsVisible] = useState(false);

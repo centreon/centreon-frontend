@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@centreon/ui';
 
 import { getInput } from '..';
-import { InputPropsWithoutCategory } from '../models';
+import { InputPropsWithoutGroup } from '../models';
 
 const useStyles = makeStyles<Theme, { columns }, string>((theme) => ({
   icon: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles<Theme, { columns }, string>((theme) => ({
 }));
 
 interface Props {
-  columns?: Array<InputPropsWithoutCategory>;
+  columns?: Array<InputPropsWithoutGroup>;
   defaultRowValue?: object;
   deleteLabel?: string;
   getRequired: () => boolean;

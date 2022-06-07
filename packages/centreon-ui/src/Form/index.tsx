@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 
 import FormButtons from './FormButtons';
 import Inputs from './Inputs';
-import { Category, InputProps } from './Inputs/models';
+import { Group, InputProps } from './Inputs/models';
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props<T> {
   Buttons?: React.ComponentType;
-  categories?: Array<Category>;
+  groups?: Array<Group>;
   initialValues: T;
   inputs: Array<InputProps>;
   isLoading?: boolean;
@@ -29,7 +29,7 @@ const Form = <T extends object>({
   validate,
   validationSchema,
   submit,
-  categories,
+  groups,
   inputs,
   Buttons = FormButtons,
   isLoading = false,
@@ -37,7 +37,7 @@ const Form = <T extends object>({
   const classes = useStyles();
 
   if (isLoading) {
-    return <Inputs isLoading categories={categories} inputs={inputs} />;
+    return <Inputs isLoading groups={groups} inputs={inputs} />;
   }
 
   return (
@@ -51,7 +51,7 @@ const Form = <T extends object>({
       onSubmit={submit}
     >
       <div className={classes.formContainer}>
-        <Inputs categories={categories} inputs={inputs} />
+        <Inputs groups={groups} inputs={inputs} />
         <Buttons />
       </div>
     </Formik>

@@ -1,11 +1,11 @@
 import { isNil } from 'ramda';
 
-import { InputPropsWithoutCategory } from './models';
+import { InputPropsWithoutGroup } from './models';
 
 const Custom = ({
   custom,
   ...props
-}: InputPropsWithoutCategory): JSX.Element | null => {
+}: InputPropsWithoutGroup): JSX.Element | null => {
   if (isNil(custom)) {
     return null;
   }

@@ -12,7 +12,7 @@ import MultiAutocompleteField from '../../InputField/Select/Autocomplete/Multi';
 import useMemoComponent from '../../utils/useMemoComponent';
 import { SelectEntry } from '../../InputField/Select';
 
-import { InputPropsWithoutCategory, InputType } from './models';
+import { InputPropsWithoutGroup, InputType } from './models';
 
 const normalizeNewValues = ({
   newValues,
@@ -48,7 +48,7 @@ const Autocomplete = ({
   additionalMemoProps,
   autocomplete,
   type: inputType,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
   const [inputText, setInputText] = useState('');

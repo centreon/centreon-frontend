@@ -7,9 +7,9 @@ import { SelectEntry } from '../InputField/Select';
 import { Listing } from '../api/models';
 
 import {
-  Category,
+  Group,
   InputProps,
-  InputPropsWithoutCategory,
+  InputPropsWithoutGroup,
   InputType,
 } from './Inputs/models';
 
@@ -73,46 +73,46 @@ export const sportOptions = [...Array(10).keys()].map((idx) => ({
   name: `Sport ${idx}`,
 }));
 
-export const basicFormCategories: Array<Category> = [
+export const basicFormGroups: Array<Group> = [
   {
-    name: 'First category',
+    name: 'First group',
     order: 1,
   },
   {
-    name: 'Second category',
+    name: 'Second group',
     order: 2,
   },
 ];
 
 export const basicFormInputs: Array<InputProps> = [
   {
-    category: 'First category',
     fieldName: 'name',
+    group: 'First group',
     label: 'Name',
     type: InputType.Text,
   },
   {
-    category: 'First category',
     fieldName: 'email',
+    group: 'First group',
     label: 'Email',
     type: InputType.Text,
   },
   {
-    category: 'Second category',
     fieldName: 'active',
+    group: 'Second group',
     label: 'Active',
     type: InputType.Switch,
   },
   {
     additionalLabel: 'This a very special label',
-    category: 'First category',
     fieldName: 'password',
+    group: 'First group',
     label: 'Password',
     type: InputType.Password,
   },
   {
-    category: 'First category',
     fieldName: 'language',
+    group: 'First group',
     label: 'Language',
     radio: {
       options: [
@@ -129,8 +129,8 @@ export const basicFormInputs: Array<InputProps> = [
     type: InputType.Radio,
   },
   {
-    category: 'First category',
     fieldName: 'isForced',
+    group: 'First group',
     label: 'Is Forced?',
     radio: {
       options: [
@@ -147,7 +147,6 @@ export const basicFormInputs: Array<InputProps> = [
     type: InputType.Radio,
   },
   {
-    category: 'First category',
     fieldName: '',
     grid: {
       columns: [
@@ -169,6 +168,7 @@ export const basicFormInputs: Array<InputProps> = [
         },
       ],
     },
+    group: 'First group',
     label: 'autocompletes',
     type: InputType.Grid,
   },
@@ -177,13 +177,12 @@ export const basicFormInputs: Array<InputProps> = [
       creatable: true,
       options: [],
     },
-    category: 'First category',
     fieldName: 'scopes',
+    group: 'First group',
     label: 'Scopes (Multi autocomplete that allows value creation)',
     type: InputType.MultiAutocomplete,
   },
   {
-    category: 'First category',
     fieldName: '',
     grid: {
       columns: [
@@ -206,17 +205,18 @@ export const basicFormInputs: Array<InputProps> = [
       ],
       gridTemplateColumns: '400px 1fr',
     },
+    group: 'First group',
     label: 'connected autocompletes',
     type: InputType.Grid,
   },
   {
-    category: 'Second category',
     custom: {
-      Component: ({ label }: InputPropsWithoutCategory): JSX.Element => (
+      Component: ({ label }: InputPropsWithoutGroup): JSX.Element => (
         <Typography>This is a {label} component</Typography>
       ),
     },
     fieldName: 'custom',
+    group: 'Second group',
     label: 'Custom',
     type: InputType.Custom,
   },

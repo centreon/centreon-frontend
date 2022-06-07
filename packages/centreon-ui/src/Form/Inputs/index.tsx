@@ -6,12 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 import { Divider, IconButton, Tooltip, Typography } from '@mui/material';
 
-import {
-  Category,
-  InputProps,
-  InputPropsWithoutCategory,
-  InputType,
-} from './models';
+import { Group, InputProps, InputPropsWithoutGroup, InputType } from './models';
 import Autocomplete from './Autocomplete';
 import SwitchInput from './Switch';
 import RadioInput from './Radio';
@@ -24,7 +19,7 @@ import LoadingSkeleton from './LoadingSkeleton';
 
 export const getInput = R.cond<
   InputType,
-  (props: InputPropsWithoutCategory) => JSX.Element | null
+  (props: InputPropsWithoutGroup) => JSX.Element | null
 >([
   [
     R.equals(InputType.Switch) as (b: InputType) => boolean,
@@ -75,11 +70,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  category: {
+  group: {
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2),
   },
-  categoryTitle: {
+  groupTitle: {
     alignItems: 'center',
     columnGap: theme.spacing(1),
     display: 'flex',
@@ -98,105 +93,103 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  categories?: Array<Category>;
+  groups?: Array<Group>;
   inputs: Array<InputProps>;
   isLoading?: boolean;
 }
 
 const Inputs = ({
   inputs,
-  categories = [],
+  groups = [],
   isLoading = false,
 }: Props): JSX.Element => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const categoriesName = R.pluck('name', categories);
+  const groupsName = R.pluck('name', groups);
 
-  const inputsByCategory = useMemo(
+  const inputsByGroup = useMemo(
     () =>
       R.groupBy(
-        ({ category }) => R.find(R.equals(category), categoriesName) as string,
+        ({ group }) => R.find(R.equals(group), groupsName) as string,
         inputs,
       ),
     [inputs],
   );
 
-  const sortedCategoryNames = useMemo(() => {
-    const sortedCategories = R.sort(R.ascend(R.prop('order')), categories);
+  const sortedGroupNames = useMemo(() => {
+    const sortedGroups = R.sort(R.ascend(R.prop('order')), groups);
 
-    const usedCategories = R.filter(
-      ({ name }) => R.any(R.equals(name), R.keys(inputsByCategory)),
-      sortedCategories,
+    const usedGroups = R.filter(
+      ({ name }) => R.any(R.equals(name), R.keys(inputsByGroup)),
+      sortedGroups,
     );
 
-    return R.pluck('name', usedCategories);
+    return R.pluck('name', usedGroups);
   }, []);
 
-  const sortedInputsByCategory = useMemo(
+  const sortedInputsByGroup = useMemo(
     () =>
       R.reduce<string, Record<string, Array<InputProps>>>(
         (acc, value) => ({
           ...acc,
           [value]: R.sort(
             (a, b) => (b?.required ? 1 : 0) - (a?.required ? 1 : 0),
-            inputsByCategory[value],
+            inputsByGroup[value],
           ),
         }),
         {},
-        sortedCategoryNames,
+        sortedGroupNames,
       ),
     [inputs],
   );
 
-  const lastCategory = useMemo(() => R.last(sortedCategoryNames), []);
+  const lastGroup = useMemo(() => R.last(sortedGroupNames), []);
 
-  const normalizedInputsByCategory = (
-    R.isEmpty(sortedInputsByCategory)
+  const normalizedInputsByGroup = (
+    R.isEmpty(sortedInputsByGroup)
       ? [[null, inputs]]
-      : R.toPairs(sortedInputsByCategory)
+      : R.toPairs(sortedInputsByGroup)
   ) as Array<[string | null, Array<InputProps>]>;
 
   return (
     <div>
-      {normalizedInputsByCategory.map(([categoryName, categorizedInputs]) => {
-        const hasCategoryTitle = R.not(R.isNil(categoryName));
+      {normalizedInputsByGroup.map(([groupName, groupedInputs]) => {
+        const hasGroupTitle = R.not(R.isNil(groupName));
 
-        const categoryProps = hasCategoryTitle
-          ? R.find(R.propEq('name', categoryName), categories)
-          : ({} as Category);
+        const groupProps = hasGroupTitle
+          ? R.find(R.propEq('name', groupName), groups)
+          : ({} as Group);
 
         return (
-          <div key={categoryName}>
-            <div className={classes.category}>
-              {hasCategoryTitle && (
-                <div className={classes.categoryTitle}>
-                  <Typography variant="h5">
-                    {t(categoryName as string)}
-                  </Typography>
+          <div key={groupName}>
+            <div className={classes.group}>
+              {hasGroupTitle && (
+                <div className={classes.groupTitle}>
+                  <Typography variant="h5">{t(groupName as string)}</Typography>
                   <Tooltip
                     classes={{
                       tooltip: classes.tooltip,
                     }}
                     placement="top"
                     title={
-                      categoryProps?.TooltipContent ? (
-                        <categoryProps.TooltipContent />
+                      groupProps?.TooltipContent ? (
+                        <groupProps.TooltipContent />
                       ) : (
                         ''
                       )
                     }
                   >
                     <IconButton size="small">
-                      {categoryProps?.EndIcon && (
-                        <categoryProps.EndIcon fontSize="small" />
+                      {groupProps?.EndIcon && (
+                        <groupProps.EndIcon fontSize="small" />
                       )}
                     </IconButton>
                   </Tooltip>
                 </div>
               )}
               <div className={classes.inputs}>
-                {categorizedInputs.map((inputProps) => {
+                {groupedInputs.map((inputProps) => {
                   if (isLoading) {
                     return (
                       <LoadingSkeleton
@@ -227,10 +220,8 @@ const Inputs = ({
                 })}
               </div>
             </div>
-            {hasCategoryTitle &&
-              R.not(R.equals(lastCategory, categoryName as string)) && (
-                <Divider />
-              )}
+            {hasGroupTitle &&
+              R.not(R.equals(lastGroup, groupName as string)) && <Divider />}
           </div>
         );
       })}

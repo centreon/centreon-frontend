@@ -12,7 +12,7 @@ import {
 
 import { useMemoComponent } from '@centreon/ui';
 
-import { InputPropsWithoutCategory } from './models';
+import { InputPropsWithoutGroup } from './models';
 
 const Radio = ({
   fieldName,
@@ -21,7 +21,7 @@ const Radio = ({
   getDisabled,
   change,
   additionalMemoProps,
-}: InputPropsWithoutCategory): JSX.Element => {
+}: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
   const { values, setFieldValue } = useFormikContext<FormikValues>();

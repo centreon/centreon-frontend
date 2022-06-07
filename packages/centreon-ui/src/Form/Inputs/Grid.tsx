@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material';
 import { CreateCSSProperties, makeStyles } from '@mui/styles';
 
-import { InputPropsWithoutCategory } from './models';
+import { InputPropsWithoutGroup } from './models';
 
 import { getInput } from '.';
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles<Theme, { columns; gridTemplateColumns }>(
   }),
 );
 
-const Grid = ({ grid }: InputPropsWithoutCategory): JSX.Element => {
+const Grid = ({ grid }: InputPropsWithoutGroup): JSX.Element => {
   const classes = useStyles({
     columns: grid?.columns.length,
     gridTemplateColumns: grid?.gridTemplateColumns,
