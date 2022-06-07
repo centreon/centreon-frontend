@@ -18,6 +18,7 @@ interface Props<T> {
   groups?: Array<Group>;
   initialValues: T;
   inputs: Array<InputProps>;
+  isCollapsible?: boolean;
   isLoading?: boolean;
   submit: (values: T, bag: FormikHelpers<T>) => void | Promise<void>;
   validate?: (values: FormikValues) => void;
@@ -33,11 +34,19 @@ const Form = <T extends object>({
   inputs,
   Buttons = FormButtons,
   isLoading = false,
+  isCollapsible = false,
 }: Props<T>): JSX.Element => {
   const classes = useStyles();
 
   if (isLoading) {
-    return <Inputs isLoading groups={groups} inputs={inputs} />;
+    return (
+      <Inputs
+        isLoading
+        groups={groups}
+        inputs={inputs}
+        isCollapsible={isCollapsible}
+      />
+    );
   }
 
   return (
@@ -51,7 +60,7 @@ const Form = <T extends object>({
       onSubmit={submit}
     >
       <div className={classes.formContainer}>
-        <Inputs groups={groups} inputs={inputs} />
+        <Inputs groups={groups} inputs={inputs} isCollapsible={isCollapsible} />
         <Buttons />
       </div>
     </Formik>

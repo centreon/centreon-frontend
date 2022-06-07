@@ -4,7 +4,9 @@ import * as R from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { makeStyles } from '@mui/styles';
-import { Divider, IconButton, Tooltip, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
+
+import CollapsibleGroup from '../CollapsibleGroup';
 
 import { Group, InputProps, InputPropsWithoutGroup, InputType } from './models';
 import Autocomplete from './Autocomplete';
@@ -74,12 +76,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2),
   },
-  groupTitle: {
-    alignItems: 'center',
-    columnGap: theme.spacing(1),
-    display: 'flex',
-    flexDirection: 'row',
-  },
   inputWrapper: { width: '100%' },
   inputs: {
     display: 'flex',
@@ -87,14 +83,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     rowGap: theme.spacing(2),
   },
-  tooltip: {
-    maxWidth: theme.spacing(60),
-  },
 }));
 
 interface Props {
   groups?: Array<Group>;
   inputs: Array<InputProps>;
+  isCollapsible: boolean;
   isLoading?: boolean;
 }
 
@@ -102,6 +96,7 @@ const Inputs = ({
   inputs,
   groups = [],
   isLoading = false,
+  isCollapsible,
 }: Props): JSX.Element => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -164,61 +159,43 @@ const Inputs = ({
         return (
           <div key={groupName}>
             <div className={classes.group}>
-              {hasGroupTitle && (
-                <div className={classes.groupTitle}>
-                  <Typography variant="h5">{t(groupName as string)}</Typography>
-                  <Tooltip
-                    classes={{
-                      tooltip: classes.tooltip,
-                    }}
-                    placement="top"
-                    title={
-                      groupProps?.TooltipContent ? (
-                        <groupProps.TooltipContent />
-                      ) : (
-                        ''
-                      )
+              <CollapsibleGroup
+                group={groupProps}
+                hasGroupTitle={hasGroupTitle}
+                isCollapsible={isCollapsible}
+              >
+                <div className={classes.inputs}>
+                  {groupedInputs.map((inputProps) => {
+                    if (isLoading) {
+                      return (
+                        <LoadingSkeleton
+                          input={inputProps}
+                          key={inputProps.label}
+                        />
+                      );
                     }
-                  >
-                    <IconButton size="small">
-                      {groupProps?.EndIcon && (
-                        <groupProps.EndIcon fontSize="small" />
-                      )}
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              )}
-              <div className={classes.inputs}>
-                {groupedInputs.map((inputProps) => {
-                  if (isLoading) {
+
+                    const Input = getInput(inputProps.type);
+
                     return (
-                      <LoadingSkeleton
-                        input={inputProps}
+                      <div
+                        className={classes.inputWrapper}
                         key={inputProps.label}
-                      />
+                      >
+                        {inputProps.additionalLabel && (
+                          <Typography
+                            className={classes.additionalLabel}
+                            variant="body1"
+                          >
+                            {t(inputProps.additionalLabel)}
+                          </Typography>
+                        )}
+                        <Input {...inputProps} />
+                      </div>
                     );
-                  }
-
-                  const Input = getInput(inputProps.type);
-
-                  return (
-                    <div
-                      className={classes.inputWrapper}
-                      key={inputProps.label}
-                    >
-                      {inputProps.additionalLabel && (
-                        <Typography
-                          className={classes.additionalLabel}
-                          variant="body1"
-                        >
-                          {t(inputProps.additionalLabel)}
-                        </Typography>
-                      )}
-                      <Input {...inputProps} />
-                    </div>
-                  );
-                })}
-              </div>
+                  })}
+                </div>
+              </CollapsibleGroup>
             </div>
             {hasGroupTitle &&
               R.not(R.equals(lastGroup, groupName as string)) && <Divider />}

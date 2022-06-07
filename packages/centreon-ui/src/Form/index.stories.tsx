@@ -56,6 +56,16 @@ export const basicFormWithGroups = (): JSX.Element => (
   </Paper>
 );
 
+export const basicFormWithCollapsibleGroups = (): JSX.Element => (
+  <Paper elevation={0} sx={{ p: 1 }}>
+    <Form<BasicForm>
+      {...mandatoryProps}
+      isCollapsible
+      groups={basicFormGroups}
+    />
+  </Paper>
+);
+
 export const basicFormWithCustomButton = (): JSX.Element => (
   <Paper elevation={0} sx={{ p: 1 }}>
     <Form<BasicForm> {...mandatoryProps} Buttons={CustomButton} />
