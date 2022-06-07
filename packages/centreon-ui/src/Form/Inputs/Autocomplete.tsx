@@ -64,6 +64,8 @@ const Autocomplete = ({
       newValues,
     });
 
+    setInputText('');
+
     if (change) {
       change({ setFieldValue, value: normalizedNewValues });
 
@@ -122,6 +124,7 @@ const Autocomplete = ({
 
   const disabled = getDisabled?.(values) || false;
   const isRequired = required || getRequired?.(values) || false;
+
   const additionalLabel =
     inputText && isCreatable ? ` (${labelPressEnterToAccept})` : '';
 
