@@ -1,9 +1,15 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container;
 
-const getBaseConfiguration = ({ moduleName, moduleFederationConfig }) => ({
+const excludeNodeModulesExceptCentreonUi =
+  /node_modules(\\|\/)(?!(centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/;
+
+const getBaseConfiguration = ({
+  moduleName,
+  moduleFederationConfig,
+  jscTransformConfiguration,
+}) => ({
   cache: false,
   module: {
     rules: [
@@ -12,19 +18,20 @@ const getBaseConfiguration = ({ moduleName, moduleFederationConfig }) => ({
         test: /\.[cm]?(j|t)sx?$/,
       },
       {
-        exclude:
-          /node_modules(\\|\/)(?!(centreon-frontend(\\|\/)packages(\\|\/)(ui-context|centreon-ui)))/,
-        test: /\.(j|t)sx?$/,
-        use: [
-          'babel-loader',
-          {
-            loader: 'ts-loader',
-            options: {
-              allowTsInNodeModules: true,
-              transpileOnly: true,
+        exclude: excludeNodeModulesExceptCentreonUi,
+        test: /\.[jt]sx?$/,
+        use: {
+          loader: 'swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+              },
+              transform: jscTransformConfiguration,
             },
           },
-        ],
+        },
       },
     ],
   },
@@ -42,7 +49,6 @@ const getBaseConfiguration = ({ moduleName, moduleFederationConfig }) => ({
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new ForkTsCheckerWebpackPlugin(),
     new ModuleFederationPlugin({
       filename: 'remoteEntry.[chunkhash:8].js',
       library: { name: moduleName, type: 'var' },
@@ -50,7 +56,7 @@ const getBaseConfiguration = ({ moduleName, moduleFederationConfig }) => ({
       shared: [
         {
           '@centreon/ui-context': {
-            requiredVersion: '22.4.0',
+            requiredVersion: '22.10.0',
             singleton: true,
           },
         },
