@@ -1,9 +1,14 @@
 import { useEffect } from 'react';
 
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import SnackbarProvider from './SnackbarProvider';
 import useSnackbar from './useSnackbar';
 
-export default { title: 'Snackbar' };
+export default {
+  component: SnackbarProvider,
+  title: 'Snackbar',
+} as ComponentMeta<typeof SnackbarProvider>;
 
 interface Props {
   displayMessages?: boolean;
@@ -60,6 +65,12 @@ const StoryWithSnackbar = ({ displayMessages }: Props): JSX.Element => (
     <Story displayMessages={displayMessages} />
   </SnackbarProvider>
 );
+
+const TemplateSnackbarProvider: ComponentStory<typeof SnackbarProvider> = (
+  args,
+) => <StoryWithSnackbar displayMessages {...args} />;
+
+export const DynamicSnackbar = TemplateSnackbarProvider.bind({});
 
 export const snackbar = (): JSX.Element => <StoryWithSnackbar />;
 
