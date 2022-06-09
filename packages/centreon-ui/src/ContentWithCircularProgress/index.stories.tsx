@@ -9,7 +9,7 @@ export default {
     alignCenter: { control: 'boolean' },
     children: { control: 'text' },
     loading: { control: 'boolean' },
-    loadingIndicatorSize: { control: 'boolean' },
+    loadingIndicatorSize: { control: 'number' },
   },
   component: ContentWithCircularLoading,
   title: 'ContentWithCircularLoading',
