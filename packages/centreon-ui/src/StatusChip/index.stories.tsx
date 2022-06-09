@@ -14,7 +14,7 @@ const TemplateStatusChip: ComponentStory<typeof StatusChip> = (args) => (
   <StatusChip {...args} />
 );
 
-export const DynamicMultiSelectEntries = TemplateStatusChip.bind({});
+export const DynamicStatusChip = TemplateStatusChip.bind({});
 
 export const withOkSeverityCode = (): JSX.Element => (
   <StatusChip label="Up" severityCode={SeverityCode.Ok} />
