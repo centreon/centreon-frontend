@@ -1,8 +1,13 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { Typography } from '@mui/material';
 
 import SectionPanel from '.';
 
-export default { title: 'Panel/Section' };
+export default {
+  component: SectionPanel,
+  title: 'Panel/Section',
+} as ComponentMeta<typeof SectionPanel>;
 
 interface Props {
   loading?;
@@ -87,6 +92,12 @@ const moreSections = [
     title: 'Nineth section',
   },
 ];
+
+const TemplateSectionPanel: ComponentStory<typeof SectionPanel> = (args) => (
+  <PanelWithHeader {...args} />
+);
+
+export const DynamicPanel = TemplateSectionPanel.bind({});
 
 export const normal = (): JSX.Element => (
   <PanelWithHeader sections={sections} />
