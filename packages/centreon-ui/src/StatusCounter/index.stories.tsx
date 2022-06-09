@@ -1,14 +1,25 @@
 /* eslint-disable react/prop-types */
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import { SeverityCode } from '../StatusChip';
 
 import StatusCounter from '.';
 
-export default { title: 'StatusCounter' };
+export default {
+  component: StatusCounter,
+  title: 'StatusCounter',
+} as ComponentMeta<typeof StatusCounter>;
 
 const HeaderBackground = ({ children }): JSX.Element => (
   <div style={{ backgroundColor: '#232f39' }}>{children}</div>
 );
+const TemplateStatusCounter: ComponentStory<typeof StatusCounter> = (args) => (
+  <HeaderBackground>
+    <StatusCounter {...args} />
+  </HeaderBackground>
+);
+
+export const DynamicStatusChip = TemplateStatusCounter.bind({});
 
 export const severityCodeHigh = (): JSX.Element => (
   <HeaderBackground>
