@@ -11,7 +11,7 @@ import {
   Box,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import ExpandLess from '@mui/icons-material/ExpandLess';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
 import { Group } from './Inputs/models';
@@ -61,7 +61,7 @@ const CollapsibleGroup = ({
     setIsOpen((currentIsOpen) => !currentIsOpen);
   };
 
-  const CollapseIcon = isOpen ? ExpandLess : ExpandMore;
+  const CollapseIcon = isOpen ? ExpandMore : ChevronRightIcon;
   const ContainerComponent = useCallback(
     ({
       children: containerComponentChildren,
@@ -70,6 +70,7 @@ const CollapsibleGroup = ({
         <ListItemButton
           dense
           disableGutters
+          disableRipple
           className={classes.groupTitleContainer}
           onClick={toggle}
         >
@@ -87,7 +88,7 @@ const CollapsibleGroup = ({
     <>
       {hasGroupTitle && (
         <ContainerComponent>
-          {isCollapsible && <CollapseIcon color="primary" />}
+          {isCollapsible && <CollapseIcon />}
           <div className={classes.groupTitleIcon}>
             <Typography variant="h5">{t(group?.name as string)}</Typography>
             {group?.EndIcon && (
