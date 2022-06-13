@@ -38,7 +38,7 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     top: 0,
   },
   contentContainer: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     position: 'relative',
   },
   divider: {

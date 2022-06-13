@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   closeSecondaryPanelBar: {
     alignContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     cursor: 'pointer',
     display: 'flex',
   },
@@ -109,7 +109,7 @@ const SectionPanel = ({
                 className={classes.closeSecondaryPanelBar}
                 onClick={onSecondaryPanelClose}
               >
-                <ForwardIcon className={classes.closeIcon} color="action" />
+                <ForwardIcon className={classes.closeIcon} color="primary" />
               </Paper>
             )}
 
