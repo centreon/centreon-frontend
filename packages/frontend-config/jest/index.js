@@ -13,6 +13,7 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': [
       '@swc/jest',
+      'jest-preview/transforms/file',
       {
         jsc: {
           transform: {
