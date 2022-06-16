@@ -11,6 +11,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['/node_modules/'],
   transform: {
+    '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
+      'jest-preview/transforms/file',
     '^.+\\.[jt]sx?$': [
       '@swc/jest',
       {
