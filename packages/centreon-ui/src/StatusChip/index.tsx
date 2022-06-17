@@ -36,7 +36,7 @@ const getStatusColors = ({ theme, severityCode }: StatusColorProps): Colors => {
     },
     [SeverityCode.Low]: {
       backgroundColor: grey[500],
-      color: palette.common.black,
+      color: palette.common.white,
     },
     [SeverityCode.Pending]: {
       backgroundColor: palette.info.main,
