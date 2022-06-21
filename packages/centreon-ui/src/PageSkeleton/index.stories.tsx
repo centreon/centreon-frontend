@@ -15,6 +15,9 @@ const TemplatePageSkeleton: ComponentStory<typeof PageSkeleton> = (args) => (
 );
 
 export const DynamicPageSkeleton = TemplatePageSkeleton.bind({});
+DynamicPageSkeleton.args = {
+  animate: true,
+};
 
 export const normal = (): JSX.Element => <PageSkeleton animate={false} />;
 
