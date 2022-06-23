@@ -5,6 +5,10 @@ import { Typography } from '@mui/material';
 import SectionPanel from '.';
 
 export default {
+  argsType: {
+    loading: { control: 'bolean' },
+    sections: { control: 'object' },
+  },
   component: SectionPanel,
   title: 'Panel/Section',
 } as ComponentMeta<typeof SectionPanel>;
@@ -97,7 +101,11 @@ const TemplateSectionPanel: ComponentStory<typeof SectionPanel> = (args) => (
   <PanelWithHeader {...args} />
 );
 
-export const DynamicPanel = TemplateSectionPanel.bind({});
+export const PlaygroundSection = TemplateSectionPanel.bind({});
+PlaygroundSection.args = {
+  loading: false,
+  sections,
+};
 
 export const normal = (): JSX.Element => (
   <PanelWithHeader sections={sections} />

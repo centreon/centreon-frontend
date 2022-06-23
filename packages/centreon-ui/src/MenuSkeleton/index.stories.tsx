@@ -37,7 +37,11 @@ const TemplateMenuLoaderStory: ComponentStory<typeof MenuLoader> = (args) => (
   <MenuLoaderStory {...args} />
 );
 
-export const DynamicMenuLoaderStory = TemplateMenuLoaderStory.bind({});
+export const PlaygroundMenuLoaderStory = TemplateMenuLoaderStory.bind({});
+PlaygroundMenuLoaderStory.args = {
+  animate: false,
+  width: 40,
+};
 
 export const menuLoader = (): JSX.Element => <MenuLoaderStory />;
 

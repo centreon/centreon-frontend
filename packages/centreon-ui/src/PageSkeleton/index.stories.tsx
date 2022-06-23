@@ -5,6 +5,7 @@ import PageSkeleton from '.';
 export default {
   argTypes: {
     animate: { control: 'boolean' },
+    displayHeaderAndNavigation: { control: 'boolean' },
   },
   component: PageSkeleton,
   title: 'Page Skeleton',
@@ -14,9 +15,10 @@ const TemplatePageSkeleton: ComponentStory<typeof PageSkeleton> = (args) => (
   <PageSkeleton {...args} />
 );
 
-export const DynamicPageSkeleton = TemplatePageSkeleton.bind({});
-DynamicPageSkeleton.args = {
+export const PlaygroundPageSkeleton = TemplatePageSkeleton.bind({});
+PlaygroundPageSkeleton.args = {
   animate: true,
+  displayHeaderAndNavigation: true,
 };
 
 export const normal = (): JSX.Element => <PageSkeleton animate={false} />;

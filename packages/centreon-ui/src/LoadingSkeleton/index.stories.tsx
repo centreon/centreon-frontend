@@ -15,7 +15,8 @@ const TemplateLoadingSkeleton: ComponentStory<typeof LoadingSkeleton> = (
   args,
 ) => <LoadingSkeleton {...args} />;
 
-export const DynamicLoadingSkeleton = TemplateLoadingSkeleton.bind({});
+export const PlaygroundLoadingSkeleton = TemplateLoadingSkeleton.bind({});
+PlaygroundLoadingSkeleton.args = { height: 50, width: 400 };
 
 export const normal = (): JSX.Element => (
   <LoadingSkeleton height={50} width={400} />

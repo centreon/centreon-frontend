@@ -7,8 +7,7 @@ export default {
     emptyLabel: { control: 'text' },
     highlight: { control: 'boolean' },
     label: { control: 'text' },
-    loading: { control: 'boolean' },
-    values: { control: 'number' },
+    values: { control: 'object' },
   },
   component: MultiSelectEntries,
   title: 'MultiSelectEntries',
@@ -30,7 +29,13 @@ const TemplateMultiSelectEntries: ComponentStory<typeof MultiSelectEntries> = (
   args,
 ) => <MultiSelectEntries {...args} />;
 
-export const DynamicMultiSelectEntries = TemplateMultiSelectEntries.bind({});
+export const PlaygroundMultiSelectEntries = TemplateMultiSelectEntries.bind({});
+PlaygroundMultiSelectEntries.args = {
+  emptyLabel,
+  highlight: false,
+  label,
+  values: entries,
+};
 
 export const empty = (): JSX.Element => (
   <MultiSelectEntries emptyLabel={emptyLabel} label={label} onClick={noOp} />

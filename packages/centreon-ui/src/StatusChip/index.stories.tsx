@@ -4,6 +4,7 @@ import StatusChip, { SeverityCode } from '.';
 
 export default {
   argTypes: {
+    clickable: { control: 'boolean' },
     label: { control: 'text' },
   },
   component: StatusChip,
@@ -14,7 +15,11 @@ const TemplateStatusChip: ComponentStory<typeof StatusChip> = (args) => (
   <StatusChip {...args} />
 );
 
-export const DynamicStatusChip = TemplateStatusChip.bind({});
+export const PlaygroundStatusChip = TemplateStatusChip.bind({});
+PlaygroundStatusChip.args = {
+  clickable: true,
+  label: 'Status CHip Label',
+};
 
 export const withOkSeverityCode = (): JSX.Element => (
   <StatusChip label="Up" severityCode={SeverityCode.Ok} />

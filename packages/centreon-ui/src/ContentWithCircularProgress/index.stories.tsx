@@ -23,7 +23,7 @@ const TemplateContentWithCircularLoading: ComponentStory<
   </ContentWithCircularLoading>
 );
 
-export const DynamicContentWithCircularLoading =
+export const PlaygroundContentWithCircularLoading =
   TemplateContentWithCircularLoading.bind({});
 
 const Content = (): JSX.Element => <Typography>Loaded</Typography>;

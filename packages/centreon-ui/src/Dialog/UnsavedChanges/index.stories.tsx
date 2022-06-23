@@ -46,7 +46,7 @@ const TemplateUnsavedChangesDialog: ComponentStory<
   typeof UnsavedChangesDialog
 > = (args) => <Story {...args} />;
 
-export const DynamicUnsavedChangesDialog = TemplateUnsavedChangesDialog.bind(
+export const PlaygroundUnsavedChangesDialog = TemplateUnsavedChangesDialog.bind(
   {},
 );
 

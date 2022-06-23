@@ -22,7 +22,7 @@ const TemplateButtonSave: ComponentStory<typeof ButtonSave> = (args) => (
   <ButtonSave {...args} />
 );
 
-export const DynamicButton = TemplateButtonSave.bind({});
+export const PlaygroundButton = TemplateButtonSave.bind({});
 
 export const normal = (): JSX.Element => <ButtonSave />;
 

@@ -11,6 +11,7 @@ import LicenseCheck from '.';
 export default {
   argTypes: {
     isLicenseValid: { control: 'boolean' },
+    moduleName: { control: 'text' },
   },
   component: LicenseCheck,
   title: 'LicenseCheck',
@@ -42,11 +43,12 @@ const Story = ({ isLicenseValid }: Props): JSX.Element => {
 };
 
 const TemplateLicenseCheck: ComponentStory<typeof LicenseCheck> = (args) => (
-  <LicenseCheck moduleName={moduleName}>
-    <Module />
-  </LicenseCheck>
+  <Story {...args} isLicenseValid={false} />
 );
-export const DynamicLicenseCheck = TemplateLicenseCheck.bind({});
+export const PlaygroundLicenseCheck = TemplateLicenseCheck.bind({});
+PlaygroundLicenseCheck.args = {
+  moduleName: 'Paid Module',
+};
 
 export const withInvalidLicense = (): JSX.Element => (
   <Story isLicenseValid={false} />

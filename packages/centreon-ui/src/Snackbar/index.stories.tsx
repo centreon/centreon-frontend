@@ -6,6 +6,9 @@ import SnackbarProvider from './SnackbarProvider';
 import useSnackbar from './useSnackbar';
 
 export default {
+  argTypes: {
+    maxSnackbars: { control: 'number' },
+  },
   component: SnackbarProvider,
   title: 'Snackbar',
 } as ComponentMeta<typeof SnackbarProvider>;
@@ -68,9 +71,11 @@ const StoryWithSnackbar = ({ displayMessages }: Props): JSX.Element => (
 
 const TemplateSnackbarProvider: ComponentStory<typeof SnackbarProvider> = (
   args,
-) => <StoryWithSnackbar displayMessages {...args} />;
-
-export const DynamicSnackbar = TemplateSnackbarProvider.bind({});
+) => <StoryWithSnackbar {...args} displayMessages />;
+export const PlaygroundSnackbar = TemplateSnackbarProvider.bind({});
+PlaygroundSnackbar.args = {
+  maxSnackbars: 4,
+};
 
 export const snackbar = (): JSX.Element => <StoryWithSnackbar />;
 

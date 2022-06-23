@@ -20,5 +20,5 @@ const TemplateIconButton: ComponentStory<typeof IconButton> = (args) => (
   </IconButton>
 );
 
-export const normal = TemplateIconButton.bind({});
-normal.args = { ariaLabel: 'aria-label', title: 'Icon' };
+export const PlaygroundIconButton = TemplateIconButton.bind({});
+PlaygroundIconButton.args = { ariaLabel: 'aria-label', title: 'Icon' };
