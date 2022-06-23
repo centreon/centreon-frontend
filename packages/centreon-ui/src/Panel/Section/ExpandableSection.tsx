@@ -4,7 +4,6 @@ import {
   AccordionDetails,
   Accordion,
   styled,
-  ListItem,
   AccordionProps,
   AccordionSummaryProps,
 } from '@mui/material';
@@ -15,7 +14,8 @@ import useMemoComponent from '../../utils/useMemoComponent';
 
 const useStyles = makeStyles((theme) => ({
   details: {
-    padding: theme.spacing(0, 2),
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(1, 3, 2),
   },
 }));
 
@@ -31,9 +31,9 @@ const Section = styled((props: AccordionProps) => (
     display: 'none',
   },
   '&:not(:last-child)': {
-    borderBottom: 0,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  border: `1px solid ${theme.palette.divider}`,
+  borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
 const CustomizedAccordionSummary = styled((props: AccordionSummaryProps) => (
@@ -48,7 +48,7 @@ const CustomizedAccordionSummary = styled((props: AccordionSummaryProps) => (
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(0deg)',
   },
-  flexDirection: 'row-reverse',
+  backgroundColor: theme.palette.background.default,
 }));
 
 interface Props {
@@ -66,7 +66,7 @@ const ExpandableSection = ({ title, children }: Props): JSX.Element => {
           <Title>{title}</Title>
         </CustomizedAccordionSummary>
         <AccordionDetails className={classes.details}>
-          <ListItem>{children}</ListItem>
+          {children}
         </AccordionDetails>
       </Section>
     ),

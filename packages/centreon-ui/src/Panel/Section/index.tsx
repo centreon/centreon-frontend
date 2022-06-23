@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   closeSecondaryPanelBar: {
     alignContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     cursor: 'pointer',
     display: 'flex',
   },
