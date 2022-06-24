@@ -17,7 +17,10 @@ import Listing from '.';
 export default {
   argTypes: {
     checkable: { control: 'boolean' },
+    currentPage: { control: 'number' },
+    limit: { control: 'number' },
     loading: { control: 'boolean' },
+    totalRows: { control: 'number' },
   },
   component: Listing,
   title: 'Listing',
@@ -240,19 +243,19 @@ const TemplateListing: ComponentStory<typeof Listing> = (args) => (
   <Listing
     {...args}
     columns={editableColumns}
-    currentPage={0}
     disableRowCheckCondition={(row): boolean => row.disableCheckbox}
     disableRowCondition={(row): boolean => row.disableRow}
-    limit={listing.length}
     predefinedRowsSelection={predefinedRowsSelection}
     rowColorConditions={rowColorConditions}
     rows={listing}
-    totalRows={listing.length}
   />
 );
 
 export const PlaygroundListing = TemplateListing.bind({});
 PlaygroundListing.args = {
   checkable: true,
+  currentPage: 1,
+  limit: 10,
   loading: false,
+  totalRows: 10,
 };
