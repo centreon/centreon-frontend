@@ -6,12 +6,16 @@ module.exports = {
   typescript: {
     reactDocgen: 'react-docgen-typescript'
   },
-  addons: ['storybook-dark-mode','@storybook/addon-controls', {
-    name: '@storybook/addon-docs',
-    options: {
-      configureJSX: true,
+  addons: [
+    'storybook-dark-mode',
+    '@storybook/addon-controls', 
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        configureJSX: true,
+      },
     },
-  },],
+  ],
   webpackFinal: (config) => {
 
     delete config.resolve.alias['emotion-theming'];
