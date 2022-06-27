@@ -14,7 +14,7 @@ const TemplateLicenseMessage: ComponentStory<typeof LicenseMessage> = (
   args,
 ) => <LicenseMessage {...args} />;
 
-export const DynamicLicenseMessage = TemplateLicenseMessage.bind({});
+export const PlaygroundLicenseMessage = TemplateLicenseMessage.bind({});
 
 export const normal = (): JSX.Element => <LicenseMessage />;
 

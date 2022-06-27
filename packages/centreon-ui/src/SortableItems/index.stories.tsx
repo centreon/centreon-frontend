@@ -198,7 +198,7 @@ const TemplateSortableItems: ComponentStory<typeof SortableItems> = (args) => (
   <Story direction="horizontalContainer" {...args} />
 );
 
-export const DynamicSortableItems = TemplateSortableItems.bind({});
+export const PlaygroundSortableItems = TemplateSortableItems.bind({});
 
 export const vertical = (): JSX.Element => (
   <Story
