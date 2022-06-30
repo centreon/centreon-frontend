@@ -12,6 +12,7 @@ const useStyles = makeStyles<Theme, { columns; gridTemplateColumns }>(
       columnGap: theme.spacing(2),
       display: 'grid',
       gridTemplateColumns: gridTemplateColumns || `repeat(${columns}, 1fr)`,
+      rowGap: theme.spacing(2),
     }),
   }),
 );
