@@ -18,6 +18,7 @@ const Text = ({
   getRequired,
   change,
   additionalMemoProps,
+  text,
 }: InputPropsWithoutGroup): JSX.Element => {
   const { t } = useTranslation();
 
@@ -59,8 +60,15 @@ const Text = ({
     [isVisible],
   );
 
-  const inputType =
-    equals(type, InputType.Password) && not(isVisible) ? 'password' : 'text';
+  const getInputType = (): string => {
+    if (text?.type) {
+      return text.type;
+    }
+
+    return equals(type, InputType.Password) && not(isVisible)
+      ? 'password'
+      : 'text';
+  };
 
   const disabled = getDisabled?.(values) || false;
   const isRequired = required || getRequired?.(values) || false;
@@ -75,7 +83,7 @@ const Text = ({
         error={error as string | undefined}
         label={t(label)}
         required={isRequired}
-        type={inputType}
+        type={getInputType()}
         value={value || ''}
         onBlur={handleBlur(fieldName)}
         onChange={changeText}
