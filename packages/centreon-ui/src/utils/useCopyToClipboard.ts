@@ -1,9 +1,9 @@
 import useSnackbar from '../Snackbar/useSnackbar';
 
-type CopyFn = (text: string) => void;
+type CopyFunction = (text: string) => Promise<void>;
 
 interface Result {
-  copy: CopyFn;
+  copy: CopyFunction;
 }
 
 interface Props {
@@ -16,7 +16,7 @@ const useCopyToClipboard = ({
 }: Props): Result => {
   const { showSuccessMessage, showErrorMessage } = useSnackbar();
 
-  const copy: CopyFn = async (text) => {
+  const copy: CopyFunction = async (text) => {
     if (!navigator?.clipboard) {
       showErrorMessage(errorMessage);
 
