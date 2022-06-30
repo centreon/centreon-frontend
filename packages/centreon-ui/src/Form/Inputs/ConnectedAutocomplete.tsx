@@ -63,7 +63,7 @@ const ConnectedAutocomplete = ({
 
       setFieldTouched(fieldName, true);
     },
-    [fieldName, touched],
+    [fieldName, touched, additionalMemoProps],
   );
 
   const blur = (): void => setFieldTouched(fieldName, true);
