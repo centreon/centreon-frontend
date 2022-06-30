@@ -41,6 +41,13 @@ const ConnectedAutocomplete = ({
       baseEndpoint: connectedAutocomplete?.endpoint,
       parameters: {
         ...parameters,
+        search: {
+          conditions: [
+            ...(connectedAutocomplete?.additionalConditionParameters || []),
+            ...parameters.search.conditions,
+          ],
+          ...parameters.search,
+        },
         sort: { [filterKey]: 'ASC' },
       },
     });

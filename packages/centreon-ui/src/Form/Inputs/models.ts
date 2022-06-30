@@ -3,6 +3,7 @@ import { FormikValues } from 'formik';
 import { SvgIconProps } from '@mui/material';
 
 import { SelectEntry } from '../../InputField/Select';
+import { ConditionsSearchParameter } from '../../api/buildListingEndpoint/models';
 
 export enum InputType {
   Switch,
@@ -32,6 +33,7 @@ export interface InputProps {
   };
   change?: ({ setFieldValue, value }) => void;
   connectedAutocomplete?: {
+    additionalConditionParameters: Array<ConditionsSearchParameter>;
     endpoint?: string;
     filterKey?: string;
   };
