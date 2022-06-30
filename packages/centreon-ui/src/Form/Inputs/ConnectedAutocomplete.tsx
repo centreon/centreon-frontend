@@ -44,7 +44,7 @@ const ConnectedAutocomplete = ({
         search: {
           conditions: [
             ...(connectedAutocomplete?.additionalConditionParameters || []),
-            ...parameters.search.conditions,
+            ...(parameters.search?.conditions || []),
           ],
           ...parameters.search,
         },
