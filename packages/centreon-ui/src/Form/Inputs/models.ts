@@ -51,6 +51,7 @@ export interface InputProps {
   getDisabled?: (values: FormikValues) => boolean;
   getRequired?: (values: FormikValues) => boolean;
   grid?: {
+    alignItems?: string;
     columns: Array<Omit<InputProps, 'group'>>;
     gridTemplateColumns?: string;
   };
