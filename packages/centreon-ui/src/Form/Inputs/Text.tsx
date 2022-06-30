@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext, FormikValues } from 'formik';
-import { equals, not, path, split } from 'ramda';
+import { equals, isEmpty, not, path, split } from 'ramda';
 
 import { TextField, useMemoComponent } from '@centreon/ui';
 
@@ -37,9 +37,10 @@ const Text = ({
       return;
     }
 
-    const formattedValue = equals(text?.type, 'number')
-      ? parseInt(value, 10)
-      : value;
+    const formattedValue =
+      equals(text?.type, 'number') && !isEmpty(value)
+        ? parseInt(value, 10)
+        : value;
 
     setFieldValue(fieldName, formattedValue);
   };
