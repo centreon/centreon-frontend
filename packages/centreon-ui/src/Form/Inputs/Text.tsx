@@ -30,13 +30,18 @@ const Text = ({
   const fieldNamePath = split('.', fieldName);
 
   const changeText = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { value } = event.target;
     if (change) {
-      change({ setFieldValue, value: event.target.value });
+      change({ setFieldValue, value });
 
       return;
     }
 
-    setFieldValue(fieldName, event.target.value);
+    const formattedValue = equals(text?.type, 'number')
+      ? parseInt(value, 10)
+      : value;
+
+    setFieldValue(fieldName, formattedValue);
   };
 
   const changeVisibility = (): void => {
