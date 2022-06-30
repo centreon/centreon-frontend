@@ -64,6 +64,9 @@ export interface InputProps {
   switchInput?: {
     getChecked?: (value) => boolean;
   };
+  text?: {
+    type: string;
+  };
   type: InputType;
 }
 
