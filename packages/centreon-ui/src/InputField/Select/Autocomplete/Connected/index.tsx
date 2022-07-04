@@ -30,14 +30,17 @@ const ConnectedAutocompleteField = (
   AutocompleteField: (props) => JSX.Element,
   multiple: boolean,
 ): ((props) => JSX.Element) => {
-  const InnerConnectedAutocompleteField = <TData extends { name: string }>({
+  const InnerConnectedAutocompleteField = <
+    TData extends { level?: string; name: string },
+  >({
     initialPage = 1,
     getEndpoint,
     field,
     open,
     conditionField = 'id',
     searchConditions = [],
-    getRenderedOptionText = (option): string => option.name,
+    getRenderedOptionText = (option): string =>
+      option?.level?.toString() as string,
     getRequestHeaders,
     displayOptionThumbnail,
     ...props
