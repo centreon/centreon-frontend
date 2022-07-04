@@ -17,6 +17,7 @@ import {
 import useDebounce from '../../../../utils/useDebounce';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
+  column: 'name' | 'level';
   conditionField?: keyof SelectEntry;
   field: string;
   getEndpoint: ({ search, page }) => string;
@@ -31,16 +32,17 @@ const ConnectedAutocompleteField = (
   multiple: boolean,
 ): ((props) => JSX.Element) => {
   const InnerConnectedAutocompleteField = <
-    TData extends { level?: string; name: string },
+    TData extends { level?: number; name: string },
   >({
     initialPage = 1,
     getEndpoint,
     field,
+    column,
     open,
     conditionField = 'id',
     searchConditions = [],
     getRenderedOptionText = (option): string =>
-      option?.level?.toString() as string,
+      option[column]?.toString() as string,
     getRequestHeaders,
     displayOptionThumbnail,
     ...props
