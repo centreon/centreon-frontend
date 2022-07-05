@@ -90,13 +90,10 @@ const ConnectedAutocompleteField = (
           const moreOptions = loadMore ? options : [];
           if (column.includes('level')) {
             const list = result.map((item) => renameKey(item, 'level', 'name'));
-            const listToString = list.map((item) => item.name.toString());
-            setOptions(moreOptions.concat(listToString));
-
-            return;
+            setOptions(moreOptions.concat(list));
+          } else {
+            setOptions(moreOptions.concat(result));
           }
-
-          setOptions(moreOptions.concat(result));
 
           const total = prop('total', meta) || 1;
           const limit = prop('limit', meta) || 1;
@@ -194,6 +191,7 @@ const ConnectedAutocompleteField = (
       const ref = canTriggerInfiniteScroll ? { ref: lastOptionRef } : {};
 
       const optionText = getRenderedOptionText(option);
+      console.log({ option });
 
       const optionProps = {
         checkboxSelected: multiple ? selected : undefined,
