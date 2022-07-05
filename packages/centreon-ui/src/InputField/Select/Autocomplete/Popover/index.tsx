@@ -36,6 +36,8 @@ const PopoverAutocomplete = (
     value,
     label,
     onChange,
+    inputValue,
+    onInputChange,
     hideInput,
     ...props
   }: Props): JSX.Element => {
@@ -71,11 +73,13 @@ const PopoverAutocomplete = (
             multiple
             displayPopupIcon={false}
             hideInput={hideInput}
+            inputValue={inputValue}
             open={optionsOpen}
             renderTags={(): null => null}
             style={{ minWidth: theme.spacing(20) }}
             value={value}
             onChange={onChange}
+            onInputChange={onInputChange}
             {...props}
           />
         )}
