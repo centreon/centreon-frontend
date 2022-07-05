@@ -86,8 +86,8 @@ const ConnectedAutocompleteField = (
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
-          if (equals(column, 'level')) {
-            const list = result.map((item) => renameKey(item, 'level', 'name'));
+          if (!isEmpty(column)) {
+            const list = result.map((item) => renameKey(item, column, 'name'));
             setOptions(moreOptions.concat(list));
           } else {
             setOptions(moreOptions.concat(result));
