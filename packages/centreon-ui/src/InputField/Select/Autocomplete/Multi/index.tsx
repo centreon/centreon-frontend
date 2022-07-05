@@ -81,7 +81,7 @@ const MultiAutocompleteField = ({
       options={autocompleteOptions}
       renderOption={(renderProps, option, { selected }): JSX.Element => (
         <li key={option.id} {...renderProps}>
-          <Option checkboxSelected={selected}>{option.name}</Option>
+          <Option checkboxSelected={selected}>option.name</Option>
         </li>
       )}
       renderTags={renderTags}
