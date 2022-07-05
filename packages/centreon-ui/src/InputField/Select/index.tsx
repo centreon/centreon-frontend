@@ -35,7 +35,6 @@ export interface SelectEntry {
   disabled?: boolean;
   id: number | string;
   inputValue?: string;
-  level?: number;
   name: string;
   type?: 'header';
   url?: string;

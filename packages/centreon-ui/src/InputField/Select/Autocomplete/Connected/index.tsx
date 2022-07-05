@@ -17,7 +17,7 @@ import {
 import useDebounce from '../../../../utils/useDebounce';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
-  column: 'name' | 'level';
+  column: string;
   conditionField?: keyof SelectEntry;
   field: string;
   getEndpoint: ({ search, page }) => string;
@@ -31,9 +31,7 @@ const ConnectedAutocompleteField = (
   AutocompleteField: (props) => JSX.Element,
   multiple: boolean,
 ): ((props) => JSX.Element) => {
-  const InnerConnectedAutocompleteField = <
-    TData extends { level?: number; name: string },
-  >({
+  const InnerConnectedAutocompleteField = <TData extends { name: string }>({
     initialPage = 1,
     getEndpoint,
     field,
@@ -41,7 +39,7 @@ const ConnectedAutocompleteField = (
     open,
     conditionField = 'id',
     searchConditions = [],
-    getRenderedOptionText = (option): string => option.name,
+    getRenderedOptionText = (option): string => option.name.toString(),
     getRequestHeaders,
     displayOptionThumbnail,
     ...props
@@ -75,7 +73,7 @@ const ConnectedAutocompleteField = (
       request: getData,
     });
 
-    const renameKey = (object, key, newKey): any => {
+    const renameKey = (object, key, newKey): TData => {
       const clonedObj = { ...object };
       const targetKey = clonedObj[key];
       delete clonedObj[key];
@@ -88,7 +86,7 @@ const ConnectedAutocompleteField = (
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
-          if (column.includes('level')) {
+          if (equals(column, 'level')) {
             const list = result.map((item) => renameKey(item, 'level', 'name'));
             setOptions(moreOptions.concat(list));
           } else {
@@ -191,7 +189,6 @@ const ConnectedAutocompleteField = (
       const ref = canTriggerInfiniteScroll ? { ref: lastOptionRef } : {};
 
       const optionText = getRenderedOptionText(option);
-      console.log({ option });
 
       const optionProps = {
         checkboxSelected: multiple ? selected : undefined,
