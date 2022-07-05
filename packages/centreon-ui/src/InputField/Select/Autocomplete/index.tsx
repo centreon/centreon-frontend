@@ -210,7 +210,7 @@ const AutocompleteField = ({
       }}
       forcePopupIcon={displayPopupIcon}
       getOptionLabel={(option): string =>
-        (option as SelectEntry)?.name.toString() || ''
+        (option as SelectEntry)?.name?.toString() || ''
       }
       isOptionEqualToValue={areSelectEntriesEqual}
       loading={loading}
