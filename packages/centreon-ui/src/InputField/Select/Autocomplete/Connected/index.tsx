@@ -41,8 +41,7 @@ const ConnectedAutocompleteField = (
     open,
     conditionField = 'id',
     searchConditions = [],
-    getRenderedOptionText = (option): string =>
-      option[column]?.toString() as string,
+    getRenderedOptionText = (option): string => option.name,
     getRequestHeaders,
     displayOptionThumbnail,
     ...props
