@@ -76,10 +76,26 @@ const ConnectedAutocompleteField = (
       request: getData,
     });
 
+    const renameKey = (object, key, newKey): any => {
+      const clonedObj = { ...object };
+      const targetKey = clonedObj[key];
+      delete clonedObj[key];
+      clonedObj[newKey] = targetKey;
+
+      return clonedObj;
+    };
+
     const loadOptions = ({ endpoint, loadMore = false }): void => {
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
+          if (column.includes('level')) {
+            const list = result.map((item) => renameKey(item, 'level', 'name'));
+            const listToString = list.map((item) => item.name.toString());
+            setOptions(moreOptions.concat(listToString));
+
+            return;
+          }
 
           setOptions(moreOptions.concat(result));
 
