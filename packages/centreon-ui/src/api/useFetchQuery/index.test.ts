@@ -33,19 +33,6 @@ const renderFetchQuery = <T extends object>(
     wrapper: TestQueryProvider,
   }) as RenderHookResult<UseFetchQueryState, unknown>;
 
-export const setupFetchStub = (data) => {
-  return (_url): Promise<Response> => {
-    return new Promise((resolve) => {
-      resolve({
-        json: () =>
-          Promise.resolve({
-            data,
-          }),
-      } as Response);
-    });
-  };
-};
-
 describe('useFetchQuery', () => {
   beforeEach(() => {
     mockedShowErrorMessage.mockReset();
