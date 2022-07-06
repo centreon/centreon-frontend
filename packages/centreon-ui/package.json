@@ -72,6 +72,7 @@
     "puppeteer": "^13.7.0",
     "ramda": "^0.28.0",
     "react-test-renderer": "^18.1.0",
+    "storybook-addon-mock": "^2.4.1",
     "storybook-dark-mode": "^1.1.0",
     "swc-loader": "^0.2.0",
     "typescript": "4.6.4",
@@ -81,5 +82,8 @@
   },
   "dependencies": {
     "react-query": "^3.39.1"
+  },
+  "msw": {
+    "workerDirectory": ""
   }
 }
