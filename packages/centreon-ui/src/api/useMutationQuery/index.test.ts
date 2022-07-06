@@ -1,11 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { RenderHookResult } from '@testing-library/react-hooks';
 import fetchMock from 'jest-fetch-mock';
-import anyLogger from 'anylogger';
 
 import { TestQueryProvider } from '../../testRenderer';
 
 import useMutationQuery, {
+  Method,
   UseMutationQueryProps,
   UseMutationQueryState,
 } from '.';
@@ -46,7 +46,7 @@ describe('useFetchQuery', () => {
     fetchMock.once(JSON.stringify({}));
     const { result } = renderMutationQuery<User>({
       getEndpoint: () => '/endpoint',
-      method: 'POST',
+      method: Method.POST,
     });
 
     result.current.mutate(user);
@@ -62,7 +62,7 @@ describe('useFetchQuery', () => {
     });
     const { result } = renderMutationQuery<User>({
       getEndpoint: () => '/endpoint',
-      method: 'POST',
+      method: Method.POST,
     });
 
     result.current.mutate(user);
@@ -83,7 +83,7 @@ describe('useFetchQuery', () => {
 
     const { result } = renderMutationQuery<User>({
       getEndpoint: () => '/endpoint',
-      method: 'POST',
+      method: Method.POST,
     });
 
     result.current.mutate(user);
@@ -107,7 +107,7 @@ describe('useFetchQuery', () => {
     const { result } = renderMutationQuery<User>({
       getEndpoint: () => '/endpoint',
       httpCodesBypassErrorSnackbar: [400],
-      method: 'POST',
+      method: Method.POST,
     });
 
     result.current.mutate(user);

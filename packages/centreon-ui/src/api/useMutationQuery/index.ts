@@ -10,6 +10,14 @@ import anylogger from 'anylogger';
 import { CatchErrorProps, customFetch, ResponseError } from '../customFetch';
 import useSnackbar from '../../Snackbar/useSnackbar';
 
+export enum Method {
+  DELETE = 'DELETE',
+  GET = 'GET',
+  PATCH = 'PATCH',
+  POST = 'POST',
+  PUT = 'PUT',
+}
+
 export interface UseMutationQueryProps<T> {
   catchError?: (props: CatchErrorProps) => void;
   decoder?: JsonDecoder.Decoder<T>;
@@ -17,7 +25,7 @@ export interface UseMutationQueryProps<T> {
   fetchHeaders?: HeadersInit;
   getEndpoint: () => string;
   httpCodesBypassErrorSnackbar?: Array<number>;
-  method: 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  method: Method;
 }
 
 const log = anylogger('API Request');
