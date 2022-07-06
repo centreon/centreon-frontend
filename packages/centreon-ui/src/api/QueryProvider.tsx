@@ -2,9 +2,13 @@ import { ReactNode } from 'react';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+const defaultCacheTime = 5 * 1_000;
+
 const client = new QueryClient({
   defaultOptions: {
     queries: {
+      cacheTime: defaultCacheTime,
+      refetchOnWindowFocus: false,
       suspense: true,
     },
   },

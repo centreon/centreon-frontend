@@ -35,8 +35,6 @@ export interface UseFetchQueryState extends QueryObserverBaseResult {
   prefetchQuery: ({ endpointParams, queryKey }) => void;
 }
 
-const defaultCacheTime = 5 * 1_000;
-
 const log = anylogger('API Request');
 
 const useFetchQuery = <T extends object>({
@@ -64,8 +62,6 @@ const useFetchQuery = <T extends object>({
         signal,
       }),
     {
-      cacheTime: defaultCacheTime,
-      refetchOnWindowFocus: false,
       ...queryOptions,
     },
   );
