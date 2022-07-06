@@ -14,7 +14,7 @@ import anylogger from 'anylogger';
 import { CatchErrorProps, customFetch, ResponseError } from '../customFetch';
 import useSnackbar from '../../Snackbar/useSnackbar';
 
-interface UseFetchQueryProps<T> {
+export interface UseFetchQueryProps<T> {
   catchError?: (props: CatchErrorProps) => void;
   decoder?: JsonDecoder.Decoder<T>;
   defaultFailureMessage?: string;
@@ -29,7 +29,7 @@ interface UseFetchQueryProps<T> {
   >;
 }
 
-interface UseFetchQueryState extends QueryObserverBaseResult {
+export interface UseFetchQueryState extends QueryObserverBaseResult {
   prefetchNextPage: ({ page, baseKey }) => void;
   prefetchPreviousPage: ({ page, baseKey }) => void;
   prefetchQuery: ({ endpointParams, queryKey }) => void;

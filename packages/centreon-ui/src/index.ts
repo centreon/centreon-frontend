@@ -141,3 +141,4 @@ export type {
 } from './Form/Inputs/models';
 export { default as useFetchQuery } from './api/useFetchQuery';
 export { default as useMutationQuery } from './api/useMutationQuery';
+export { default as QueryProvider } from './api/QueryProvider';
