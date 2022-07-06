@@ -14,7 +14,7 @@ import anylogger from 'anylogger';
 import { CatchErrorProps, customFetch, ResponseError } from '../customFetch';
 import useSnackbar from '../../Snackbar/useSnackbar';
 
-interface UseRequestProps<T> {
+interface UseFetchQueryProps<T> {
   catchError?: (props: CatchErrorProps) => void;
   decoder?: JsonDecoder.Decoder<T>;
   defaultFailureMessage?: string;
@@ -49,7 +49,7 @@ const useFetchQuery = <T extends object>({
   isPaginated,
   queryOptions,
   httpCodesBypassErrorSnackbar = [],
-}: UseRequestProps<T>): UseFetchQueryState => {
+}: UseFetchQueryProps<T>): UseFetchQueryState => {
   const { showErrorMessage } = useSnackbar();
 
   const queryData = useQuery<T | ResponseError, Error>(
