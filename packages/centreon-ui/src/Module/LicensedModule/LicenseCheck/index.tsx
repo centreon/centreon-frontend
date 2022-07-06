@@ -44,7 +44,7 @@ const LicenseCheck = ({
   children,
   moduleName,
 }: LicenseCheckProps): JSX.Element | null => {
-  const { data, isError } = useFetchQuery<License>({
+  const { isError, data } = useFetchQuery<License>({
     decoder: licenseDecoder,
     getEndpoint: () => getModuleLicenseCheckEndpoint(moduleName),
     getQueryKey: () => ['license', moduleName],
@@ -54,7 +54,7 @@ const LicenseCheck = ({
     return null;
   }
 
-  const isValid = (data as License).success;
+  const isValid = data?.success;
 
   return isNil(isValid) ? (
     <PageSkeleton />

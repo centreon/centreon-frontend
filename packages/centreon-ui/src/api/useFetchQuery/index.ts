@@ -10,6 +10,7 @@ import {
 } from 'react-query';
 import { JsonDecoder } from 'ts.data.json';
 import anylogger from 'anylogger';
+import { has, not, omit } from 'ramda';
 
 import { CatchErrorProps, customFetch, ResponseError } from '../customFetch';
 import useSnackbar from '../../Snackbar/useSnackbar';
@@ -29,7 +30,10 @@ export interface UseFetchQueryProps<T> {
   >;
 }
 
-export interface UseFetchQueryState extends QueryObserverBaseResult {
+export interface UseFetchQueryState<T>
+  extends Omit<QueryObserverBaseResult, 'data'> {
+  data?: T;
+  isError: boolean;
   prefetchNextPage: ({ page, baseKey }) => void;
   prefetchPreviousPage: ({ page, baseKey }) => void;
   prefetchQuery: ({ endpointParams, queryKey }) => void;
@@ -47,7 +51,7 @@ const useFetchQuery = <T extends object>({
   isPaginated,
   queryOptions,
   httpCodesBypassErrorSnackbar = [],
-}: UseFetchQueryProps<T>): UseFetchQueryState => {
+}: UseFetchQueryProps<T>): UseFetchQueryState<T> => {
   const { showErrorMessage } = useSnackbar();
 
   const queryData = useQuery<T | ResponseError, Error>(
@@ -131,8 +135,13 @@ const useFetchQuery = <T extends object>({
     });
   };
 
+  const data = not(has('isError', queryData.data))
+    ? (queryData.data as T)
+    : undefined;
+
   return {
-    ...queryData,
+    ...omit(['data'], queryData),
+    data,
     isError: (queryData.data as ResponseError | undefined)?.isError ?? false,
     prefetchNextPage,
     prefetchPreviousPage,
