@@ -10,7 +10,7 @@ import anylogger from 'anylogger';
 import { CatchErrorProps, customFetch, ResponseError } from '../customFetch';
 import useSnackbar from '../../Snackbar/useSnackbar';
 
-interface UseMutationQueryProps<T> {
+export interface UseMutationQueryProps<T> {
   catchError?: (props: CatchErrorProps) => void;
   decoder?: JsonDecoder.Decoder<T>;
   defaultFailureMessage?: string;
@@ -22,7 +22,7 @@ interface UseMutationQueryProps<T> {
 
 const log = anylogger('API Request');
 
-interface UseMutationQueryState<T> {
+export interface UseMutationQueryState<T> {
   isError: boolean;
   isMutating: boolean;
   mutate: UseMutateFunction<T | ResponseError, unknown, void, unknown>;
