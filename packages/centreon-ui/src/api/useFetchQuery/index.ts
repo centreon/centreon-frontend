@@ -20,7 +20,7 @@ export interface UseFetchQueryProps<T> {
   decoder?: JsonDecoder.Decoder<T>;
   defaultFailureMessage?: string;
   fetchHeaders?: HeadersInit;
-  getEndpoint: (params?: unknown) => string;
+  getEndpoint: (params?: PrefetchEndpointParams) => string;
   getQueryKey: () => string | QueryKey;
   httpCodesBypassErrorSnackbar?: Array<number>;
   isPaginated?: boolean;
@@ -33,10 +33,15 @@ export interface UseFetchQueryProps<T> {
 export interface UseFetchQueryState<T>
   extends Omit<QueryObserverBaseResult, 'data'> {
   data?: T;
+  fetchQuery: () => Promise<T | ResponseError>;
   isError: boolean;
-  prefetchNextPage: ({ page, baseKey }) => void;
-  prefetchPreviousPage: ({ page, baseKey }) => void;
+  prefetchNextPage: ({ page, getPrefetchQueryKey }) => void;
+  prefetchPreviousPage: ({ page, getPrefetchQueryKey }) => void;
   prefetchQuery: ({ endpointParams, queryKey }) => void;
+}
+
+export interface PrefetchEndpointParams {
+  page: number;
 }
 
 const log = anylogger('API Request');
@@ -109,7 +114,7 @@ const useFetchQuery = <T extends object>({
     );
   };
 
-  const prefetchNextPage = ({ page, baseKey }): void => {
+  const prefetchNextPage = ({ page, getPrefetchQueryKey }): void => {
     if (!isPaginated) {
       return undefined;
     }
@@ -118,11 +123,11 @@ const useFetchQuery = <T extends object>({
 
     return prefetchQuery({
       endpointParams: { page: nextPage },
-      queryKey: [baseKey, nextPage],
+      queryKey: getPrefetchQueryKey(nextPage),
     });
   };
 
-  const prefetchPreviousPage = ({ page, baseKey }): void => {
+  const prefetchPreviousPage = ({ page, getPrefetchQueryKey }): void => {
     if (!isPaginated) {
       return undefined;
     }
@@ -131,8 +136,23 @@ const useFetchQuery = <T extends object>({
 
     return prefetchQuery({
       endpointParams: { page: previousPage },
-      queryKey: [baseKey, previousPage],
+      queryKey: getPrefetchQueryKey(previousPage),
     });
+  };
+
+  const fetchQuery = (): Promise<T | ResponseError> => {
+    return queryClient.fetchQuery(
+      getQueryKey(),
+      ({ signal }): Promise<T | ResponseError> =>
+        customFetch<T>({
+          catchError,
+          decoder,
+          defaultFailureMessage,
+          endpoint: getEndpoint(),
+          headers: new Headers(fetchHeaders),
+          signal,
+        }),
+    );
   };
 
   const data = not(has('isError', queryData.data))
@@ -142,6 +162,7 @@ const useFetchQuery = <T extends object>({
   return {
     ...omit(['data'], queryData),
     data,
+    fetchQuery,
     isError: (queryData.data as ResponseError | undefined)?.isError ?? false,
     prefetchNextPage,
     prefetchPreviousPage,
