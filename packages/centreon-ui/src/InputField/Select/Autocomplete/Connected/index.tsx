@@ -17,7 +17,7 @@ import {
 import useDebounce from '../../../../utils/useDebounce';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
-  column: string;
+ labelKey: string;
   conditionField?: keyof SelectEntry;
   field: string;
   getEndpoint: ({ search, page }) => string;
