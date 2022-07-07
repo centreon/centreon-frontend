@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 
-import { equals, prop, last, isEmpty, map, isNil, pipe, not } from 'ramda';
+import {
+  equals,
+  prop,
+  last,
+  isEmpty,
+  map,
+  isNil,
+  pipe,
+  not,
+  omit,
+} from 'ramda';
 
 import { CircularProgress, useTheme } from '@mui/material';
 
@@ -73,13 +83,12 @@ const ConnectedAutocompleteField = (
       request: getData,
     });
 
-    const renameKey = (object, key, newKey): TData => {
+    const renameKey = (object, key, newKey): Partial<TData> => {
       const clonedObj = { ...object };
       const targetKey = clonedObj[key];
-      delete clonedObj[key];
       clonedObj[newKey] = targetKey;
 
-      return clonedObj;
+      return omit([key], clonedObj);
     };
 
     const loadOptions = ({ endpoint, loadMore = false }): void => {
@@ -90,7 +99,7 @@ const ConnectedAutocompleteField = (
             const list = result.map((item) =>
               renameKey(item, labelKey, 'name'),
             );
-            setOptions(moreOptions.concat(list));
+            setOptions(moreOptions.concat(list as Array<TData>));
           } else {
             setOptions(moreOptions.concat(result));
           }
