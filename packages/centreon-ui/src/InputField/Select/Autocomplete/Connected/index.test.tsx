@@ -49,7 +49,6 @@ const renderSingleConnectedAutocompleteField = (
       field="host.name"
       getEndpoint={getEndpoint}
       label={label}
-      labelKey=""
       placeholder="Type here..."
       searchConditions={searchConditions}
     />,
