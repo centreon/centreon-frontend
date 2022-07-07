@@ -17,13 +17,13 @@ import {
 import useDebounce from '../../../../utils/useDebounce';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
- labelKey: string;
   conditionField?: keyof SelectEntry;
   field: string;
   getEndpoint: ({ search, page }) => string;
   getRenderedOptionText: (option: TData) => string;
   getRequestHeaders?: Record<string, unknown>;
   initialPage: number;
+  labelKey: string;
   searchConditions?: Array<ConditionsSearchParameter>;
 }
 
@@ -35,7 +35,7 @@ const ConnectedAutocompleteField = (
     initialPage = 1,
     getEndpoint,
     field,
-    column,
+    labelKey,
     open,
     conditionField = 'id',
     searchConditions = [],
@@ -86,8 +86,10 @@ const ConnectedAutocompleteField = (
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
-          if (!isEmpty(column)) {
-            const list = result.map((item) => renameKey(item, column, 'name'));
+          if (!isEmpty(labelKey)) {
+            const list = result.map((item) =>
+              renameKey(item, labelKey, 'name'),
+            );
             setOptions(moreOptions.concat(list));
           } else {
             setOptions(moreOptions.concat(result));
