@@ -33,7 +33,7 @@ export interface ConnectedAutoCompleteFieldProps<TData> {
   getRenderedOptionText: (option: TData) => string;
   getRequestHeaders?: Record<string, unknown>;
   initialPage: number;
-  labelKey: string;
+  labelKey?: string;
   searchConditions?: Array<ConditionsSearchParameter>;
 }
 
