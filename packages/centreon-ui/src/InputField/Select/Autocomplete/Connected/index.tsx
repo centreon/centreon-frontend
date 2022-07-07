@@ -95,7 +95,7 @@ const ConnectedAutocompleteField = (
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
-          if (!isEmpty(labelKey)) {
+          if (!isEmpty(labelKey) && !isNil(labelKey)) {
             const list = result.map((item) =>
               renameKey(item, labelKey, 'name'),
             );
