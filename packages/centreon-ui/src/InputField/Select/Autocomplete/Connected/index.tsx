@@ -85,7 +85,7 @@ const ConnectedAutocompleteField = (
 
     const renameKey = (object, key, newKey): Partial<TData> => {
       const targetKey = object[key];
-      clonedObj[newKey] = targetKey;
+      const newObject = { ...object, [newKey]: oldKeyValue
 
       return omit([key], newObject);
     };
