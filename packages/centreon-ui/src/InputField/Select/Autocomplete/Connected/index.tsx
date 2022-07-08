@@ -87,7 +87,7 @@ const ConnectedAutocompleteField = (
       const targetKey = object[key];
       clonedObj[newKey] = targetKey;
 
-      return omit([key], clonedObj);
+      return omit([key], newObject);
     };
 
     const loadOptions = ({ endpoint, loadMore = false }): void => {
