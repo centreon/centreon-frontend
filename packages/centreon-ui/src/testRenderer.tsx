@@ -6,6 +6,7 @@ import {
   RenderResult,
 } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import fetchMock, { MockParams } from 'jest-fetch-mock';
 
 import { ThemeMode } from '@centreon/ui-context';
 
@@ -48,3 +49,24 @@ export const TestQueryProvider = ({
 }: TestQueryProviderProps): JSX.Element => (
   <QueryClientProvider client={client}>{children}</QueryClientProvider>
 );
+
+interface MockResponse {
+  data: object;
+  options?: MockParams;
+}
+
+export const mockResponse = ({ data, options }: MockResponse): void => {
+  fetchMock.mockResponse(JSON.stringify(data), options);
+};
+
+export const mockResponseOnce = ({ data, options }: MockResponse): void => {
+  fetchMock.once(JSON.stringify(data), options);
+};
+
+export const resetMocks = (): void => {
+  fetchMock.resetMocks();
+};
+
+export const getFetchCall = (index: number): string | Request | undefined => {
+  return fetchMock.mock.calls[index][0];
+};

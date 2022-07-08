@@ -64,11 +64,12 @@ const ConnectedAutocompleteField = (
       ListingModel<TData>
     >({
       fetchHeaders: getRequestHeaders,
-      getEndpoint: (params) =>
-        getEndpoint({
+      getEndpoint: (params) => {
+        return getEndpoint({
           page: params?.page || page,
           search: searchParameter,
-        }),
+        });
+      },
       getQueryKey: () => [`autocomplete-${props.label}`, page, searchParameter],
       isPaginated: true,
       queryOptions: {
@@ -187,15 +188,7 @@ const ConnectedAutocompleteField = (
       );
     };
 
-    useEffect(() => {
-      if (!optionsOpen) {
-        setOptions([]);
-        setPage(initialPage);
-        setSearchParameter(undefined);
-
-        return;
-      }
-
+    const fetchOptionsAndPrefetchNextOptions = (): void => {
       fetchQuery().then((newOptions) => {
         const isError = has('isError', newOptions);
 
@@ -225,6 +218,26 @@ const ConnectedAutocompleteField = (
           page,
         });
       });
+    };
+
+    useEffect(() => {
+      if (!optionsOpen) {
+        setOptions([]);
+        setPage(initialPage);
+        setSearchParameter(
+          !isEmpty(searchConditions)
+            ? { conditions: searchConditions }
+            : undefined,
+        );
+      }
+    }, [optionsOpen]);
+
+    useEffect(() => {
+      if (!optionsOpen) {
+        return;
+      }
+
+      fetchOptionsAndPrefetchNextOptions();
     }, [optionsOpen, page, searchParameter]);
 
     return (
