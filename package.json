@@ -81,6 +81,7 @@
     "eslint-plugin-typescript-sort-keys": "2.x",
     "identity-obj-proxy": "3.x",
     "jest": "28.x",
+    "jest-fetch-mock": "^3.x",
     "jotai": "^1.6.5",
     "prettier": "2.x",
     "react-query": "3.x",

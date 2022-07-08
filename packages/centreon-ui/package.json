@@ -71,6 +71,7 @@
     "prettier": "^2.6.2",
     "puppeteer": "^13.7.0",
     "ramda": "^0.28.0",
+    "react-query": "^3.39.1",
     "react-test-renderer": "^18.1.0",
     "storybook-addon-mock": "^2.4.1",
     "storybook-dark-mode": "^1.1.0",
@@ -79,11 +80,5 @@
     "webpack": "^5.72.0",
     "webpack-merge": "^5.8.0",
     "yup": "^0.32.11"
-  },
-  "dependencies": {
-    "react-query": "^3.39.1"
-  },
-  "msw": {
-    "workerDirectory": ""
   }
 }
