@@ -209,6 +209,7 @@ const ConnectedAutocompleteField = (
         if (equals(newMaxPage, page)) {
           return;
         }
+        
         prefetchNextPage({
           getPrefetchQueryKey: (newPage) => [
             `autocomplete-${props.label}`,
