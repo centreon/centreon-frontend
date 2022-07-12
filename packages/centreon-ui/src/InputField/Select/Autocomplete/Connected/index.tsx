@@ -83,7 +83,7 @@ const ConnectedAutocompleteField = (
       request: getData,
     });
 
-    const renameKey = (object, key, newKey): Partial<TData> => {
+    const renameKey = ({ object, key, newKey }): Partial<TData> => {
       const oldKeyValue = object[key];
       const newObject = { ...object, [newKey]: oldKeyValue };
 
@@ -94,19 +94,20 @@ const ConnectedAutocompleteField = (
       sendRequest({ endpoint, headers: getRequestHeaders }).then(
         ({ result, meta }) => {
           const moreOptions = loadMore ? options : [];
-          if (!isEmpty(labelKey) && !isNil(labelKey)) {
-            const list = result.map((item) =>
-              renameKey(item, labelKey, 'name'),
-            );
-            setOptions(moreOptions.concat(list as Array<TData>));
-          } else {
-            setOptions(moreOptions.concat(result));
-          }
-
           const total = prop('total', meta) || 1;
           const limit = prop('limit', meta) || 1;
 
           setMaxPage(Math.ceil(total / limit));
+
+          if (!isEmpty(labelKey) && !isNil(labelKey)) {
+            const list = result.map((item) =>
+              renameKey({ key: labelKey, newKey: 'name', object: item }),
+            );
+            setOptions(moreOptions.concat(list as Array<TData>));
+
+            return;
+          }
+          setOptions(moreOptions.concat(result));
         },
       );
     };
