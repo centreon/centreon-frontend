@@ -139,3 +139,4 @@ export type {
   InputPropsWithoutGroup,
   Group,
 } from './Form/Inputs/models';
+export { default as Responsive } from './Responsive';
