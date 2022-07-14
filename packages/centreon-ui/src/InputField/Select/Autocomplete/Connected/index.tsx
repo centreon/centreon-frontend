@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import { equals, prop, last, isEmpty, map, isNil, pipe, not } from 'ramda';
+import { equals, prop, last, isEmpty, map, isNil, pipe, not, has } from 'ramda';
 
 import { CircularProgress, useTheme } from '@mui/material';
 
 import { Props as AutocompleteFieldProps } from '..';
-import useRequest from '../../../../api/useRequest';
-import { getData } from '../../../../api';
 import useIntersectionObserver from '../../../../utils/useIntersectionObserver';
 import { ListingModel, SelectEntry } from '../../../..';
 import Option from '../../Option';
@@ -15,13 +13,14 @@ import {
   SearchParameter,
 } from '../../../../api/buildListingEndpoint/models';
 import useDebounce from '../../../../utils/useDebounce';
+import useFetchQuery from '../../../../api/useFetchQuery';
 
 export interface ConnectedAutoCompleteFieldProps<TData> {
   conditionField?: keyof SelectEntry;
   field: string;
   getEndpoint: ({ search, page }) => string;
   getRenderedOptionText: (option: TData) => string;
-  getRequestHeaders?: Record<string, unknown>;
+  getRequestHeaders?: HeadersInit;
   initialPage: number;
   searchConditions?: Array<ConditionsSearchParameter>;
 }
@@ -44,21 +43,15 @@ const ConnectedAutocompleteField = (
   }: ConnectedAutoCompleteFieldProps<TData> &
     Omit<AutocompleteFieldProps, 'options'>): JSX.Element => {
     const [options, setOptions] = useState<Array<TData>>([]);
-    const [searchValue, setSearchValue] = useState<string>('');
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(initialPage);
     const [optionsOpen, setOptionsOpen] = useState(open || false);
+    const [searchParameter, setSearchParameter] = useState<
+      SearchParameter | undefined
+    >(undefined);
     const debounce = useDebounce({
       functionToDebounce: (value): void => {
-        if (page === initialPage) {
-          loadOptions({
-            endpoint: getEndpoint({
-              page: initialPage,
-              search: getSearchParameter(value),
-            }),
-          });
-        }
-
+        setSearchParameter(getSearchParameter(value));
         setPage(1);
       },
       memoProps: [page, searchConditions],
@@ -67,28 +60,27 @@ const ConnectedAutocompleteField = (
 
     const theme = useTheme();
 
-    const { sendRequest, sending } = useRequest<ListingModel<TData>>({
-      request: getData,
+    const { fetchQuery, isFetching, prefetchNextPage } = useFetchQuery<
+      ListingModel<TData>
+    >({
+      fetchHeaders: getRequestHeaders,
+      getEndpoint: (params) => {
+        return getEndpoint({
+          page: params?.page || page,
+          search: searchParameter,
+        });
+      },
+      getQueryKey: () => [`autocomplete-${props.label}`, page, searchParameter],
+      isPaginated: true,
+      queryOptions: {
+        enabled: false,
+        suspense: false,
+      },
     });
-
-    const loadOptions = ({ endpoint, loadMore = false }): void => {
-      sendRequest({ endpoint, headers: getRequestHeaders }).then(
-        ({ result, meta }) => {
-          const moreOptions = loadMore ? options : [];
-
-          setOptions(moreOptions.concat(result));
-
-          const total = prop('total', meta) || 1;
-          const limit = prop('limit', meta) || 1;
-
-          setMaxPage(Math.ceil(total / limit));
-        },
-      );
-    };
 
     const lastOptionRef = useIntersectionObserver({
       action: () => setPage(page + 1),
-      loading: sending,
+      loading: isFetching,
       maxPage,
       page,
     });
@@ -155,7 +147,6 @@ const ConnectedAutocompleteField = (
 
     const changeText = (event): void => {
       debounce(event.target.value);
-      setSearchValue(event.target.value);
     };
 
     const renderOptions = (renderProps, option, { selected }): JSX.Element => {
@@ -188,7 +179,7 @@ const ConnectedAutocompleteField = (
             </Option>
           </li>
 
-          {(isLastValueWithoutOptions || isLastOption) && sending && (
+          {(isLastValueWithoutOptions || isLastOption) && isFetching && (
             <div style={{ textAlign: 'center', width: '100%' }}>
               <CircularProgress size={theme.spacing(2.5)} />
             </div>
@@ -197,28 +188,63 @@ const ConnectedAutocompleteField = (
       );
     };
 
+    const fetchOptionsAndPrefetchNextOptions = (): void => {
+      fetchQuery().then((newOptions) => {
+        const isError = has('isError', newOptions);
+
+        if (isError) {
+          return;
+        }
+
+        const moreOptions = page > 1 ? options : [];
+
+        setOptions(moreOptions.concat(newOptions.result as Array<TData>));
+
+        const total = prop('total', newOptions.meta) || 1;
+        const limit = prop('limit', newOptions.meta) || 1;
+
+        const newMaxPage = Math.ceil(total / limit);
+
+        setMaxPage(newMaxPage);
+        if (equals(newMaxPage, page)) {
+          return;
+        }
+
+        prefetchNextPage({
+          getPrefetchQueryKey: (newPage) => [
+            `autocomplete-${props.label}`,
+            newPage,
+            searchParameter,
+          ],
+          page,
+        });
+      });
+    };
+
     useEffect(() => {
       if (!optionsOpen) {
-        setSearchValue('');
         setOptions([]);
         setPage(initialPage);
+        setSearchParameter(
+          !isEmpty(searchConditions)
+            ? { conditions: searchConditions }
+            : undefined,
+        );
+      }
+    }, [optionsOpen]);
 
+    useEffect(() => {
+      if (!optionsOpen) {
         return;
       }
 
-      loadOptions({
-        endpoint: getEndpoint({
-          page,
-          search: getSearchParameter(searchValue),
-        }),
-        loadMore: page > 1,
-      });
-    }, [optionsOpen, page]);
+      fetchOptionsAndPrefetchNextOptions();
+    }, [optionsOpen, page, searchParameter]);
 
     return (
       <AutocompleteField
         filterOptions={(opt): SelectEntry => opt}
-        loading={sending}
+        loading={isFetching}
         open={open}
         options={options}
         renderOption={renderOptions}
