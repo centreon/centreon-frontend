@@ -132,7 +132,7 @@ export { default as LicensedModule } from './Module/LicensedModule';
 export { default as SnackbarProvider } from './Snackbar/SnackbarProvider';
 export { default as PersistentTooltip } from './InputField/Search/PersistentTooltip';
 export * from './testRenderer';
-export { default as Form } from './Form';
+export { default as Form, GroupDirection } from './Form';
 export { InputType } from './Form/Inputs/models';
 export type {
   InputProps,
@@ -143,3 +143,8 @@ export { default as Responsive } from './Responsive';
 export { default as useFetchQuery } from './api/useFetchQuery';
 export { default as useMutationQuery, Method } from './api/useMutationQuery';
 export { default as QueryProvider } from './api/QueryProvider';
+export {
+  default as FileDropZone,
+  transformFileListToArray,
+  CustomDropZoneContentProps,
+} from './FileDropZone';
