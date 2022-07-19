@@ -146,5 +146,5 @@ export { default as QueryProvider } from './api/QueryProvider';
 export {
   default as FileDropZone,
   transformFileListToArray,
-  CustomDropZoneContentProps,
 } from './FileDropZone';
+export type { CustomDropZoneContentProps } from './FileDropZone';
