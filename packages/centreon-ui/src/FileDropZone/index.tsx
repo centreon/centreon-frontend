@@ -48,14 +48,16 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     }`,
     boxShadow: isDraggingOver ? theme.shadows[3] : theme.shadows[0],
     padding: hasCustomDropZoneContent ? undefined : theme.spacing(1),
-    width: hasCustomDropZoneContent ? 'fit-content' : theme.spacing(50),
+    width: hasCustomDropZoneContent ? '100%' : theme.spacing(50),
   }),
-  dropzoneInfo: {
+  dropzoneInfo: ({ hasCustomDropZoneContent }): CreateCSSProperties => ({
     display: 'grid',
-    gridTemplateRows: 'repeat(2, min-content)',
+    gridTemplateRows: hasCustomDropZoneContent
+      ? undefined
+      : 'repeat(2, min-content)',
     justifyItems: 'center',
     rowGap: theme.spacing(1),
-  },
+  }),
   input: {
     display: 'none',
   },
