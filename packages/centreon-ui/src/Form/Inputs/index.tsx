@@ -77,7 +77,7 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  group: ({ groupDirection }): CreateCSSProperties => ({
+  divider: ({ groupDirection }): CreateCSSProperties => ({
     margin: R.equals(groupDirection, GroupDirection.Horizontal)
       ? theme.spacing(0, 2)
       : theme.spacing(2, 0),
@@ -174,7 +174,7 @@ const Inputs = ({
 
         return (
           <Fragment key={groupName}>
-            <div className={classes.group}>
+            <div>
               <CollapsibleGroup
                 defaultIsOpen={isFirstElement}
                 group={groupProps}
@@ -218,6 +218,7 @@ const Inputs = ({
               R.not(R.equals(lastGroup, groupName as string)) && (
                 <Divider
                   flexItem
+                  className={classes.divider}
                   orientation={
                     R.equals(groupDirection, GroupDirection.Horizontal)
                       ? 'vertical'
