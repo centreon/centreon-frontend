@@ -7,9 +7,9 @@ import {
   useState,
 } from 'react';
 
-import { all, isNil, not, path, pluck } from 'ramda';
+import { all, isNil, lte, not, path, pluck } from 'ramda';
 
-import { labelInvalidFileType } from './translatedLabels';
+import { labelFileTooBig, labelInvalidFileType } from './translatedLabels';
 
 import { transformFileListToArray } from '.';
 
@@ -27,6 +27,7 @@ export interface UseDropzoneState {
 interface UseDropzoneProps {
   allowedFilesExtensions: Array<string>;
   changeFiles: (files: FileList | null) => void;
+  maxFileSize?: number;
   resetFilesStatusAndUploadData: () => void;
 }
 
@@ -36,10 +37,17 @@ export const getFilesName = (fileList: FileList): Array<string> => {
   return pluck('name', files);
 };
 
+const getFilesSize = (fileList: FileList): Array<number> => {
+  const files = transformFileListToArray(fileList);
+
+  return pluck('size', files);
+};
+
 const useDropzone = ({
   changeFiles,
   resetFilesStatusAndUploadData,
   allowedFilesExtensions,
+  maxFileSize,
 }: UseDropzoneProps): UseDropzoneState => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,10 +70,19 @@ const useDropzone = ({
   const isFileExtensionValid = (fileName: string): boolean =>
     new RegExp(`.${allowedFilesExtensions.join('|')}$`).test(fileName);
 
+  const isFileSizeValid = (fileSize: number): boolean =>
+    isNil(maxFileSize) || lte(fileSize, maxFileSize);
+
   const areFileExtensionsValid = (fileList: FileList): boolean => {
     const filesName = getFilesName(fileList);
 
     return all(isFileExtensionValid, filesName);
+  };
+
+  const areFileSizesValid = (fileList: FileList): boolean => {
+    const filesSize = getFilesSize(fileList);
+
+    return all(isFileSizeValid, filesSize);
   };
 
   const handleChangeFiles = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -80,6 +97,14 @@ const useDropzone = ({
 
       return;
     }
+
+    if (not(areFileSizesValid(newFiles as FileList))) {
+      setError(labelFileTooBig);
+      changeFiles(null);
+
+      return;
+    }
+
     setError(null);
     resetFilesStatusAndUploadData();
     changeFiles(newFiles);
@@ -90,12 +115,21 @@ const useDropzone = ({
     event.preventDefault();
     const fileList = event.dataTransfer?.files as FileList;
     setIsDraggingOver(false);
+
     if (not(areFileExtensionsValid(fileList))) {
       setError(labelInvalidFileType);
       changeFiles(null);
 
       return;
     }
+
+    if (not(areFileSizesValid(fileList as FileList))) {
+      setError(labelFileTooBig);
+      changeFiles(null);
+
+      return;
+    }
+
     setError(null);
     resetFilesStatusAndUploadData();
     changeFiles(fileList);

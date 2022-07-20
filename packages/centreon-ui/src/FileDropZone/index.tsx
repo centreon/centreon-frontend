@@ -75,6 +75,7 @@ interface Props {
   accept: string;
   changeFiles: (files: FileList | null) => void;
   files: FileList | null;
+  maxFileSize?: number;
   multiple?: boolean;
   resetFilesStatusAndUploadData: () => void;
 }
@@ -108,6 +109,7 @@ const Dropzone = ({
   multiple = false,
   accept,
   CustomDropZoneContent,
+  maxFileSize,
 }: Props): JSX.Element => {
   const hasCustomDropZoneContent = !isNil(CustomDropZoneContent);
   const {
@@ -121,6 +123,7 @@ const Dropzone = ({
   } = useDropzone({
     allowedFilesExtensions: flatten(split(',', accept).map(getExtensions)),
     changeFiles,
+    maxFileSize,
     resetFilesStatusAndUploadData,
   });
 

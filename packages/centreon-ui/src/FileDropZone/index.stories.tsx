@@ -15,6 +15,7 @@ export default {
 interface Props {
   CustomDropZoneContent?: (props: CustomDropZoneContentProps) => JSX.Element;
   accept: string;
+  maxFileSize?: number;
   multiple: boolean;
 }
 
@@ -22,6 +23,7 @@ const Story = ({
   accept,
   multiple,
   CustomDropZoneContent,
+  maxFileSize,
 }: Props): JSX.Element => {
   const [files, setFiles] = useState<FileList | null>(null);
 
@@ -32,6 +34,7 @@ const Story = ({
         accept={accept}
         changeFiles={setFiles}
         files={files}
+        maxFileSize={maxFileSize}
         multiple={multiple}
         resetFilesStatusAndUploadData={(): void => setFiles(null)}
       />
@@ -77,4 +80,8 @@ export const basicSingleImageWithACustomDropZoneContent = (): JSX.Element => (
     accept="image/*"
     multiple={false}
   />
+);
+
+export const basicSingleImageWithMaxFileSize = (): JSX.Element => (
+  <Story accept="image/*" maxFileSize={1_000_000} multiple={false} />
 );
