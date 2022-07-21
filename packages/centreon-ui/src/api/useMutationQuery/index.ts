@@ -3,7 +3,7 @@ import {
   UseMutateAsyncFunction,
   UseMutateFunction,
   useMutation,
-} from 'react-query';
+} from '@tanstack/react-query';
 import { JsonDecoder } from 'ts.data.json';
 import anylogger from 'anylogger';
 

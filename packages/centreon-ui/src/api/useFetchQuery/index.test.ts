@@ -28,10 +28,10 @@ jest.mock('../../Snackbar/useSnackbar', () => ({
 
 const renderFetchQuery = <T extends object>(
   params: UseFetchQueryProps<T>,
-): RenderHookResult<UseFetchQueryState, unknown> =>
+): RenderHookResult<UseFetchQueryState<T>, unknown> =>
   renderHook(() => useFetchQuery<T>(params), {
     wrapper: TestQueryProvider,
-  }) as RenderHookResult<UseFetchQueryState, unknown>;
+  }) as RenderHookResult<UseFetchQueryState<T>, unknown>;
 
 describe('useFetchQuery', () => {
   beforeEach(() => {
@@ -39,11 +39,24 @@ describe('useFetchQuery', () => {
     fetchMock.resetMocks();
   });
 
+  it('does not show any message via the Snackbar when the error is a cancellation', async () => {
+    fetchMock.mockAbortOnce();
+
+    renderFetchQuery<User>({
+      getEndpoint: () => '/endpoint',
+      getQueryKey: () => ['queryKey'],
+    });
+
+    await waitFor(() => {
+      expect(mockedShowErrorMessage).not.toHaveBeenCalled();
+    });
+  });
+
   it('retrieves data from an endpoint', async () => {
     fetchMock.once(JSON.stringify(user));
     const { result } = renderFetchQuery<User>({
       getEndpoint: () => '/endpoint',
-      getQueryKey: () => 'queryKey',
+      getQueryKey: () => ['queryKey'],
     });
 
     await waitFor(() => {
@@ -58,7 +71,7 @@ describe('useFetchQuery', () => {
 
     renderFetchQuery<User>({
       getEndpoint: () => '/endpoint',
-      getQueryKey: () => 'queryKey',
+      getQueryKey: () => ['queryKey'],
     });
 
     await waitFor(() => {
@@ -75,26 +88,13 @@ describe('useFetchQuery', () => {
 
     renderFetchQuery<User>({
       getEndpoint: () => '/endpoint',
-      getQueryKey: () => 'queryKey',
+      getQueryKey: () => ['queryKey'],
     });
 
     await waitFor(() => {
       expect(mockedShowErrorMessage).toHaveBeenCalledWith(
         'Something went wrong',
       );
-    });
-  });
-
-  it('does not show any message via the Snackbar when the error is an axios cancel', async () => {
-    fetchMock.mockAbortOnce();
-
-    renderFetchQuery<User>({
-      getEndpoint: () => '/endpoint',
-      getQueryKey: () => 'queryKey',
-    });
-
-    await waitFor(() => {
-      expect(mockedShowErrorMessage).not.toHaveBeenCalled();
     });
   });
 
@@ -105,7 +105,7 @@ describe('useFetchQuery', () => {
 
     renderFetchQuery<User>({
       getEndpoint: () => '/endpoint',
-      getQueryKey: () => 'queryKey',
+      getQueryKey: () => ['queryKey'],
       httpCodesBypassErrorSnackbar: [400],
     });
 

@@ -6,7 +6,7 @@ import { ThemeMode } from '@centreon/ui-context';
 
 import StoryBookThemeProvider from '../src/StoryBookThemeProvider';
 import QueryProvider from '../src/api/QueryProvider';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 
 const withThemeProvider = (story): JSX.Element => (

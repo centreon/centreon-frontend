@@ -7,7 +7,7 @@ import {
   useQuery,
   useQueryClient,
   UseQueryOptions,
-} from 'react-query';
+} from '@tanstack/react-query';
 import { JsonDecoder } from 'ts.data.json';
 import anylogger from 'anylogger';
 import { has, not, omit } from 'ramda';
@@ -21,7 +21,7 @@ export interface UseFetchQueryProps<T> {
   defaultFailureMessage?: string;
   fetchHeaders?: HeadersInit;
   getEndpoint: (params?: PrefetchEndpointParams) => string;
-  getQueryKey: () => string | QueryKey;
+  getQueryKey: () => QueryKey;
   httpCodesBypassErrorSnackbar?: Array<number>;
   isPaginated?: boolean;
   queryOptions?: Omit<
@@ -79,6 +79,7 @@ const useFetchQuery = <T extends object>({
 
   const manageError = (): void => {
     const data = queryData.data as ResponseError | undefined;
+    console.log(data);
     if (data?.isError) {
       log.error(data.message);
       const hasACorrespondingHttpCode = httpCodesBypassErrorSnackbar.includes(
