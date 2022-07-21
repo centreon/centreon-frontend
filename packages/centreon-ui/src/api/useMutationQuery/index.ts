@@ -1,5 +1,5 @@
 import 'ulog';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { JsonDecoder } from 'ts.data.json';
 import anylogger from 'anylogger';
 

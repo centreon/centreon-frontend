@@ -5,7 +5,7 @@ import {
   RenderOptions,
   RenderResult,
 } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import fetchMock, { MockParams } from 'jest-fetch-mock';
 
 import { ThemeMode } from '@centreon/ui-context';
