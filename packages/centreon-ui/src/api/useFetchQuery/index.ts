@@ -79,7 +79,6 @@ const useFetchQuery = <T extends object>({
 
   const manageError = (): void => {
     const data = queryData.data as ResponseError | undefined;
-    console.log(data);
     if (data?.isError) {
       log.error(data.message);
       const hasACorrespondingHttpCode = httpCodesBypassErrorSnackbar.includes(
