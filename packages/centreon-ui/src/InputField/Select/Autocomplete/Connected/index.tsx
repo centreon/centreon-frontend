@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react';
 
-import { equals, prop, last, isEmpty, map, isNil, pipe, not, has } from 'ramda';
+import {
+  equals,
+  prop,
+  last,
+  isEmpty,
+  map,
+  isNil,
+  pipe,
+  not,
+  has,
+  omit,
+} from 'ramda';
 
 import { CircularProgress, useTheme } from '@mui/material';
 
@@ -22,6 +33,7 @@ export interface ConnectedAutoCompleteFieldProps<TData> {
   getRenderedOptionText: (option: TData) => string;
   getRequestHeaders?: HeadersInit;
   initialPage: number;
+  labelKey?: string;
   searchConditions?: Array<ConditionsSearchParameter>;
 }
 
@@ -33,10 +45,11 @@ const ConnectedAutocompleteField = (
     initialPage = 1,
     getEndpoint,
     field,
+    labelKey,
     open,
     conditionField = 'id',
     searchConditions = [],
-    getRenderedOptionText = (option): string => option.name,
+    getRenderedOptionText = (option): string => option.name?.toString(),
     getRequestHeaders,
     displayOptionThumbnail,
     ...props
@@ -188,6 +201,13 @@ const ConnectedAutocompleteField = (
       );
     };
 
+    const renameKey = ({ object, key, newKey }): Partial<TData> => {
+      const oldKeyValue = object[key];
+      const newObject = { ...object, [newKey]: oldKeyValue };
+
+      return omit([key], newObject);
+    };
+
     const fetchOptionsAndPrefetchNextOptions = (): void => {
       fetchQuery().then((newOptions) => {
         const isError = has('isError', newOptions);
@@ -197,6 +217,16 @@ const ConnectedAutocompleteField = (
         }
 
         const moreOptions = page > 1 ? options : [];
+
+        if (!isEmpty(labelKey) && !isNil(labelKey)) {
+          const list = newOptions.result.map((item) =>
+            renameKey({ key: labelKey, newKey: 'name', object: item }),
+          );
+          setOptions(moreOptions.concat(list as Array<TData>));
+
+          return;
+        }
+        setOptions(moreOptions.concat(newOptions.result));
 
         setOptions(moreOptions.concat(newOptions.result as Array<TData>));
 
