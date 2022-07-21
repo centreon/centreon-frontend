@@ -97,10 +97,12 @@ const getExtensions = cond([
   [T, identity],
 ]) as (accept: string) => Array<string>;
 
-export const transformFileListToArray = (files: FileList): Array<File> =>
-  Array(files.length)
-    .fill(0)
-    .map((_, idx) => files.item(idx)) as Array<File>;
+export const transformFileListToArray = (files: FileList | null): Array<File> =>
+  isNil(files)
+    ? []
+    : (Array(files.length)
+        .fill(0)
+        .map((_, idx) => files.item(idx)) as Array<File>);
 
 const Dropzone = ({
   files,
