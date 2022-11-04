@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import 'dayjs/plugin/timezone';
 import 'dayjs/plugin/utc';
 import humanizeDuration from 'humanize-duration';
-import { equals } from 'ramda';
 
 import { useUserContext } from '@centreon/ui-context';
 
