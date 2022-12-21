@@ -43,23 +43,13 @@ def checkoutCentreonBuild(buildBranch) {
 /*
 ** Pipeline code.
 */
-stage('Sonar analysis') {
+stage('Source') {
   node {
     dir('centreon-frontend') {
       checkout scm
     }
     checkoutCentreonBuild(buildBranch)
     discoverGitReferenceBuild()
-    withSonarQubeEnv('SonarQubeDev') {
-      sh "./centreon-build/jobs/frontend/${serie}/frontend-analysis.sh"
-    }
-
-    timeout (time:10, unit: 'MINUTES') {
-      def qualityGate = waitForQualityGate()
-      if (qualityGate.status != 'OK') {
-        currentBuild.result = 'FAIL'
-      }
-    }
 
     source = readProperties file: 'source.properties'
     env.VERSION = "${source.VERSION}"
@@ -69,7 +59,7 @@ stage('Sonar analysis') {
     stash includes: '**', name: 'uicontext-centreon-build'
   }
   if ((currentBuild.result ?: 'SUCCESS') != 'SUCCESS') {
-    error('Sonar analysis stage failure');
+    error('Source stage failure');
   }
 }
 
