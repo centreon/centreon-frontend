@@ -1,6 +1,5 @@
-*               @centreon/centreon-frontend
+*               @centreon/owners-react
 
-/.github/       @centreon/centreon-ci
-/.gitignore     @centreon/centreon-ci
-/Jenkinsfile    @centreon/centreon-ci
-*.md            @centreon/centreon-ci
+*.md            @centreon/owners-doc
+
+.github/**      @centreon/owners-pipelines
